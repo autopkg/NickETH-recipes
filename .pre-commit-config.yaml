@@ -5,7 +5,7 @@
 # https://github.com/pre-commit/pre-commit-hooks
 repos:
   - repo: https://github.com/homebysix/pre-commit-macadmin
-    rev: v1.12.3
+    rev: v1.18.0
     hooks:
       - id: check-autopkg-recipe-list
       - id: check-autopkg-recipes
@@ -13,7 +13,7 @@ repos:
         args: ["--recipe-prefix=com.github.NickETH."]
       - id: forbid-autopkg-overrides
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.0.1
+    rev: v5.0.0
     hooks:
       - id: check-yaml
       # check-json doesn't work with json with comments
@@ -34,7 +34,7 @@ repos:
       # - id: no-commit-to-branch
       #   args: [--branch, main]
   - repo: https://github.com/adrienverge/yamllint.git
-    rev: v1.26.3
+    rev: v1.35.1
     hooks:
       - id: yamllint
         args: [-c=.yamllint.yaml]
