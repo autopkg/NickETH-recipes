@@ -18,6 +18,8 @@ Process:
   Arguments:
     filename: '%NAME%-x64.exe'
 
+- Processor: EndOfCheckPhase
+
 - Processor: WindowsSignatureVerifier
   Arguments:
     expected_subject: CN=Takashi Sawanaka, O=Takashi Sawanaka, L=Chiba, S=Chiba, C=JP
