@@ -12,7 +12,7 @@ Process:
 - Processor: URLTextSearcher
   Arguments:
     re_pattern: '%SEARCH_URL_MSI%'
-    url: http://sourceforge.net/api/file/index/project-id/95013/rss
+    url: https://sourceforge.net/api/file/index/project-id/95013/rss
 
 - Processor: URLDownloader
   Arguments:
