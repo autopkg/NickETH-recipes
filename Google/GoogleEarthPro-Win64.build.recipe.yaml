@@ -34,26 +34,21 @@ Process:
     BuildFiles: NextVerFiles.txt
     build_dir: '%BUILD_DIR%'
     folder_list: sourcepkt:release:read
-    org_ver: '%version%'
+    org_ver: '%msi_value%'
     pkg_dir: '%NAME%%PF_STRING%_::VVeerrssiioonn::%LANG_STRING%'
     recipe_dir: '%RECIPE_DIR%'
     recipe_path: '%RECIPE_PATH%'
     ver_fields: '4'
 
-- Processor: com.github.sebtomasi.SharedProcessors/RenameVar
-  Arguments:
-    input_var: '%NAME%%PF_STRING%_%build_ver%_ML'
-    rename_var: pkg_dir
-
 - Processor: Copier
   Arguments:
-    destination_path: '%BUILD_DIR%\%pkg_dir%\sourcepkt\GoogleEarthPro-%PLATFORM%.exe'
+    destination_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\sourcepkt\GoogleEarthPro-%PLATFORM%.exe'
     overwrite: 'true'
     source_path: '%pathname%'
 
 - Processor: Copier
   Arguments:
-    destination_path: '%BUILD_DIR%\%pkg_dir%\release\%NAME%%PF_STRING%_%version%%LANG_STRING%.msi'
+    destination_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\release\%NAME%%PF_STRING%_%msi_value%%LANG_STRING%.msi'
     overwrite: 'true'
     source_path: '%RECIPE_CACHE_DIR%\downloads\%NAME%-%PLATFORM%.msi'
 
@@ -61,20 +56,20 @@ Process:
   # Comment: Applies the Settings-Transform to the GoogleChrome.msi in the release folder
   # Arguments:
     # mode: -a
-    # msi_path: '%BUILD_DIR%\%pkg_dir%\release\%NAME%%PF_STRING%_%version%%LANG_STRING%.msi'
-    # mst_paths: '%BUILD_DIR%\%pkg_dir%\helpers\GChrome64_Enterprise_byAutoPkg.mst'
+    # msi_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\release\%NAME%%PF_STRING%_%msi_value%%LANG_STRING%.msi'
+    # mst_paths: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\helpers\GChrome64_Enterprise_byAutoPkg.mst'
 
 - Processor: com.github.haircut.processors/AppIconExtractor
   Arguments:
-    ICON_PATH: '%BUILD_DIR%\%pkg_dir%\icons'
+    ICON_PATH: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\icons'
     icon_file_number: 0
     # composite_padding: 20
     # composite_position: ul
     # composite_uninstall_path: '%RECIPE_CACHE_DIR%/Icon-Uninstall-%NAME%.png'
     # composite_uninstall_template: /Users/haircut/Documents/delete.png
     icon_output_path: '%ICON_PATH%\Icon-%NAME%.png'
-    #source_app: '%BUILD_DIR%\%pkg_dir%\sourcepkt\%filename%'
-    source_app: '%BUILD_DIR%\%pkg_dir%\release\%NAME%%PF_STRING%_%version%%LANG_STRING%.msi'
+    #source_app: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\sourcepkt\%filename%'
+    source_app: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\release\%NAME%%PF_STRING%_%msi_value%%LANG_STRING%.msi'
     #msi_icon_name: 'MainExecutableIcon.ico'
     composite_uninstall_path: '%ICON_PATH%\Icon-Uninstall-%NAME%.png'
     composite_update_path: '%ICON_PATH%\Icon-Update-%NAME%.png'
@@ -84,14 +79,14 @@ Process:
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/FileDateVersionSubst
   Arguments:
-    file_path: '%BUILD_DIR%\%pkg_dir%\read\create-log-%NAME%%PF_STRING%_%version%%LANG_STRING%.txt'
-    new_ver: '%version%'
+    file_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\read\create-log-%NAME%%PF_STRING%_%msi_value%%LANG_STRING%.txt'
+    new_ver: '%msi_value%'
     re_pattern: '[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/FileDateVersionSubst
   Arguments:
-    file_path: '%BUILD_DIR%\%pkg_dir%\read\readme-%NAME%%PF_STRING%_%version%%LANG_STRING%.txt'
-    new_ver: '%version%'
+    file_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\read\readme-%NAME%%PF_STRING%_%msi_value%%LANG_STRING%.txt'
+    new_ver: '%msi_value%'
     re_pattern: '[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+'
 
 - Processor: EndOfCheckPhase

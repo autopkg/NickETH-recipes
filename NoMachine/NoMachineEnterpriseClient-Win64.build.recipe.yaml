@@ -19,33 +19,23 @@ Process:
     - pattern: _
       repl: '.'
 
-- Processor: com.github.sebtomasi.SharedProcessors/RenameVar
-  Arguments:
-    input_var: '%parsed_string%'
-    rename_var: version
-
 - Processor: com.github.NickETH.recipes.SharedProcessors/CreateNextBuild
   Comment: Create a build enviroment to store the package
   Arguments:
-    version: '%version%'
+    version: '%parsed_string%'
     BuildFiles: NextVerFiles.txt
     build_dir: '%BUILD_DIR%'
     folder_list: helpers:sourceunzipped:release:read
-    org_ver: '%version%'
+    org_ver: '%parsed_string%'
     pkg_dir: '%NAME%%PF_STRING%_::VVeerrssiioonn::_ML'
     recipe_dir: '%RECIPE_DIR%'
     recipe_path: '%RECIPE_PATH%'
     ver_fields: '4'
 
-- Processor: com.github.sebtomasi.SharedProcessors/RenameVar
-  Arguments:
-    input_var: '%NAME%%PF_STRING%_%version%_ML'
-    rename_var: pkg_dir
-
 - Processor: Copier
   Comment: Copy the NoMachineEnterpriseClient installer file to the release dir
   Arguments:
-    destination_path: '%BUILD_DIR%\%pkg_dir%\release\%NAME%%PF_STRING%_%build_ver%_ML.exe'
+    destination_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%parsed_string%_ML\release\%NAME%%PF_STRING%_%build_ver%_ML.exe'
     overwrite: 'true'
     source_path: '%pathname%'
 
@@ -53,20 +43,20 @@ Process:
   Comment: Extract the NoMachine installer
   Arguments:
     inno_path: '%pathname%'
-    workfolder: '%BUILD_DIR%\%pkg_dir%\sourceunzipped\'
+    workfolder: '%BUILD_DIR%\%NAME%%PF_STRING%_%parsed_string%_ML\sourceunzipped\'
     # inno_compiler: '*'
     ignore_errors: False
    
 - Processor: com.github.haircut.processors/AppIconExtractor
   Arguments:
-    ICON_PATH: '%BUILD_DIR%\%pkg_dir%\icons'
+    ICON_PATH: '%BUILD_DIR%\%NAME%%PF_STRING%_%parsed_string%_ML\icons'
     icon_file_number: 0
     # composite_padding: 20
     # composite_position: ul
     # composite_uninstall_path: '%RECIPE_CACHE_DIR%/Icon-Uninstall-%NAME%.png'
     # composite_uninstall_template: /Users/haircut/Documents/delete.png
     icon_output_path: '%ICON_PATH%\Icon-%NAME%.png'
-    source_app: '%BUILD_DIR%\%pkg_dir%\sourceunzipped\{app}\bin\nxplayer.exe'
+    source_app: '%BUILD_DIR%\%NAME%%PF_STRING%_%parsed_string%_ML\sourceunzipped\{app}\bin\nxplayer.exe'
     #msi_icon_name: 'MainExecutableIcon.ico'
     composite_uninstall_path: '%ICON_PATH%\Icon-Uninstall-%NAME%.png'
     composite_update_path: '%ICON_PATH%\Icon-Update-%NAME%.png'
@@ -74,14 +64,14 @@ Process:
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/FileDateVersionSubst
   Arguments:
-    file_path: '%BUILD_DIR%\%pkg_dir%\read\create-log-%NAME%%PF_STRING%_%version%_ML.txt'
-    new_ver: '%version%'
+    file_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%parsed_string%_ML\read\create-log-%NAME%%PF_STRING%_%parsed_string%_ML.txt'
+    new_ver: '%parsed_string%'
     re_pattern: '[0-9]+\.[0-9]+\.[0-9]+'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/FileDateVersionSubst
   Arguments:
-    file_path: '%BUILD_DIR%\%pkg_dir%\read\readme-%NAME%%PF_STRING%_%version%_ML.txt'
-    new_ver: '%version%'
+    file_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%parsed_string%_ML\read\readme-%NAME%%PF_STRING%_%parsed_string%_ML.txt'
+    new_ver: '%parsed_string%'
     re_pattern: '[0-9]+\.[0-9]+\.[0-9]+'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/DateTimeStamps

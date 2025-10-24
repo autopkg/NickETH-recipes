@@ -15,22 +15,12 @@ Input:
   DIP_SUBDIR: ML
 
 Process:
-- Processor: com.github.sebtomasi.SharedProcessors/RenameVar
-  Arguments:
-    input_var: /SP- /VERYSILENT /NORESTART /LOG="{TTEEMMPP}\i_sysupd_%build_ver%.log"
-    rename_var: inst_param
-
 - Processor: com.github.sebtomasi.SharedProcessors/TextSubstituer
   Arguments:
-    input_string: '%inst_param%'
+    input_string: '%parsed_string%'
     pattern_replace:
     - pattern: TTEEMMPP
       repl: '%TEMP%'
-
-- Processor: com.github.sebtomasi.SharedProcessors/RenameVar
-  Arguments:
-    input_var: '%parsed_string%'
-    rename_var: inst_param
 
 - Processor: com.github.sebtomasi.SharedProcessors/TextSubstituer
   Arguments:
@@ -47,7 +37,7 @@ Process:
     bms_app_comment: 'Imported by: AutoPkg, %us_date% %time%'
     bms_app_conschecks: "CheckAppRC=0,3010\r\nDeinstall.CheckAppRC=0,1605,3010"
     bms_app_installcmd: '{DIP}\Apl\%DIP_NAME%\%parsed_string%\%DIP_SUBDIR%\%NAMESHORT%_%build_ver%%LANG_STRING%.exe'
-    bms_app_installparm: '%inst_param%'
+    bms_app_installparm: '%parsed_string%'
     bms_app_integration:
     - appname: '%NAME%'
       bundles:
@@ -82,8 +72,8 @@ Process:
     bms_serverport: '%BMS_SERVER_PORT%'
     bms_serverurl: '%BMS_SERVER1%'
     bms_username: '%BMS_USERNAME%'
-    inst_file_src_dest: '%BUILD_DIR%\%pkg_dir%\release\*.*|%BMS_IMPORT_PATH_TST%\%DIP_NAME%\%parsed_string%\%DIP_SUBDIR%'
-    read_file_src_dest: '%BUILD_DIR%\%pkg_dir%\read\*-%NAME%%PF_STRING%_%build_ver%_ML.txt|%BMS_IMPORT_PATH_TST%\%DIP_NAME%\%parsed_string%\DEV'    
+    inst_file_src_dest: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\release\*.*|%BMS_IMPORT_PATH_TST%\%DIP_NAME%\%parsed_string%\%DIP_SUBDIR%'
+    read_file_src_dest: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\read\*-%NAME%%PF_STRING%_%build_ver%_ML.txt|%BMS_IMPORT_PATH_TST%\%DIP_NAME%\%parsed_string%\DEV'    
     json_file_dest: '%BMS_IMPORT_PATH_TST%\%DIP_NAME%\bms_app_integration.json'
 
 - Processor: EndOfCheckPhase

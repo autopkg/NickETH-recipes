@@ -20,7 +20,7 @@ Process:
   Comment: Get the ProductCode into the  msi_value variable for the BMS uninstall string
   Arguments:
     SQL_command: SELECT `Value` FROM `Property` WHERE `Property`='ProductCode'
-    msi_path: '%BUILD_DIR%\%pkg_dir%\release\%NAME%%PF_STRING%_%build_ver%_ML.msi'
+    msi_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\release\%NAME%%PF_STRING%_%build_ver%_ML.msi'
 
 - Processor: com.github.sebtomasi.SharedProcessors/TextSubstituer
   Comment: Exchange "." for "_" on build_ver variable for BMS-DIP-path
@@ -84,8 +84,8 @@ Process:
       autoenableapp: 'VLC media player - Enable AutoUpdate'
       autoreleasejob: '@_AU-Rel_VLC media player'
     json_file_dest: '%BMS_IMPORT_PATH_TST%\%DIPNAME%\bms_app_integration.json'
-    icon_file_src: '%BUILD_DIR%\%pkg_dir%\icons\*.*'
-    inst_file_src_dest: '%BUILD_DIR%\%pkg_dir%\release\%NAME%%PF_STRING%_%build_ver%_ML.msi|%BMS_IMPORT_PATH_TST%\%DIPNAME%\%parsed_string%\%DIP_SUBDIR%'
-    read_file_src_dest: '%BUILD_DIR%\%pkg_dir%\read\*-VLC*.txt|%BMS_IMPORT_PATH_TST%\%DIPNAME%\%parsed_string%\DEV'    
+    icon_file_src: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\icons\*.*'
+    inst_file_src_dest: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\release\%NAME%%PF_STRING%_%build_ver%_ML.msi|%BMS_IMPORT_PATH_TST%\%DIPNAME%\%parsed_string%\%DIP_SUBDIR%'
+    read_file_src_dest: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\read\*-VLC*.txt|%BMS_IMPORT_PATH_TST%\%DIPNAME%\%parsed_string%\DEV'    
 
 - Processor: EndOfCheckPhase

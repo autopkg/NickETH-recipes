@@ -25,60 +25,55 @@ Process:
     recipe_path: '%RECIPE_PATH%'
     ver_fields: '4'
 
-- Processor: com.github.sebtomasi.SharedProcessors/RenameVar
-  Arguments:
-    input_var: '%NAME%_64_%build_ver%_ML'
-    rename_var: pkg_dir
-
 - Processor: Copier
   Arguments:
-    destination_path: '%BUILD_DIR%\%pkg_dir%\sourcepkt\affinity-%AppKey%.exe'
+    destination_path: '%BUILD_DIR%\%NAME%_64_%build_ver%_ML\sourcepkt\affinity-%AppKey%.exe'
     overwrite: 'true'
     source_path: '%pathname%'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/ResourceExtractor
   Arguments:
-    exe_path: '%BUILD_DIR%\%pkg_dir%\sourcepkt\affinity-%AppKey%.exe'
+    exe_path: '%BUILD_DIR%\%NAME%_64_%build_ver%_ML\sourcepkt\affinity-%AppKey%.exe'
     extract_cmd: BIN,135,
-    extract_dir: '%BUILD_DIR%\%pkg_dir%\sourceunzipped'
+    extract_dir: '%BUILD_DIR%\%NAME%_64_%build_ver%_ML\sourceunzipped'
     extract_file: affinity-%AppKey%.msi
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/ResourceExtractor
   Arguments:
-    exe_path: '%BUILD_DIR%\%pkg_dir%\sourcepkt\affinity-%AppKey%.exe'
+    exe_path: '%BUILD_DIR%\%NAME%_64_%build_ver%_ML\sourcepkt\affinity-%AppKey%.exe'
     extract_cmd: ICONGROUP,107,
-    extract_dir: '%BUILD_DIR%\%pkg_dir%\sourceunzipped'
+    extract_dir: '%BUILD_DIR%\%NAME%_64_%build_ver%_ML\sourceunzipped'
     extract_file: affinity-%AppKey%.ico
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/FileDateVersionSubst
   Arguments:
-    file_path: '%BUILD_DIR%\%pkg_dir%\read\create-log-%pkg_dir%.txt'
+    file_path: '%BUILD_DIR%\%NAME%_64_%build_ver%_ML\read\create-log-%NAME%_64_%build_ver%_ML.txt'
     new_ver: '%build_ver%'
     re_pattern: '[0-9]\.[0-9]+\.[0-9]+\.[0-9]+'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/FileDateVersionSubst
   Arguments:
-    file_path: '%BUILD_DIR%\%pkg_dir%\read\readme-%pkg_dir%.txt'
+    file_path: '%BUILD_DIR%\%NAME%_64_%build_ver%_ML\read\readme-%NAME%_64_%build_ver%_ML.txt'
     new_ver: '%build_ver%'
     re_pattern: '[0-9]\.[0-9]+\.[0-9]+\.[0-9]+'
 
 - Processor: Copier
   Arguments:
-    destination_path: '%BUILD_DIR%\%pkg_dir%\release\%NAME%%PF_STRING%_%version%%LANG_STRING%.msi'
+    destination_path: '%BUILD_DIR%\%NAME%_64_%build_ver%_ML\release\%NAME%%PF_STRING%_%version%%LANG_STRING%.msi'
     overwrite: 'true'
-    source_path: '%BUILD_DIR%\%pkg_dir%\sourceunzipped\affinity-%AppKey%.msi'
+    source_path: '%BUILD_DIR%\%NAME%_64_%build_ver%_ML\sourceunzipped\affinity-%AppKey%.msi'
 
 - Processor: com.github.haircut.processors/AppIconExtractor
   Arguments:
-    ICON_PATH: '%BUILD_DIR%\%pkg_dir%\icons'
+    ICON_PATH: '%BUILD_DIR%\%NAME%_64_%build_ver%_ML\icons'
     icon_file_number: 0
     # composite_padding: 20
     # composite_position: ul
     # composite_uninstall_path: '%RECIPE_CACHE_DIR%/Icon-Uninstall-%NAME%.png'
     # composite_uninstall_template: /Users/haircut/Documents/delete.png
     icon_output_path: '%ICON_PATH%\Icon-%NAME%.png'
-    #source_app: '%BUILD_DIR%\%pkg_dir%\sourcepkt\%filename%'
-    source_app: '%BUILD_DIR%\%pkg_dir%\release\%NAME%%PF_STRING%_%version%%LANG_STRING%.msi'
+    #source_app: '%BUILD_DIR%\%NAME%_64_%build_ver%_ML\sourcepkt\%filename%'
+    source_app: '%BUILD_DIR%\%NAME%_64_%build_ver%_ML\release\%NAME%%PF_STRING%_%version%%LANG_STRING%.msi'
     msi_icon_name: 'MyARPIcon'
     composite_uninstall_path: '%ICON_PATH%\Icon-Uninstall-%NAME%.png'
     composite_update_path: '%ICON_PATH%\Icon-Update-%NAME%.png'
@@ -93,7 +88,7 @@ Process:
     # - INSERT INTO `Property` (`Property`.`Property`,`Property`.`Value`) VALUES ('INSTALL_DESKTOP_SHORTCUT_PROPERTY','#0')
     # - UPDATE `Property` SET `Property`.`Value`='#1' WHERE `Property`.`Property`='NO_UPDATE_CHECK_PROPERTY'
     # - UPDATE `Property` SET `Property`.`Value`='#1' WHERE `Property`.`Property`='NO_EULA_PROPERTY'
-    # msi_path: '%BUILD_DIR%\%pkg_dir%\release\%NAME%%PF_STRING%_%version%%LANG_STRING%.msi'
+    # msi_path: '%BUILD_DIR%\%NAME%_64_%build_ver%_ML\release\%NAME%%PF_STRING%_%version%%LANG_STRING%.msi'
 
 # - Processor: com.github.NickETH.recipes.SharedProcessors/MSIApplySumInfo
   # Arguments:
@@ -102,6 +97,6 @@ Process:
       # /o: Version %version% for ETHZ ID. %us_date% by AutoPkg
       # /p: x64;1033
       # /t: '%NAME% x64 %version% ML'
-    # msi_path: '%BUILD_DIR%\%pkg_dir%\release\%pkg_dir%.msi'
+    # msi_path: '%BUILD_DIR%\%NAME%_64_%build_ver%_ML\release\%NAME%_64_%build_ver%_ML.msi'
 
 - Processor: EndOfCheckPhase

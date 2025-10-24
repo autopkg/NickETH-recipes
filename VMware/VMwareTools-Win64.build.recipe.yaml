@@ -28,17 +28,12 @@ Process:
     recipe_path: '%RECIPE_PATH%'
     ver_fields: '3'
 
-- Processor: com.github.sebtomasi.SharedProcessors/RenameVar
-  Arguments:
-    input_var: '%NAME%_64_%build_ver%%LANG_STRING%'
-    rename_var: pkg_dir
-
 - Processor: com.github.NickETH.recipes.SharedProcessors/SevenZipExtractor
   Comment: Extract the MSI file from exe
   Arguments:
     archive_type: '#'
     exe_path: '%pathname%'
-    extract_dir: '%BUILD_DIR%\%pkg_dir%\sourceunzipped'
+    extract_dir: '%BUILD_DIR%\%NAME%_64_%build_ver%%LANG_STRING%\sourceunzipped'
     extract_file: '*.msi'
     preserve_paths: 'False'
     recursive: 'True'
@@ -46,31 +41,31 @@ Process:
 - Processor: FileFinder
   Comment: Get the filename of the extracted MSI file
   Arguments:
-    pattern: '%BUILD_DIR%\%pkg_dir%\sourceunzipped\*.msi'
+    pattern: '%BUILD_DIR%\%NAME%_64_%build_ver%%LANG_STRING%\sourceunzipped\*.msi'
 
 - Processor: FileMover
   Comment: Move the MSI file to the release dir.
   Arguments:
     overwrite: 'true'
     source: '%found_filename%'
-    target: '%BUILD_DIR%\%pkg_dir%\release\%NAME%_64_%build_ver%%LANG_STRING%.msi'
+    target: '%BUILD_DIR%\%NAME%_64_%build_ver%%LANG_STRING%\release\%NAME%_64_%build_ver%%LANG_STRING%.msi'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/FileDateVersionSubst
   Arguments:
-    file_path: '%BUILD_DIR%\%pkg_dir%\read\create-log-%NAME%_64_%build_ver%%LANG_STRING%.txt'
+    file_path: '%BUILD_DIR%\%NAME%_64_%build_ver%%LANG_STRING%\read\create-log-%NAME%_64_%build_ver%%LANG_STRING%.txt'
     new_ver: '%build_ver%'
     re_pattern: '[0-9]+\.[0-9]+\.[0-9]+'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/FileDateVersionSubst
   Arguments:
-    file_path: '%BUILD_DIR%\%pkg_dir%\read\readme-%NAME%_64_%build_ver%%LANG_STRING%.txt'
+    file_path: '%BUILD_DIR%\%NAME%_64_%build_ver%%LANG_STRING%\read\readme-%NAME%_64_%build_ver%%LANG_STRING%.txt'
     new_ver: '%build_ver%'
     re_pattern: '[0-9]+\.[0-9]+\.[0-9]+'
 
 - Processor: Copier
   Comment: Save a copy of the downloaded EXE to the build dir.
   Arguments:
-    destination_path: '%BUILD_DIR%\%pkg_dir%\sourcepkt\%match%'
+    destination_path: '%BUILD_DIR%\%NAME%_64_%build_ver%%LANG_STRING%\sourcepkt\%match%'
     overwrite: 'true'
     source_path: '%pathname%'
 
@@ -82,6 +77,6 @@ Process:
       /j: '%NAME% %version% ML'
       /o: Version %version% for ETHZ ID. %us_date% by AutoPkg
       /t: '%NAME% %version% ML'
-    msi_path: '%BUILD_DIR%\%pkg_dir%\release\%NAME%_64_%build_ver%_ML.msi'
+    msi_path: '%BUILD_DIR%\%NAME%_64_%build_ver%%LANG_STRING%\release\%NAME%_64_%build_ver%_ML.msi'
 
 - Processor: EndOfCheckPhase

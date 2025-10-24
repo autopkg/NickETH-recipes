@@ -23,27 +23,22 @@ Process:
     recipe_path: '%RECIPE_PATH%'
     ver_fields: '3'
 
-- Processor: com.github.sebtomasi.SharedProcessors/RenameVar
-  Arguments:
-    input_var: '%NAME%%PF_STRING%_%version%_ML'
-    rename_var: pkg_dir
-
 - Processor: Copier
   Comment: Copy the MSI-file to the release dir
   Arguments:
-    destination_path: '%BUILD_DIR%\%pkg_dir%\release\%NAME%%PF_STRING%_%version%_ML.msi'
+    destination_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%version%_ML\release\%NAME%%PF_STRING%_%version%_ML.msi'
     overwrite: 'true'
     source_path: '%pathname%'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/FileDateVersionSubst
   Arguments:
-    file_path: '%BUILD_DIR%\%pkg_dir%\read\create-log-%NAME%%PF_STRING%_%version%_ML.txt'
+    file_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%version%_ML\read\create-log-%NAME%%PF_STRING%_%version%_ML.txt'
     new_ver: '%version%'
     re_pattern: '[0-9]+\.[0-9]+\.[0-9]+'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/FileDateVersionSubst
   Arguments:
-    file_path: '%BUILD_DIR%\%pkg_dir%\read\readme-%NAME%%PF_STRING%_%version%_ML.txt'
+    file_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%version%_ML\read\readme-%NAME%%PF_STRING%_%version%_ML.txt'
     new_ver: '%version%'
     re_pattern: '[0-9]+\.[0-9]+\.[0-9]+'
 

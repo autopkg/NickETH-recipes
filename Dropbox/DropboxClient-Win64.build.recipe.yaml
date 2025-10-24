@@ -42,53 +42,48 @@ Process:
     recipe_path: '%RECIPE_PATH%'
     ver_fields: '4'
 
-- Processor: com.github.sebtomasi.SharedProcessors/RenameVar
-  Arguments:
-    input_var: '%NAMESHORT%%PF_STRING%_%build_ver%%LANG_STRING%'
-    rename_var: pkg_dir
-
 - Processor: Copier
   Arguments:
-    destination_path: '%BUILD_DIR%\%pkg_dir%\sourceunzipped\Dropbox-Innner-installer.exe'
+    destination_path: '%BUILD_DIR%\%NAMESHORT%%PF_STRING%_%build_ver%%LANG_STRING%\sourceunzipped\Dropbox-Innner-installer.exe'
     overwrite: 'true'
     source_path: '%found_filename%'
 
 - Processor: Copier
   Arguments:
-    # destination_path: '%BUILD_DIR%\%pkg_dir%\sourceunzipped\Dropbox-Innner-installer.exe'
+    # destination_path: '%BUILD_DIR%\%NAMESHORT%%PF_STRING%_%build_ver%%LANG_STRING%\sourceunzipped\Dropbox-Innner-installer.exe'
     overwrite: 'true'
     source_path: '%found_filename%'
-    destination_path: '%BUILD_DIR%\%pkg_dir%\release\%NAME%%PF_STRING%_%version%%LANG_STRING%.exe'
+    destination_path: '%BUILD_DIR%\%NAMESHORT%%PF_STRING%_%build_ver%%LANG_STRING%\release\%NAME%%PF_STRING%_%version%%LANG_STRING%.exe'
 
 # - Processor: FileMover
   # Arguments:
     # overwrite: 'true'
     # source: '%found_filename%'
-    # target: '%BUILD_DIR%\%pkg_dir%\release\\NAMESHORT%%PF_STRING%_%version%%LANG_STRING%.exe'
+    # target: '%BUILD_DIR%\%NAMESHORT%%PF_STRING%_%build_ver%%LANG_STRING%\release\\NAMESHORT%%PF_STRING%_%version%%LANG_STRING%.exe'
 
 - Processor: Copier
   Arguments:
-    destination_path: '%BUILD_DIR%\%pkg_dir%\sourcepkt\DropboxOfflineInstaller-%version%.exe'
+    destination_path: '%BUILD_DIR%\%NAMESHORT%%PF_STRING%_%build_ver%%LANG_STRING%\sourcepkt\DropboxOfflineInstaller-%version%.exe'
     overwrite: 'true'
     source_path: '%pathname%'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/SevenZipExtractor
   Arguments:
-    exe_path: '%BUILD_DIR%\%pkg_dir%\release\%NAME%%PF_STRING%_%version%%LANG_STRING%.exe'
-    extract_dir: '%BUILD_DIR%\%pkg_dir%\release\'
+    exe_path: '%BUILD_DIR%\%NAMESHORT%%PF_STRING%_%build_ver%%LANG_STRING%\release\%NAME%%PF_STRING%_%version%%LANG_STRING%.exe'
+    extract_dir: '%BUILD_DIR%\%NAMESHORT%%PF_STRING%_%build_ver%%LANG_STRING%\release\'
     extract_file: $0\DropboxUninstaller.exe
     preserve_paths: 'False'
     
 - Processor: com.github.haircut.processors/AppIconExtractor
   Comment: Generate Icon files for the Kiosk from Telegraf
   Arguments:
-    ICON_PATH: '%BUILD_DIR%\%pkg_dir%\icons'
+    ICON_PATH: '%BUILD_DIR%\%NAMESHORT%%PF_STRING%_%build_ver%%LANG_STRING%\icons'
     icon_file_number: 0
     # composite_padding: 20
     # composite_position: ul
     # composite_uninstall_template: /Users/haircut/Documents/delete.png
     icon_output_path: '%ICON_PATH%\Icon-%NAME%.png'
-    source_app: '%BUILD_DIR%\%pkg_dir%\release\%NAME%%PF_STRING%_%version%%LANG_STRING%.exe'
+    source_app: '%BUILD_DIR%\%NAMESHORT%%PF_STRING%_%build_ver%%LANG_STRING%\release\%NAME%%PF_STRING%_%version%%LANG_STRING%.exe'
     #msi_icon_name: 'MainExecutableIcon.ico'
     composite_uninstall_path: '%ICON_PATH%\Icon-Uninstall-%NAME%.png'
     composite_update_path: '%ICON_PATH%\Icon-Update-%NAME%.png'
@@ -96,13 +91,13 @@ Process:
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/FileDateVersionSubst
   Arguments:
-    file_path: '%BUILD_DIR%\%pkg_dir%\read\Create-log-%NAMESHORT%%PF_STRING%_%version%%LANG_STRING%.txt'
+    file_path: '%BUILD_DIR%\%NAMESHORT%%PF_STRING%_%build_ver%%LANG_STRING%\read\Create-log-%NAMESHORT%%PF_STRING%_%version%%LANG_STRING%.txt'
     new_ver: '%version%'
     re_pattern: '[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/FileDateVersionSubst
   Arguments:
-    file_path: '%BUILD_DIR%\%pkg_dir%\read\readme-%NAMESHORT%%PF_STRING%_%version%%LANG_STRING%.txt'
+    file_path: '%BUILD_DIR%\%NAMESHORT%%PF_STRING%_%build_ver%%LANG_STRING%\read\readme-%NAMESHORT%%PF_STRING%_%version%%LANG_STRING%.txt'
     new_ver: '%version%'
     re_pattern: '[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+'
 

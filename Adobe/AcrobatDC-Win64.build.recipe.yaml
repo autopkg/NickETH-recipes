@@ -25,17 +25,12 @@ Process:
     BuildFiles: NextVerFiles.txt
     build_dir: '%BUILD_DIR%'
     folder_list: sourcepkt:sourceunzipped:release:read:helpers
-    org_ver: '%version%'
+    org_ver: '%ver_major%.%ver_majorminor%.%ver_minor%'
     pkg_dir: '%NAME%%PF_STRING%_::VVeerrssiioonn::%LANG_STRING%'
     recipe_dir: '%RECIPE_DIR%'
     recipe_path: '%RECIPE_PATH%'
     ver_fields: '3'
  
-- Processor: com.github.sebtomasi.SharedProcessors/RenameVar
-  Arguments:
-    input_var: '%NAME%%PF_STRING%_%build_ver%%LANG_STRING%'
-    rename_var: pkg_dir
-
 - Processor: com.github.NickETH.recipes.SharedProcessors/ExecuteFile
   Comment: get the directories from ITShop-win
   Arguments:
@@ -44,7 +39,7 @@ Process:
     - copy
     - /Y
     - '"%ACRO_SOURCE%\AcroPro.msi"'
-    - '%BUILD_DIR%\%pkg_dir%\sourceunzipped\AcroPro.msi'
+    - '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\sourceunzipped\AcroPro.msi'
     exe_file: 'cmd.exe'
     exe_folder: '%RECIPE_CACHE_DIR%'
 
@@ -56,7 +51,7 @@ Process:
     - copy
     - /Y
     - '"%ACRO_SOURCE%\*.cab"'
-    - '%BUILD_DIR%\%pkg_dir%\sourceunzipped\'
+    - '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\sourceunzipped\'
     exe_file: 'cmd.exe'
     exe_folder: '%RECIPE_CACHE_DIR%'
 
@@ -68,25 +63,25 @@ Process:
     - copy
     - /Y
     - '"%ACRO_SOURCE%\1031.mst"'
-    - '%BUILD_DIR%\%pkg_dir%\release\AcroDC-AutoPkg_1031.mst'
+    - '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\release\AcroDC-AutoPkg_1031.mst'
     exe_file: 'cmd.exe'
     exe_folder: '%RECIPE_CACHE_DIR%'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/FileDateVersionSubst
   Arguments:
-    file_path: '%BUILD_DIR%\%pkg_dir%\read\create-log-%NAME%%PF_STRING%_%version%%LANG_STRING%.txt'
-    new_ver: '%version%'
+    file_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\read\create-log-%NAME%%PF_STRING%_%ver_major%.%ver_majorminor%.%ver_minor%%LANG_STRING%.txt'
+    new_ver: '%ver_major%.%ver_majorminor%.%ver_minor%'
     re_pattern: '[0-9][0-9]\.[0-9]+\.[0-9]+'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/FileDateVersionSubst
   Arguments:
-    file_path: '%BUILD_DIR%\%pkg_dir%\read\readme-%NAME%%PF_STRING%_%version%%LANG_STRING%.txt'
-    new_ver: '%version%'
+    file_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\read\readme-%NAME%%PF_STRING%_%ver_major%.%ver_majorminor%.%ver_minor%%LANG_STRING%.txt'
+    new_ver: '%ver_major%.%ver_majorminor%.%ver_minor%'
     re_pattern: '[0-9][0-9]\.[0-9]+\.[0-9]+'
     
 - Processor: Copier
   Arguments:
-    destination_path: '%BUILD_DIR%\%pkg_dir%\sourceunzipped\%DOWNLOAD_FILE%'
+    destination_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\sourceunzipped\%DOWNLOAD_FILE%'
     overwrite: 'true'
     source_path: '%pathname%'
 
@@ -101,12 +96,12 @@ Process:
     msp_path: sourceunzipped\%DOWNLOAD_FILE%
     new_msi_path: adm\AcroProDC_%version_string%_ML.msi
     new_packcode: 'True'
-    pkg_dir_abs: '%BUILD_DIR%\%pkg_dir%'
+    pkg_dir_abs: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/AcrobatGUIDPatcher
   Arguments:
     base_GUID: '{AC76BA86-1033-FFFF-7760-BC15014EA700}'
-    new_ver: '%version%'
+    new_ver: '%ver_major%.%ver_majorminor%.%ver_minor%'
     old_hex_ver: 15014EA7
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/MSIRunSQL
@@ -118,25 +113,25 @@ Process:
     - DELETE FROM `Media` WHERE `Media`.`Cabinet`='Optional.cab'
     - DELETE FROM `Media` WHERE `Media`.`Cabinet`='AlfSdPack.cab'
     - DELETE FROM `Media` WHERE `Media`.`Cabinet`='Languages.cab'
-    msi_path: '%BUILD_DIR%\%pkg_dir%\adm\AcroProDC_%version_string%_ML.msi'
+    msi_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\adm\AcroProDC_%version_string%_ML.msi'
 
 - Processor: Copier
   Arguments:
-    destination_path: '%BUILD_DIR%\%pkg_dir%\release\%NAME%%PF_STRING%_%version%%LANG_STRING%.msi'
+    destination_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\release\%NAME%%PF_STRING%_%ver_major%.%ver_majorminor%.%ver_minor%%LANG_STRING%.msi'
     overwrite: 'true'
-    source_path: '%BUILD_DIR%\%pkg_dir%\adm\AcroProDC_%version_string%_ML.msi'
+    source_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\adm\AcroProDC_%version_string%_ML.msi'
 
 # - Processor: Copier
   # Arguments:
-    # destination_path: '%BUILD_DIR%\%pkg_dir%\release\Data1.cab'
+    # destination_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\release\Data1.cab'
     # overwrite: 'true'
-    # source_path: '%BUILD_DIR%\%pkg_dir%\adm\Data1.cab'
+    # source_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\adm\Data1.cab'
 
 # - Processor: Copier
   # Arguments:
-    # destination_path: '%BUILD_DIR%\%pkg_dir%\release\Data2.cab'
+    # destination_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\release\Data2.cab'
     # overwrite: 'true'
-    # source_path: '%BUILD_DIR%\%pkg_dir%\adm\Data2.cab'
+    # source_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\adm\Data2.cab'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/ExecuteFile
   Comment: get the CAB-files
@@ -145,7 +140,7 @@ Process:
     - /C
     - dir
     - /b
-    - '%BUILD_DIR%\%pkg_dir%\adm\Data*.cab'
+    - '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\adm\Data*.cab'
     - '>'
     - cabfiles.txt
     exe_file: 'cmd.exe'
@@ -154,16 +149,16 @@ Process:
 - Processor: com.github.NickETH.recipes.SharedProcessors/FileMoverFromList
   Arguments:
     file_list: '%RECIPE_CACHE_DIR%\cabfiles.txt'
-    source_dir: '%BUILD_DIR%\%pkg_dir%\adm'
-    target_dir: '%BUILD_DIR%\%pkg_dir%\release'
+    source_dir: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\adm'
+    target_dir: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\release'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/MSITransformer
   Comment: Applies the transforms to the AcroProDC_xx.msi in the release folder
   Arguments:
     mode: -a
-    msi_path: '%BUILD_DIR%\%pkg_dir%\release\%NAME%%PF_STRING%_%version%%LANG_STRING%.msi'
+    msi_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\release\%NAME%%PF_STRING%_%ver_major%.%ver_majorminor%.%ver_minor%%LANG_STRING%.msi'
     mst_paths:
-    - '%BUILD_DIR%\%pkg_dir%\helpers\Enterprise_Lockdown_byAutoPkg.mst'
+    - '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\helpers\Enterprise_Lockdown_byAutoPkg.mst'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/MSIRunSQL
   Arguments:
@@ -174,18 +169,18 @@ Process:
     - DELETE FROM `MoveFile` WHERE `MoveFile`.`FileKey`='CacheSetupFiles_WindowsInstaller_KB893803_v2_x86.exe'
     - DELETE FROM `MoveFile` WHERE `MoveFile`.`FileKey`='CacheSetupFiles_setup.ini'
     - UPDATE `MoveFile` SET `MoveFile`.`SourceName`='Data2.cab', `MoveFile`.`DestName`='Data2.cab' WHERE `MoveFile`.`FileKey`='CacheSetupFiles_Setup.exe'
-    - UPDATE `MoveFile` SET `MoveFile`.`SourceName`='%NAME%%PF_STRING%_%version%%LANG_STRING%.msi', `MoveFile`.`DestName`='%NAME%%PF_STRING%_%version%%LANG_STRING%.msi' WHERE `MoveFile`.`FileKey`='CacheSetupFiles_AcroPro.msi'
+    - UPDATE `MoveFile` SET `MoveFile`.`SourceName`='%NAME%%PF_STRING%_%ver_major%.%ver_majorminor%.%ver_minor%%LANG_STRING%.msi', `MoveFile`.`DestName`='%NAME%%PF_STRING%_%ver_major%.%ver_majorminor%.%ver_minor%%LANG_STRING%.msi' WHERE `MoveFile`.`FileKey`='CacheSetupFiles_AcroPro.msi'
     - DELETE FROM `DeleteFiles` WHERE `DeleteFiles`.`DeleteFiles`='drvDX8_x3d'
     - UPDATE `Component` SET `Component`.`Condition`='CHROMEPLUGIN' WHERE `Component`.`Component`='WCChromeNativeMessagingHost'
-    msi_path: '%BUILD_DIR%\%pkg_dir%\release\%NAME%%PF_STRING%_%version%%LANG_STRING%.msi'
+    msi_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\release\%NAME%%PF_STRING%_%ver_major%.%ver_majorminor%.%ver_minor%%LANG_STRING%.msi'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/DateTimeStamps
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/MSIApplySumInfo
   Arguments:
     cmnds_sinfo:
-      /j: Adobe Acrobat Pro DC %version%
+      /j: Adobe Acrobat Pro DC %ver_major%.%ver_majorminor%.%ver_minor%
       /o: Altered and hardened version for corporate use. %us_date% by AutoPkg
-      /t: Adobe Acrobat Pro DC %version%
-    msi_path: '%BUILD_DIR%\%pkg_dir%\release\%NAME%%PF_STRING%_%version%%LANG_STRING%.msi'
+      /t: Adobe Acrobat Pro DC %ver_major%.%ver_majorminor%.%ver_minor%
+    msi_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\release\%NAME%%PF_STRING%_%ver_major%.%ver_majorminor%.%ver_minor%%LANG_STRING%.msi'
 - Processor: EndOfCheckPhase

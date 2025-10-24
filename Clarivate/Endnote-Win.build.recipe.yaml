@@ -36,15 +36,10 @@ Process:
     recipe_path: '%RECIPE_PATH%'
     ver_fields: '4'
 
-- Processor: com.github.sebtomasi.SharedProcessors/RenameVar
-  Arguments:
-    input_var: '%NAME%%PF_STRING%_%build_ver%_ML'
-    rename_var: pkg_dir
-
 - Processor: Copier
   Comment: Copy the Endnote installer file to the release dir
   Arguments:
-    destination_path: '%BUILD_DIR%\%pkg_dir%\release\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%.msi'
+    destination_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\release\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%.msi'
     overwrite: 'true'
     source_path: '%pathname%'
 
@@ -56,7 +51,7 @@ Process:
 
 - Processor: com.github.haircut.processors/AppIconExtractor
   Arguments:
-    ICON_PATH: '%BUILD_DIR%\%pkg_dir%\icons'
+    ICON_PATH: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\icons'
     icon_file_number: 1
     # composite_padding: 20
     # composite_position: ul
@@ -71,16 +66,16 @@ Process:
 
 - Processor: URLDownloader
   Arguments:
-    #filename: '%BUILD_DIR%\%pkg_dir%\sourceunzipped\%CF_NAME%-%MAJOR_VERSION%.zip'
+    #filename: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\sourceunzipped\%CF_NAME%-%MAJOR_VERSION%.zip'
     filename: '%CF_NAME%-%MAJOR_VERSION%.zip'
     url: '%CONN_URL%'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/SevenZipExtractor
   Comment: Extract the connection files
   Arguments:
-    #exe_path: '%BUILD_DIR%\%pkg_dir%\sourceunzipped\%CF_NAME%-%MAJOR_VERSION%.zip'
+    #exe_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\sourceunzipped\%CF_NAME%-%MAJOR_VERSION%.zip'
     exe_path: '%pathname%'
-    extract_dir: '%BUILD_DIR%\%pkg_dir%\sourceunzipped\%CF_NAME%'
+    extract_dir: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\sourceunzipped\%CF_NAME%'
     extract_file: '*'
     ignore_pattern: ''
     preserve_paths: 'False'
@@ -88,14 +83,14 @@ Process:
 - Processor: URLDownloader
   Comment: Get the connection file for the Swiss Universities
   Arguments:
-    #filename: '%BUILD_DIR%\%pkg_dir%\sourceunzipped\%CF_NAME%\Swisscovery.enz'
+    #filename: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\sourceunzipped\%CF_NAME%\Swisscovery.enz'
     filename: 'Swisscovery.enz'
     url: '%SWICOV_URL%'
 
 - Processor: Copier
   Comment: Copy the Swisscovery connection file for the to the build dir
   Arguments:
-    destination_path: '%BUILD_DIR%\%pkg_dir%\sourceunzipped\%CF_NAME%\Swisscovery.enz'
+    destination_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\sourceunzipped\%CF_NAME%\Swisscovery.enz'
     overwrite: 'true'
     source_path: '%pathname%'
 
@@ -109,22 +104,22 @@ Process:
     - -t7z
     # - -v1900m
     - -mx9
-    - '%BUILD_DIR%\%pkg_dir%\release\%CF_NAME%.exe'
-    - '%BUILD_DIR%\%pkg_dir%\sourceunzipped\%CF_NAME%\*.*'
+    - '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\release\%CF_NAME%.exe'
+    - '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\sourceunzipped\%CF_NAME%\*.*'
     exe_file: '%SZIP_PATH%'
-    exe_folder: '%BUILD_DIR%\%pkg_dir%\sourceunzipped'
+    exe_folder: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\sourceunzipped'
 
 # - Processor: Copier
   # Comment: Copy the Endnote License file to the release dir
   # Arguments:
-    # destination_path: '%BUILD_DIR%\%pkg_dir%\release\License.dat'
+    # destination_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\release\License.dat'
     # overwrite: 'true'
-    # source_path: '%BUILD_DIR%\%pkg_dir%\helpers\License.dat'
+    # source_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\helpers\License.dat'
  
 # - Processor: Copier
   # Comment: Copy the Endnote installer file to the build dir
   # Arguments:
-    # destination_path: '%BUILD_DIR%\%pkg_dir%\sourceunzipped\%NAME%-%MAJOR_VERSION%.msp'
+    # destination_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\sourceunzipped\%NAME%-%MAJOR_VERSION%.msp'
     # overwrite: 'true'
     # source_path: '%pathname%'
 
@@ -140,19 +135,19 @@ Process:
     # msp_path: 'sourceunzipped\%NAME%-%MAJOR_VERSION%.msp'
     # new_msi_path: adm\%NAME%%PF_STRING%_%build_ver%_ML.msi
     # new_packcode: 'True'
-    # pkg_dir_abs: '%BUILD_DIR%\%pkg_dir%'
+    # pkg_dir_abs: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/DateTimeStamps
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/FileDateVersionSubst
   Arguments:
-    file_path: '%BUILD_DIR%\%pkg_dir%\read\create-log-%NAME%%PF_STRING%_%build_ver%_ML.txt'
+    file_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\read\create-log-%NAME%%PF_STRING%_%build_ver%_ML.txt'
     new_ver: '%build_ver%'
     re_pattern: '[0-9]+\.[0-9]+\.[0-9]+'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/FileDateVersionSubst
   Arguments:
-    file_path: '%BUILD_DIR%\%pkg_dir%\read\readme-%NAME%%PF_STRING%_%build_ver%_ML.txt'
+    file_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\read\readme-%NAME%%PF_STRING%_%build_ver%_ML.txt'
     new_ver: '%build_ver%'
     re_pattern: '[0-9]+\.[0-9]+\.[0-9]+'
 

@@ -29,23 +29,18 @@ Process:
     recipe_path: '%RECIPE_PATH%'
     ver_fields: '4'
 
-- Processor: com.github.sebtomasi.SharedProcessors/RenameVar
-  Arguments:
-    input_var: '%NAME%%PF_STRING%_%build_ver%_ML'
-    rename_var: pkg_dir
-
 - Processor: Copier
   Arguments:
-    destination_path: '%BUILD_DIR%\%pkg_dir%\sourcepkt\%filename%'
+    destination_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\sourcepkt\%filename%'
     overwrite: 'true'
     source_path: '%pathname%'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/SevenZipExtractor
   Comment: Extract the autopkg zip archive
   Arguments:
-    exe_path: '%BUILD_DIR%\%pkg_dir%\sourcepkt\%filename%'
-    #extract_dir: '%BUILD_DIR%\%pkg_dir%\sourceunzipped'
-    extract_dir: '%BUILD_DIR%\%pkg_dir%\wixproject'
+    exe_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\sourcepkt\%filename%'
+    #extract_dir: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\sourceunzipped'
+    extract_dir: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\wixproject'
     extract_file: '*'
     ignore_pattern: ''
     preserve_paths: 'True'
@@ -57,68 +52,68 @@ Process:
     - /C
     - dir
     - /b
-    #- '%BUILD_DIR%\%pkg_dir%\sourceunzipped\vlc-%version%\msi'
-    - '%BUILD_DIR%\%pkg_dir%\wixproject\vlc-%version%\msi'
+    #- '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\sourceunzipped\vlc-%version%\msi'
+    - '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\wixproject\vlc-%version%\msi'
     - '>'
     - wixfiles.txt
     exe_file: 'cmd.exe'
-    exe_folder: '%BUILD_DIR%\%pkg_dir%\helpers'
+    exe_folder: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\helpers'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/FileMoverFromList
   Comment: Move the VLC build files to the build dir
   Arguments:
-    file_list: '%BUILD_DIR%\%pkg_dir%\helpers\wixfiles.txt'
-    #source_dir: '%BUILD_DIR%\%pkg_dir%\sourceunzipped\vlc-%version%\msi'
-    source_dir: '%BUILD_DIR%\%pkg_dir%\wixproject\vlc-%version%\msi'
-    target_dir: '%BUILD_DIR%\%pkg_dir%\wixproject'
+    file_list: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\helpers\wixfiles.txt'
+    #source_dir: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\sourceunzipped\vlc-%version%\msi'
+    source_dir: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\wixproject\vlc-%version%\msi'
+    target_dir: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\wixproject'
 
 # - Processor: FileMover
   # Comment: Move the VLC installer folder to the build dir
   # Arguments:
-    # target: '%BUILD_DIR%\%pkg_dir%\wixproject\%NAME%\'
-    # source: '%BUILD_DIR%\%pkg_dir%\sourceunzipped\vlc-%version%\'
+    # target: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\wixproject\%NAME%\'
+    # source: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\sourceunzipped\vlc-%version%\'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/DateTimeStamps
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/FileDateVersionSubst
   Arguments:
-    file_path: '%BUILD_DIR%\%pkg_dir%\read\create-log-%NAME%%PF_STRING%_%build_ver%_ML.txt'
+    file_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\read\create-log-%NAME%%PF_STRING%_%build_ver%_ML.txt'
     new_ver: '%build_ver%'
     re_pattern: '[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/FileDateVersionSubst
   Arguments:
-    file_path: '%BUILD_DIR%\%pkg_dir%\read\readme-%NAME%%PF_STRING%_%build_ver%_ML.txt'
+    file_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\read\readme-%NAME%%PF_STRING%_%build_ver%_ML.txt'
     new_ver: '%build_ver%'
     re_pattern: '[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+'
 
 # - Processor: com.github.NickETH.recipes.SharedProcessors/WixSettings
   # Comment: Define variables for the WIX build process to the config.wxi file
   # Arguments:
-    # preproc_file: '%BUILD_DIR%\%pkg_dir%\wixproject\config.wxi'
-    # template_file: '%BUILD_DIR%\%pkg_dir%\wixproject\config.wxi'
+    # preproc_file: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\wixproject\config.wxi'
+    # template_file: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\wixproject\config.wxi'
     # new_settings:
     # - define: 'SourceDir="%NAME%"'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/MSBuildRun
   Comment: Run the MSBuild script to generate the IrfanView MSI installer
   Arguments:
-    build_file: '%BUILD_DIR%\%pkg_dir%\wixproject\%NAME%.build'
-    build_folder: '%BUILD_DIR%\%pkg_dir%\wixproject'
-    build_property: BuildPlatform=%PLATFORM%;BuildName=%NAME%;BuildDir=%BUILD_DIR%\%pkg_dir%\wixproject;SourceDir=%BUILD_DIR%\%pkg_dir%\wixproject\vlc-%version%;version=%build_ver%;Platformstr=%PF_STRING%;LangStr=%LANG_STRING%
+    build_file: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\wixproject\%NAME%.build'
+    build_folder: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\wixproject'
+    build_property: BuildPlatform=%PLATFORM%;BuildName=%NAME%;BuildDir=%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\wixproject;SourceDir=%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\wixproject\vlc-%version%;version=%build_ver%;Platformstr=%PF_STRING%;LangStr=%LANG_STRING%
     build_target: WIX
 
 - Processor: com.github.haircut.processors/AppIconExtractor
   Arguments:
-    ICON_PATH: '%BUILD_DIR%\%pkg_dir%\icons'
+    ICON_PATH: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\icons'
     icon_file_number: 0
     # composite_padding: 20
     # composite_position: ul
     # composite_uninstall_path: '%RECIPE_CACHE_DIR%/Icon-Uninstall-%NAME%.png'
     # composite_uninstall_template: /Users/haircut/Documents/delete.png
     icon_output_path: '%ICON_PATH%\Icon-%NAME%.png'
-    #source_app: '%BUILD_DIR%\%pkg_dir%\adm\PFiles\VideoLAN\VLC\%NAME%.exe'
-    source_app: '%BUILD_DIR%\%pkg_dir%\wixproject\vlc-%version%\%NAME%.exe'
+    #source_app: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\adm\PFiles\VideoLAN\VLC\%NAME%.exe'
+    source_app: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\wixproject\vlc-%version%\%NAME%.exe'
     #msi_icon_name: 'MainExecutableIcon.ico'
     composite_uninstall_path: '%ICON_PATH%\Icon-Uninstall-%NAME%.png'
     composite_update_path: '%ICON_PATH%\Icon-Update-%NAME%.png'
@@ -128,15 +123,15 @@ Process:
   Comment: Merges the WixFirewallCA-merge.msi with the main MSI-file
   Arguments:
     mode: -m
-    msi_path: '%BUILD_DIR%\%pkg_dir%\release\%NAME%%PF_STRING%_%build_ver%_ML.msi'
-    workfile: '%BUILD_DIR%\%pkg_dir%\helpers\WixFirewallCA-merge.msi'
+    msi_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\release\%NAME%%PF_STRING%_%build_ver%_ML.msi'
+    workfile: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\helpers\WixFirewallCA-merge.msi'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/MSITransformer
   Comment: Applies the Settings-Transform to the VLC.msi in the release folder
   Arguments:
     mode: -a
-    msi_path: '%BUILD_DIR%\%pkg_dir%\release\%NAME%%PF_STRING%_%build_ver%_ML.msi'
-    mst_paths: '%BUILD_DIR%\%pkg_dir%\helpers\VLC64-AutoPkg-cfg.mst'
+    msi_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\release\%NAME%%PF_STRING%_%build_ver%_ML.msi'
+    mst_paths: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\helpers\VLC64-AutoPkg-cfg.mst'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/MSIRunSQL
   Arguments:
@@ -144,6 +139,6 @@ Process:
     - UPDATE `Property` SET `Property`.`Value`='%version%' WHERE `Property`.`Property`='ProductVersion'
     - UPDATE `Property` SET `Property`.`Value`='VLC media player %version% (64-bit)' WHERE `Property`.`Property`='ProductName'
     - UPDATE `Registry` SET `Registry`.`Value`='%AS_ver%' WHERE `Registry`.`Registry`='regHKLM11'
-    msi_path: '%BUILD_DIR%\%pkg_dir%\release\%NAME%%PF_STRING%_%build_ver%_ML.msi'
+    msi_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\release\%NAME%%PF_STRING%_%build_ver%_ML.msi'
 
 - Processor: EndOfCheckPhase

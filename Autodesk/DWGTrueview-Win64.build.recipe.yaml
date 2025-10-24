@@ -59,11 +59,6 @@ Process:
     recipe_path: '%RECIPE_PATH%'
     ver_fields: '4'
 
-- Processor: com.github.sebtomasi.SharedProcessors/RenameVar
-  Arguments:
-    input_var: '%NAME%%PF_STRING%_%build_ver%%LANG_STRING%'
-    rename_var: pkg_dir
-
 - Processor: URLTextSearcher
   Arguments:
     re_pattern: '<Upi2>{(?P<UPI2>[0-9a-fA-F\-]{36})}</Upi2>'
@@ -78,19 +73,19 @@ Process:
   Arguments:
     overwrite: 'true'
     source_path: '%EXE_DL%'
-    destination_path: '%BUILD_DIR%\%pkg_dir%\release\%NAME%%PF_STRING%_%version%%LANG_STRING%.exe'
+    destination_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\release\%NAME%%PF_STRING%_%version%%LANG_STRING%.exe'
 
 - Processor: Copier
   Arguments:
     overwrite: 'true'
     source_path: '%pathname%'
-    destination_path: '%BUILD_DIR%\%pkg_dir%\release\%NAME%%PF_STRING%_%version%%LANG_STRING%.7z'
+    destination_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\release\%NAME%%PF_STRING%_%version%%LANG_STRING%.7z'
 
 - Processor: Copier
   Arguments:
     overwrite: 'true'
-    source_path: '%BUILD_DIR%\%pkg_dir%\helpers\UnNamed.json'
-    destination_path: '%BUILD_DIR%\%pkg_dir%\release\UnNamed.json'
+    source_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\helpers\UnNamed.json'
+    destination_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\release\UnNamed.json'
 
 # - Processor: com.github.NickETH.recipes.SharedProcessors/SevenZipExtractor
   # Arguments:
@@ -119,7 +114,7 @@ Process:
 - Processor: com.github.haircut.processors/AppIconExtractor
   Comment: Generate Icon files for the Kiosk from DWG TrueView
   Arguments:
-    ICON_PATH: '%BUILD_DIR%\%pkg_dir%\icons'
+    ICON_PATH: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\icons'
     icon_file_number: 0
     # composite_padding: 20
     # composite_position: ul
@@ -134,13 +129,13 @@ Process:
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/FileDateVersionSubst
   Arguments:
-    file_path: '%BUILD_DIR%\%pkg_dir%\read\Create-log-%NAME%%PF_STRING%_%version%%LANG_STRING%.txt'
+    file_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\read\Create-log-%NAME%%PF_STRING%_%version%%LANG_STRING%.txt'
     new_ver: '%version%'
     re_pattern: '[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/FileDateVersionSubst
   Arguments:
-    file_path: '%BUILD_DIR%\%pkg_dir%\read\readme-%NAME%%PF_STRING%_%version%%LANG_STRING%.txt'
+    file_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\read\readme-%NAME%%PF_STRING%_%version%%LANG_STRING%.txt'
     new_ver: '%version%'
     re_pattern: '[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+'
 

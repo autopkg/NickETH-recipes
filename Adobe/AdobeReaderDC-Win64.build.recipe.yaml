@@ -18,40 +18,35 @@ Process:
     BuildFiles: NextVerFiles.txt
     build_dir: '%BUILD_DIR%'
     folder_list: sourcepkt:sourceunzipped:release:read:helpers
-    org_ver: '%version%'
+    org_ver: '%ver_major%.%ver_majorminor%.%ver_minor%'
     pkg_dir: '%NAME%%PF_STRING%_::VVeerrssiioonn::%LANG_STRING%'
     recipe_dir: '%RECIPE_DIR%'
     recipe_path: '%RECIPE_PATH%'
     ver_fields: '3'
 
-- Processor: com.github.sebtomasi.SharedProcessors/RenameVar
-  Arguments:
-    input_var: '%NAME%%PF_STRING%_%build_ver%%LANG_STRING%'
-    rename_var: pkg_dir
-
 - Processor: com.github.NickETH.recipes.SharedProcessors/FileDateVersionSubst
   Arguments:
-    file_path: '%BUILD_DIR%\%pkg_dir%\read\create-log-%NAME%%PF_STRING%_%version%%LANG_STRING%.txt'
-    new_ver: '%version%'
+    file_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\read\create-log-%NAME%%PF_STRING%_%ver_major%.%ver_majorminor%.%ver_minor%%LANG_STRING%.txt'
+    new_ver: '%ver_major%.%ver_majorminor%.%ver_minor%'
     re_pattern: '[0-9][0-9]\.[0-9]+\.[0-9]+'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/FileDateVersionSubst
   Arguments:
-    file_path: '%BUILD_DIR%\%pkg_dir%\read\readme-%NAME%%PF_STRING%_%version%%LANG_STRING%.txt'
-    new_ver: '%version%'
+    file_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\read\readme-%NAME%%PF_STRING%_%ver_major%.%ver_majorminor%.%ver_minor%%LANG_STRING%.txt'
+    new_ver: '%ver_major%.%ver_majorminor%.%ver_minor%'
     re_pattern: '[0-9][0-9]\.[0-9]+\.[0-9]+'
 
 - Processor: Copier
   Arguments:
-    destination_path: '%BUILD_DIR%\%pkg_dir%\sourcepkt\%NAME%-x64.exe'
+    destination_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\sourcepkt\%NAME%-x64.exe'
     overwrite: 'true'
     source_path: '%pathname%'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/SevenZipExtractor
   Comment: Extract the AdobeReaderDC-Win64 installer
   Arguments:
-    exe_path: '%BUILD_DIR%\%pkg_dir%\sourcepkt\%NAME%-x64.exe'
-    extract_dir: '%BUILD_DIR%\%pkg_dir%\sourceunzipped\%NAME%'
+    exe_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\sourcepkt\%NAME%-x64.exe'
+    extract_dir: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\sourceunzipped\%NAME%'
     extract_file: '*'
     ignore_pattern: ''
     preserve_paths: 'True'
@@ -62,16 +57,16 @@ Process:
     cab_dir: adm
     cab_file: Data1
     embed_cab: 'True'
-    msi_path: '%BUILD_DIR%\%pkg_dir%\sourceunzipped\%NAME%\AcroPro.msi'
+    msi_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\sourceunzipped\%NAME%\AcroPro.msi'
     msp_path: sourceunzipped\%NAME%\AcroRdrDCx64Upd%version_string%.msp
     new_msi_path: adm\AcroRdrDCx64Upd%version_string%.msi
     new_packcode: 'True'
-    pkg_dir_abs: '%BUILD_DIR%\%pkg_dir%'
+    pkg_dir_abs: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/AcrobatGUIDPatcher
   Arguments:
     base_GUID: '{AC76BA86-1031-1033-7760-BC15014EA700}'
-    new_ver: '%version%'
+    new_ver: '%ver_major%.%ver_majorminor%.%ver_minor%'
     old_hex_ver: 15014EA7
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/MSIRunSQL
@@ -81,43 +76,43 @@ Process:
     - UPDATE `Property` SET `Property`.`Value`='%newGUID%' WHERE `Property`.`Property`='ProductCode'
     - UPDATE `Property` SET `Property`.`Value`='Adobe Acrobat Reader DC DE-EN' WHERE `Property`.`Property`='ProductName'
     - UPDATE `Component` SET `Component`.`Condition`='CHROMEPLUGIN' WHERE `Component`.`Component`='WCChromeNativeMessagingHost'
-    - UPDATE `MoveFile` SET `MoveFile`.`SourceName`='%NAME%%PF_STRING%_%version%%LANG_STRING%.msi', `MoveFile`.`DestName`='%NAME%%PF_STRING%_%version%%LANG_STRING%.msi' WHERE `MoveFile`.`FileKey`='CacheSetupFiles_AcroPro.msi'
-    msi_path: '%BUILD_DIR%\%pkg_dir%\adm\AcroRdrDCx64Upd%version_string%.msi'
+    - UPDATE `MoveFile` SET `MoveFile`.`SourceName`='%NAME%%PF_STRING%_%ver_major%.%ver_majorminor%.%ver_minor%%LANG_STRING%.msi', `MoveFile`.`DestName`='%NAME%%PF_STRING%_%ver_major%.%ver_majorminor%.%ver_minor%%LANG_STRING%.msi' WHERE `MoveFile`.`FileKey`='CacheSetupFiles_AcroPro.msi'
+    msi_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\adm\AcroRdrDCx64Upd%version_string%.msi'
 
 - Processor: Copier
   Arguments:
-    destination_path: '%BUILD_DIR%\%pkg_dir%\release\%NAME%%PF_STRING%_%version%%LANG_STRING%.msi'
+    destination_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\release\%NAME%%PF_STRING%_%ver_major%.%ver_majorminor%.%ver_minor%%LANG_STRING%.msi'
     overwrite: 'true'
-    source_path: '%BUILD_DIR%\%pkg_dir%\adm\AcroRdrDCx64Upd%version_string%.msi'
+    source_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\adm\AcroRdrDCx64Upd%version_string%.msi'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/MSITransformer
   Comment: Applies the transforms to the AdobeReaderDC.msi in the release folder
   Arguments:
     mode: -a
-    msi_path: '%BUILD_DIR%\%pkg_dir%\release\%NAME%%PF_STRING%_%version%%LANG_STRING%.msi'
+    msi_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\release\%NAME%%PF_STRING%_%ver_major%.%ver_majorminor%.%ver_minor%%LANG_STRING%.msi'
     mst_paths:
-    - '%BUILD_DIR%\%pkg_dir%\helpers\Enterprise_Lockdown_byAutoPkg.mst'
-    - '%BUILD_DIR%\%pkg_dir%\helpers\JavaScript_Disable_byAutoPkg.mst'
+    - '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\helpers\Enterprise_Lockdown_byAutoPkg.mst'
+    - '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\helpers\JavaScript_Disable_byAutoPkg.mst'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/MSIRunSQL
   Arguments:
     SQL_command:
-    - UPDATE `Registry` SET `Registry`.`Value`='%ASver%' WHERE `Registry`.`Registry`='RegHKLM2'
-    - UPDATE `Registry` SET `Registry`.`Value`='%ASver%' WHERE `Registry`.`Registry`='Reg64HKLM2'
-    - UPDATE `MoveFile` SET `MoveFile`.`SourceName`='%NAME%%PF_STRING%_%version%%LANG_STRING%.msi', `MoveFile`.`DestName`='%NAME%%PF_STRING%_%version%%LANG_STRING%.msi' WHERE `MoveFile`.`FileKey`='CacheSetupFiles_AcroPro.msi'
-    msi_path: '%BUILD_DIR%\%pkg_dir%\release\%NAME%%PF_STRING%_%version%%LANG_STRING%.msi'
+    - UPDATE `Registry` SET `Registry`.`Value`='%ver_major%,%ver_majorminor%,%ver_minor%' WHERE `Registry`.`Registry`='RegHKLM2'
+    - UPDATE `Registry` SET `Registry`.`Value`='%ver_major%,%ver_majorminor%,%ver_minor%' WHERE `Registry`.`Registry`='Reg64HKLM2'
+    - UPDATE `MoveFile` SET `MoveFile`.`SourceName`='%NAME%%PF_STRING%_%ver_major%.%ver_majorminor%.%ver_minor%%LANG_STRING%.msi', `MoveFile`.`DestName`='%NAME%%PF_STRING%_%ver_major%.%ver_majorminor%.%ver_minor%%LANG_STRING%.msi' WHERE `MoveFile`.`FileKey`='CacheSetupFiles_AcroPro.msi'
+    msi_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\release\%NAME%%PF_STRING%_%ver_major%.%ver_majorminor%.%ver_minor%%LANG_STRING%.msi'
 
 - Processor: com.github.haircut.processors/AppIconExtractor
   Arguments:
-    ICON_PATH: '%BUILD_DIR%\%pkg_dir%\icons'
+    ICON_PATH: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\icons'
     icon_file_number: 0
     # composite_padding: 20
     # composite_position: ul
     # composite_uninstall_path: '%RECIPE_CACHE_DIR%/Icon-Uninstall-%NAME%.png'
     # composite_uninstall_template: /Users/haircut/Documents/delete.png
     icon_output_path: '%ICON_PATH%\Icon-%NAME%.png'
-    source_app: '%BUILD_DIR%\%pkg_dir%\adm\Program Files 64\Adobe\Acrobat DC\Acrobat\Acrobat.exe'
-    #source_app: '%BUILD_DIR%\%pkg_dir%\release\%NAME%%PF_STRING%_%version%%LANG_STRING%.msi'
+    source_app: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\adm\Program Files 64\Adobe\Acrobat DC\Acrobat\Acrobat.exe'
+    #source_app: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\release\%NAME%%PF_STRING%_%ver_major%.%ver_majorminor%.%ver_minor%%LANG_STRING%.msi'
     #msi_icon_name: '_SC_Acrobat.ico'
     composite_uninstall_path: '%ICON_PATH%\Icon-Uninstall-%NAME%.png'
     composite_update_path: '%ICON_PATH%\Icon-Update-%NAME%.png'
@@ -128,9 +123,9 @@ Process:
 - Processor: com.github.NickETH.recipes.SharedProcessors/MSIApplySumInfo
   Arguments:
     cmnds_sinfo:
-      /j: Adobe Reader DC %version%
+      /j: Adobe Reader DC %ver_major%.%ver_majorminor%.%ver_minor%
       /o: Altered and hardened version for corporate use. %us_date% by AutoPkg
-      /t: Adobe Reader DC %version%
-    msi_path: '%BUILD_DIR%\%pkg_dir%\release\%NAME%%PF_STRING%_%version%%LANG_STRING%.msi'
+      /t: Adobe Reader DC %ver_major%.%ver_majorminor%.%ver_minor%
+    msi_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\release\%NAME%%PF_STRING%_%ver_major%.%ver_majorminor%.%ver_minor%%LANG_STRING%.msi'
 
 - Processor: EndOfCheckPhase

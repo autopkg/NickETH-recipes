@@ -29,14 +29,14 @@ Process:
 - Processor: Copier
   Comment: Copy the FileMaker license file to the build dir
   Arguments:
-    destination_path: '%BUILD_DIR%\%pkg_dir%\release\LicenseCert.fmcert'
+    destination_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\release\LicenseCert.fmcert'
     overwrite: 'true'
     source_path: '%RECIPE_CACHE_DIR%\downloads\LicenseCert.fmcert'
     
 - Processor: com.github.NickETH.recipes.SharedProcessors/MSIRunSQLget
   Arguments:
     SQL_command: SELECT `Value` FROM `Property` WHERE `Property`='ProductCode'
-    msi_path: '%BUILD_DIR%\%pkg_dir%\release\%ALTNAME% %MAJOR_VERSION%.msi'
+    msi_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\release\%ALTNAME% %MAJOR_VERSION%.msi'
 
 - Processor: com.github.sebtomasi.SharedProcessors/TextSubstituer
   Arguments:
@@ -74,7 +74,7 @@ Process:
       </ACTION>
       </ACTIONS>
       </baramundiDeployScript>
-    file_path: '%BUILD_DIR%\%pkg_dir%\release\i_FM%MAJOR_VERSION%FW.bds'
+    file_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\release\i_FM%MAJOR_VERSION%FW.bds'
 
 - Processor: FileCreator
   Comment: Generate the firewall uninstall.bds in the release dir.
@@ -105,7 +105,7 @@ Process:
       </ACTION>
       </ACTIONS>
       </baramundiDeployScript>
-    file_path: '%BUILD_DIR%\%pkg_dir%\release\u_FM%MAJOR_VERSION%FW.bds'
+    file_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\release\u_FM%MAJOR_VERSION%FW.bds'
     
 - Processor: com.github.NickETH.recipes.SharedProcessors/BMSImporter
   Comment: Import the Application into Baramundi (BMS) QSS
@@ -160,9 +160,9 @@ Process:
     bms_serverport: '%BMS_SERVER_PORT%'
     bms_serverurl: '%BMS_SERVER1%'
     bms_username: '%BMS_USERNAME%'
-    inst_file_src_dest: '%BUILD_DIR%\%pkg_dir%\release\*.*|%BMS_IMPORT_PATH_TST%\%DIP_NAME%\%parsed_string%\%DIP_SUBDIR%'
+    inst_file_src_dest: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\release\*.*|%BMS_IMPORT_PATH_TST%\%DIP_NAME%\%parsed_string%\%DIP_SUBDIR%'
     json_file_dest: '%BMS_IMPORT_PATH_TST%\%DIP_NAME%\bms_app_integration.json'
-    icon_file_src: '%BUILD_DIR%\%pkg_dir%\icons\*.*'
-    read_file_src_dest: '%BUILD_DIR%\%pkg_dir%\read\*-%NAME%%PF_STRING%_%build_ver%%LANG_STRING%.txt|%BMS_IMPORT_PATH_TST%\%DIP_NAME%\%parsed_string%\DEV'
+    icon_file_src: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\icons\*.*'
+    read_file_src_dest: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\read\*-%NAME%%PF_STRING%_%build_ver%%LANG_STRING%.txt|%BMS_IMPORT_PATH_TST%\%DIP_NAME%\%parsed_string%\DEV'
 
 - Processor: EndOfCheckPhase

@@ -20,31 +20,26 @@ Process:
     BuildFiles: NextVerFiles.txt
     build_dir: '%BUILD_DIR%'
     folder_list: sourceunzipped:release:read
-    org_ver: '%version%'
+    org_ver: '%msi_value%'
     pkg_dir: '%VENDOR%_%NAME%%PF_STRING%_::VVeerrssiioonn::_ML'
     recipe_dir: '%RECIPE_DIR%'
     recipe_path: '%RECIPE_PATH%'
 
-- Processor: com.github.sebtomasi.SharedProcessors/RenameVar
-  Arguments:
-    input_var: '%VENDOR%_%NAME%%PF_STRING%_%version%_ML'
-    rename_var: pkg_dir
-
 - Processor: com.github.NickETH.recipes.SharedProcessors/FileDateVersionSubst
   Arguments:
-    file_path: '%BUILD_DIR%\%pkg_dir%\read\create-log-%VENDOR%_%NAME%%PF_STRING%_%version%_ML.txt'
-    new_ver: '%version%'
+    file_path: '%BUILD_DIR%\%VENDOR%_%NAME%%PF_STRING%_%msi_value%_ML\read\create-log-%VENDOR%_%NAME%%PF_STRING%_%msi_value%_ML.txt'
+    new_ver: '%msi_value%'
     re_pattern: '[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/FileDateVersionSubst
   Arguments:
-    file_path: '%BUILD_DIR%\%pkg_dir%\read\readme-%VENDOR%_%NAME%%PF_STRING%_%version%_ML.txt'
-    new_ver: '%version%'
+    file_path: '%BUILD_DIR%\%VENDOR%_%NAME%%PF_STRING%_%msi_value%_ML\read\readme-%VENDOR%_%NAME%%PF_STRING%_%msi_value%_ML.txt'
+    new_ver: '%msi_value%'
     re_pattern: '[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+'
 
 - Processor: Copier
   Arguments:
-    destination_path: '%BUILD_DIR%\%pkg_dir%\release\%VENDOR%_%NAME%%PF_STRING%_%version%_ML.msi'
+    destination_path: '%BUILD_DIR%\%VENDOR%_%NAME%%PF_STRING%_%msi_value%_ML\release\%VENDOR%_%NAME%%PF_STRING%_%msi_value%_ML.msi'
     overwrite: 'true'
     source_path: '%pathname%'
 
@@ -53,9 +48,9 @@ Process:
 - Processor: com.github.NickETH.recipes.SharedProcessors/MSIApplySumInfo
   Arguments:
     cmnds_sinfo:
-      /j: Adoptium %NAME% %PLATFORM% %version% ML
-      /o: Version %version%. %us_date% by AutoPkg
-      /t: Adoptium %NAME% %PLATFORM% %version% ML
-    msi_path: '%BUILD_DIR%\%pkg_dir%\release\%VENDOR%_%NAME%%PF_STRING%_%version%_ML.msi'
+      /j: Adoptium %NAME% %PLATFORM% %msi_value% ML
+      /o: Version %msi_value%. %us_date% by AutoPkg
+      /t: Adoptium %NAME% %PLATFORM% %msi_value% ML
+    msi_path: '%BUILD_DIR%\%VENDOR%_%NAME%%PF_STRING%_%msi_value%_ML\release\%VENDOR%_%NAME%%PF_STRING%_%msi_value%_ML.msi'
 
 - Processor: EndOfCheckPhase

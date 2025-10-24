@@ -48,29 +48,24 @@ Process:
     # recipe_path: '%RECIPE_PATH%'
     # ver_fields: '3'
 
-- Processor: com.github.sebtomasi.SharedProcessors/RenameVar
-  Arguments:
-    input_var: '%NAME%%PF_STRING%_%build_ver%_ML'
-    rename_var: pkg_dir
-
 - Processor: Copier
   Arguments:
-    destination_path: '%BUILD_DIR%\%pkg_dir%\sourceunzipped\XnviewSetup.exe'
+    destination_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\sourceunzipped\XnviewSetup.exe'
     overwrite: 'true'
     source_path: '%pathname%'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/InnoEditor
   Arguments:
     inno_compiler: C:\Program Files (x86)\Inno Setup 6\ISCC.exe
-    inno_path: '%BUILD_DIR%\%pkg_dir%\sourceunzipped\XnviewSetup.exe'
-    workfolder: '%BUILD_DIR%\%pkg_dir%\sourceunzipped'
+    inno_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\sourceunzipped\XnviewSetup.exe'
+    workfolder: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\sourceunzipped'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/DateTimeStamps
 
 - Processor: Copier
   Comment: Copy the XnView install exe file to the build dir
   Arguments:
-    destination_path: '%BUILD_DIR%\%pkg_dir%\release\%NAME%_%build_ver%_ML.exe'
+    destination_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\release\%NAME%_%build_ver%_ML.exe'
     overwrite: 'true'
     source_path: '%pathname%'
 
@@ -78,7 +73,7 @@ Process:
 - Processor: com.github.haircut.processors/AppIconExtractor
   Comment: Extract the XnView icons and generate BMS-Kiosk-Icons
   Arguments:
-    ICON_PATH: '%BUILD_DIR%\%pkg_dir%\icons'
+    ICON_PATH: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\icons'
     icon_file_number: 0
     # composite_padding: 20
     # composite_position: ul
@@ -86,7 +81,7 @@ Process:
     # composite_uninstall_template: /Users/haircut/Documents/delete.png
     icon_output_path: '%ICON_PATH%\Icon-%NAME%.png'
     #source_app: '%pathname%'
-    source_app: '%BUILD_DIR%\%pkg_dir%\helpers\xnview256.png'
+    source_app: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\helpers\xnview256.png'
     #msi_icon_name: 'MainExecutableIcon.ico'
     composite_uninstall_path: '%ICON_PATH%\Icon-Uninstall-%NAME%.png'
     composite_update_path: '%ICON_PATH%\Icon-Update-%NAME%.png'
@@ -94,12 +89,12 @@ Process:
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/FileDateVersionSubst
   Arguments:
-    file_path: '%BUILD_DIR%\%pkg_dir%\read\create-log-%NAME%_%build_ver%_ML.txt'
+    file_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\read\create-log-%NAME%_%build_ver%_ML.txt'
     new_ver: '%build_ver%'
     re_pattern: '[0-9]+\.[0-9]+\.[0-9]+'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/FileDateVersionSubst
   Arguments:
-    file_path: '%BUILD_DIR%\%pkg_dir%\read\readme-%NAME%_%build_ver%_ML.txt'
+    file_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\read\readme-%NAME%_%build_ver%_ML.txt'
     new_ver: '%build_ver%'
     re_pattern: '[0-9]+\.[0-9]+\.[0-9]+'

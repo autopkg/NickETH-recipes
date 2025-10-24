@@ -23,82 +23,67 @@ Process:
     recipe_path: '%RECIPE_PATH%'
     ver_fields: '4'
 
-- Processor: com.github.sebtomasi.SharedProcessors/RenameVar
-  Arguments:
-    input_var: '%NAME%%PF_STRING%_%build_ver%%LANG_STRING%'
-    rename_var: pkg_dir
-
 - Processor: Copier
   Arguments:
-    destination_path: '%BUILD_DIR%\%pkg_dir%\sourcepkt\%NAME%-%version%-%PLATFORM%.exe'
+    destination_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\sourcepkt\%NAME%-%version%-%PLATFORM%.exe'
     overwrite: 'true'
     source_path: '%pathname%'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/SevenZipExtractor
   Arguments:
-    exe_path: '%BUILD_DIR%\%pkg_dir%\sourcepkt\%NAME%-%version%-%PLATFORM%.exe'
-    extract_dir: '%BUILD_DIR%\%pkg_dir%\sourceunzipped'
-    extract_file: '@%BUILD_DIR%\%pkg_dir%\helpers\iTunes%PF_SHORT%-files.txt'
+    exe_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\sourcepkt\%NAME%-%version%-%PLATFORM%.exe'
+    extract_dir: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\sourceunzipped'
+    extract_file: '@%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\helpers\iTunes%PF_SHORT%-files.txt'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/MSIRunSQLget
   Comment: Get the version from Bonjour%PF_SHORT%.msi into msi_value
   Arguments:
     SQL_command: SELECT `Value` FROM `Property` WHERE `Property`='ProductVersion'
-    msi_path: '%BUILD_DIR%\%pkg_dir%\sourceunzipped\Bonjour%PF_SHORT%.msi'
-
-- Processor: com.github.sebtomasi.SharedProcessors/RenameVar
-  Arguments:
-    input_var: '%msi_value%'
-    rename_var: BJ_version
+    msi_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\sourceunzipped\Bonjour%PF_SHORT%.msi'
 
 - Processor: Copier
   Comment: Copy the Bonjour64.msi to the release folder
   Arguments:
-    destination_path: '%BUILD_DIR%\%pkg_dir%\release\Bonjour%PF_SHORT%_%BJ_version%%LANG_STRING%.msi'
+    destination_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\release\Bonjour%PF_SHORT%_%msi_value%%LANG_STRING%.msi'
     overwrite: 'true'
-    source_path: '%BUILD_DIR%\%pkg_dir%\sourceunzipped\Bonjour%PF_SHORT%.msi'
+    source_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\sourceunzipped\Bonjour%PF_SHORT%.msi'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/MSIRunSQLget
   Comment: Get the version from AppleMobileDeviceSupport%PF_SHORT%.msi into msi_value
   Arguments:
     SQL_command: SELECT `Value` FROM `Property` WHERE `Property`='ProductVersion'
-    msi_path: '%BUILD_DIR%\%pkg_dir%\sourceunzipped\AppleMobileDeviceSupport%PF_SHORT%.msi'
-
-- Processor: com.github.sebtomasi.SharedProcessors/RenameVar
-  Arguments:
-    input_var: '%msi_value%'
-    rename_var: AMDS_version
+    msi_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\sourceunzipped\AppleMobileDeviceSupport%PF_SHORT%.msi'
 
 - Processor: Copier
   Comment: Copy the AppleMobileDeviceSupport64.msi to the release folder
   Arguments:
-    destination_path: '%BUILD_DIR%\%pkg_dir%\release\AppleMobileDeviceSupport%PF_SHORT%_%AMDS_version%%LANG_STRING%.msi'
+    destination_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\release\AppleMobileDeviceSupport%PF_SHORT%_%msi_value%%LANG_STRING%.msi'
     overwrite: 'true'
-    source_path: '%BUILD_DIR%\%pkg_dir%\sourceunzipped\AppleMobileDeviceSupport%PF_SHORT%.msi'
+    source_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\sourceunzipped\AppleMobileDeviceSupport%PF_SHORT%.msi'
 
 - Processor: Copier
   Comment: Copy the iTunes.msi to the release folder
   Arguments:
-    destination_path: '%BUILD_DIR%\%pkg_dir%\release\%NAME%%PF_STRING%_%version%%LANG_STRING%.msi'
+    destination_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\release\%NAME%%PF_STRING%_%version%%LANG_STRING%.msi'
     overwrite: 'true'
-    source_path: '%BUILD_DIR%\%pkg_dir%\sourceunzipped\%NAME%%PF_SHORT%.msi'
+    source_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\sourceunzipped\%NAME%%PF_SHORT%.msi'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/MSIRunSQLget
   Comment: Get the version from iTunes64.msi into msi_value
   Arguments:
     SQL_command: SELECT `File`.`File` FROM `File`, `Component`, `Directory` WHERE `File`.`Component_` = `Component`.`Component` AND `Directory`.`Directory` = `Component`.`Directory_` AND `DefaultDir`='tajvqtga|de.lproj' AND `FileName`='License.rtf'
-    msi_path: '%BUILD_DIR%\%pkg_dir%\sourceunzipped\iTunes%PF_SHORT%.msi'
+    msi_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\sourceunzipped\iTunes%PF_SHORT%.msi'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/SevenZipExtractor
   Arguments:
-    exe_path: '%BUILD_DIR%\%pkg_dir%\sourceunzipped\iTunes%PF_SHORT%.msi'
-    extract_dir: '%BUILD_DIR%\%pkg_dir%\helpers'
+    exe_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\sourceunzipped\iTunes%PF_SHORT%.msi'
+    extract_dir: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\helpers'
     extract_file: '%msi_value%'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/TextFileSearcher
   Comment: Searches the german License.rtf file in iTunes.msi for the EULA string
   Arguments:
-    file_to_open: '%BUILD_DIR%\%pkg_dir%\helpers\%msi_value%'
+    file_to_open: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\helpers\%msi_value%'
     re_pattern: \\cf2.(?P<eulastring>[EA]{2}[0-9]{4})\\cf2
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/DateTimeStamps
@@ -107,8 +92,8 @@ Process:
   Comment: Applies the Settings-Transform to the iTunes.msi to the release folder
   Arguments:
     mode: -a
-    msi_path: '%BUILD_DIR%\%pkg_dir%\release\%NAME%%PF_STRING%_%version%%LANG_STRING%.msi'
-    mst_paths: '%BUILD_DIR%\%pkg_dir%\helpers\iTunes%PF_SHORT%-Settings.mst'
+    msi_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\release\%NAME%%PF_STRING%_%version%%LANG_STRING%.msi'
+    mst_paths: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\helpers\iTunes%PF_SHORT%-Settings.mst'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/MSIRunSQL
   Comment: Change a few settings in the iTunes MSI-file
@@ -117,8 +102,8 @@ Process:
     - UPDATE `Property` SET `Property`.`Value`='iTunes %version% ML' WHERE `Property`.`Property`='ProductName'
     - UPDATE `Registry` SET `Registry`.`Value`='%AS_ver%' WHERE `Registry`.`Registry`='RegHKLM2'
     - UPDATE `Registry` SET `Registry`.`Value`='%matchstring%' WHERE `Registry`.`Registry`='RegHKLM7'
-    - UPDATE `caPackage` SET `caPackage`.`FileName`='AppleMobileDeviceSupport%PF_SHORT%_%AMDS_version%%LANG_STRING%.msi' WHERE `caPackage`.`PackageKey`='AppleMobileDeviceSupport'
-    msi_path: '%BUILD_DIR%\%pkg_dir%\release\%NAME%%PF_STRING%_%version%%LANG_STRING%.msi'
+    - UPDATE `caPackage` SET `caPackage`.`FileName`='AppleMobileDeviceSupport%PF_SHORT%_%msi_value%%LANG_STRING%.msi' WHERE `caPackage`.`PackageKey`='AppleMobileDeviceSupport'
+    msi_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\release\%NAME%%PF_STRING%_%version%%LANG_STRING%.msi'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/MSIApplySumInfo
   Arguments:
@@ -127,65 +112,65 @@ Process:
       /o: Version %version% for ETHZ ID. %us_date% by AutoPkg
       /p: x64;1033
       /t: iTunes x64 %version% ML
-    msi_path: '%BUILD_DIR%\%pkg_dir%\release\%NAME%%PF_STRING%_%version%%LANG_STRING%.msi'
+    msi_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\release\%NAME%%PF_STRING%_%version%%LANG_STRING%.msi'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/MSIDbWorker
   Comment: Extract language transforms from the iTunes MSI-file
   Arguments:
     mode: -w
-    msi_path: '%BUILD_DIR%\%pkg_dir%\release\%NAME%%PF_STRING%_%version%%LANG_STRING%.msi'
+    msi_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\release\%NAME%%PF_STRING%_%version%%LANG_STRING%.msi'
     workfile: '1031'
-    workfolder: '%BUILD_DIR%\%pkg_dir%\helpers'
+    workfolder: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\helpers'
 
 - Processor: Copier
   Comment: Make a copy from iTunes.msi to the helpers folder to apply the language transform
   Arguments:
-    destination_path: '%BUILD_DIR%\%pkg_dir%\helpers\%NAME%%PF_STRING%_1031.msi'
+    destination_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\helpers\%NAME%%PF_STRING%_1031.msi'
     overwrite: 'true'
-    source_path: '%BUILD_DIR%\%pkg_dir%\release\%NAME%%PF_STRING%_%version%%LANG_STRING%.msi'
+    source_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\release\%NAME%%PF_STRING%_%version%%LANG_STRING%.msi'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/MSITransformer
   Comment: Apply the language transforms to the iTunes MSI copy
   Arguments:
     mode: -a
-    msi_path: '%BUILD_DIR%\%pkg_dir%\helpers\%NAME%%PF_STRING%_1031.msi'
-    mst_paths: '%BUILD_DIR%\%pkg_dir%\helpers\1031'
+    msi_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\helpers\%NAME%%PF_STRING%_1031.msi'
+    mst_paths: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\helpers\1031'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/MSIRunSQLget
   Comment: Get the product GUID from iTunes64.msi into msi_value
   Arguments:
     SQL_command: SELECT `Value` FROM `Property` WHERE `Property`='ProductCode'
-    msi_path: '%BUILD_DIR%\%pkg_dir%\release\%NAME%%PF_STRING%_%version%%LANG_STRING%.msi'
+    msi_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\release\%NAME%%PF_STRING%_%version%%LANG_STRING%.msi'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/MSIRunSQL
   Comment: Put the original product GUID into the transformed iTunes MSI-file
   Arguments:
     SQL_command:
     - UPDATE `Property` SET `Property`.`Value`='%msi_value%' WHERE `Property`.`Property`='ProductCode'
-    msi_path: '%BUILD_DIR%\%pkg_dir%\helpers\%NAME%%PF_STRING%_1031.msi'
+    msi_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\helpers\%NAME%%PF_STRING%_1031.msi'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/MSITransformer
   Comment: Generate a new 1031 language transform from the iTunes MSI-file and the copy
   Arguments:
     mode: -g
-    msi_path: '%BUILD_DIR%\%pkg_dir%\release\%NAME%%PF_STRING%_%version%%LANG_STRING%.msi'
-    msi_path_new: '%BUILD_DIR%\%pkg_dir%\helpers\%NAME%%PF_STRING%_1031.msi'
-    mst_paths: '%BUILD_DIR%\%pkg_dir%\sourceunzipped\1031'
+    msi_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\release\%NAME%%PF_STRING%_%version%%LANG_STRING%.msi'
+    msi_path_new: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\helpers\%NAME%%PF_STRING%_1031.msi'
+    mst_paths: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\sourceunzipped\1031'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/MSIDbWorker
   Comment: Delete the existing 1031 language transforms from the iTunes MSI-file
   Arguments:
     mode: -j
-    msi_path: '%BUILD_DIR%\%pkg_dir%\release\%NAME%%PF_STRING%_%version%%LANG_STRING%.msi'
+    msi_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\release\%NAME%%PF_STRING%_%version%%LANG_STRING%.msi'
     workfile: '1031'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/MSIDbWorker
   Comment: Embed the altered 1031 language transforms into the iTunes MSI-file
   Arguments:
     mode: -r
-    msi_path: '%BUILD_DIR%\%pkg_dir%\release\%NAME%%PF_STRING%_%version%%LANG_STRING%.msi'
+    msi_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\release\%NAME%%PF_STRING%_%version%%LANG_STRING%.msi'
     workfile: '1031'
-    workfolder: '%BUILD_DIR%\%pkg_dir%\sourceunzipped'
+    workfolder: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\sourceunzipped'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/MSIRunSQL
   Comment: Change a few settings in the Bonjour64 MSI-file
@@ -193,16 +178,16 @@ Process:
     SQL_command:
     - UPDATE `ServiceInstall` SET `ServiceInstall`.`StartType`=4 WHERE `ServiceInstall`.`ServiceInstall`='Bonjour_Service'
     - UPDATE `ServiceControl` SET `ServiceControl`.`Event`=162 WHERE `ServiceControl`.`ServiceControl`='Bonjour_Service'
-    msi_path: '%BUILD_DIR%\%pkg_dir%\release\Bonjour%PF_SHORT%_%BJ_version%%LANG_STRING%.msi'
+    msi_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\release\Bonjour%PF_SHORT%_%msi_value%%LANG_STRING%.msi'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/MSIApplySumInfo
   Arguments:
     cmnds_sinfo:
-      /j: Bonjour x64 %BJ_version% ML
-      /o: Version %BJ_version% for ETHZ ID. %us_date% by AutoPkg
+      /j: Bonjour x64 %msi_value% ML
+      /o: Version %msi_value% for ETHZ ID. %us_date% by AutoPkg
       /p: x64;1033
-      /t: Bonjour x64 %BJ_version% ML
-    msi_path: '%BUILD_DIR%\%pkg_dir%\release\Bonjour%PF_SHORT%_%BJ_version%%LANG_STRING%.msi'
+      /t: Bonjour x64 %msi_value% ML
+    msi_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\release\Bonjour%PF_SHORT%_%msi_value%%LANG_STRING%.msi'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/MSIRunSQL
   Comment: Change a few settings in the AppleMobileDeviceSupport64 MSI-file
@@ -211,40 +196,40 @@ Process:
     - INSERT INTO `Property` (`Property`.`Property`,`Property`.`Value`) VALUES ('REBOOT','ReallySuppress')
     - UPDATE `InstallExecuteSequence` SET `InstallExecuteSequence`.`Sequence`='1450' WHERE `InstallExecuteSequence`.`Action`='RemoveExistingProducts'
     - DELETE FROM `LaunchCondition` WHERE `LaunchCondition`.`Condition`='NOT BNEWERPRODUCTISINSTALLED'
-    msi_path: '%BUILD_DIR%\%pkg_dir%\release\AppleMobileDeviceSupport%PF_SHORT%_%AMDS_version%%LANG_STRING%.msi'
+    msi_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\release\AppleMobileDeviceSupport%PF_SHORT%_%msi_value%%LANG_STRING%.msi'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/MSIApplySumInfo
   Arguments:
     cmnds_sinfo:
-      /j: Apple Mobile Device Support x64 %AMDS_version% ML
-      /o: Version %AMDS_version% for ETHZ ID. %us_date% by AutoPkg
+      /j: Apple Mobile Device Support x64 %msi_value% ML
+      /o: Version %msi_value% for ETHZ ID. %us_date% by AutoPkg
       /p: x64;1033
-      /t: Apple Mobile Device Support x64 %AMDS_version% ML
-    msi_path: '%BUILD_DIR%\%pkg_dir%\release\AppleMobileDeviceSupport%PF_SHORT%_%AMDS_version%%LANG_STRING%.msi'
+      /t: Apple Mobile Device Support x64 %msi_value% ML
+    msi_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\release\AppleMobileDeviceSupport%PF_SHORT%_%msi_value%%LANG_STRING%.msi'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/FileDateVersionSubst
   Arguments:
-    file_path: '%BUILD_DIR%\%pkg_dir%\read\create-log-%NAME%%PF_STRING%_%version%%LANG_STRING%.txt'
+    file_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\read\create-log-%NAME%%PF_STRING%_%version%%LANG_STRING%.txt'
     new_ver: '%build_ver%'
     re_pattern: '[0-9]+\.[0-9]+\.[0-9]+(\.[0-9]+)?'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/FileDateVersionSubst
   Arguments:
-    file_path: '%BUILD_DIR%\%pkg_dir%\read\readme-%NAME%%PF_STRING%_%version%%LANG_STRING%.txt'
+    file_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\read\readme-%NAME%%PF_STRING%_%version%%LANG_STRING%.txt'
     new_ver: '%build_ver%'
     re_pattern: '[0-9]+\.[0-9]+\.[0-9]+(\.[0-9]+)?'
 
 - Processor: com.github.haircut.processors/AppIconExtractor
   Arguments:
-    ICON_PATH: '%BUILD_DIR%\%pkg_dir%\icons'
+    ICON_PATH: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\icons'
     icon_file_number: 0
     # composite_padding: 20
     # composite_position: ul
     # composite_uninstall_path: '%RECIPE_CACHE_DIR%/Icon-Uninstall-%NAME%.png'
     # composite_uninstall_template: /Users/haircut/Documents/delete.png
     icon_output_path: '%ICON_PATH%\Icon-%NAME%.png'
-    source_app: '%BUILD_DIR%\%pkg_dir%\release\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%.msi'
-    # source_app: '%BUILD_DIR%\%pkg_dir%\release\%NAME%%PF_STRING%_%version%%LANG_STRING%.msi'
+    source_app: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\release\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%.msi'
+    # source_app: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\release\%NAME%%PF_STRING%_%version%%LANG_STRING%.msi'
     msi_icon_name: 'iTunes.ico'
     composite_uninstall_path: '%ICON_PATH%/Icon-Uninstall-%NAME%.png'
     composite_update_path: '%ICON_PATH%/Icon-Update-%NAME%.png'

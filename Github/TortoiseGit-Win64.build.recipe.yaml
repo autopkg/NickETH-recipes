@@ -25,15 +25,10 @@ Process:
     recipe_path: '%RECIPE_PATH%'
     ver_fields: '4'
 
-- Processor: com.github.sebtomasi.SharedProcessors/RenameVar
-  Arguments:
-    input_var: '%NAME%%PF_STRING%_%build_ver%%LANG_STRING%'
-    rename_var: pkg_dir
-
 - Processor: Copier
   Comment: Copy the TortoiseGit installer file to the build dir
   Arguments:
-    destination_path: '%BUILD_DIR%\%pkg_dir%\sourcepkt\'
+    destination_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\sourcepkt\'
     overwrite: 'true'
     # source_path: '%RECIPE_CACHE_DIR%\downloads\%NAME%*%PLATFORM%.msi'
     source_path: '%RECIPE_CACHE_DIR%\downloads\**'
@@ -42,72 +37,72 @@ Process:
   Arguments:
     cmdline_args:
     - /a
-    - '%BUILD_DIR%\%pkg_dir%\sourcepkt\%NAME%_de_%PLATFORM%.msi'
-    - TARGETDIR=%BUILD_DIR%\%pkg_dir%\sourceunzipped\adm
+    - '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\sourcepkt\%NAME%_de_%PLATFORM%.msi'
+    - TARGETDIR=%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\sourceunzipped\adm
     - /qn
     exe_file: 'msiexec.exe'
-    exe_folder: '%BUILD_DIR%\%pkg_dir%\sourcepkt'
+    exe_folder: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\sourcepkt'
     run_elevated: 'false'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/ExecuteFile
   Arguments:
     cmdline_args:
     - /a
-    - '%BUILD_DIR%\%pkg_dir%\sourcepkt\%NAME%_fr_%PLATFORM%.msi'
-    - TARGETDIR=%BUILD_DIR%\%pkg_dir%\sourceunzipped\adm
+    - '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\sourcepkt\%NAME%_fr_%PLATFORM%.msi'
+    - TARGETDIR=%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\sourceunzipped\adm
     - /qn
     exe_file: 'msiexec.exe'
-    exe_folder: '%BUILD_DIR%\%pkg_dir%\sourcepkt'
+    exe_folder: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\sourcepkt'
     run_elevated: 'false'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/ExecuteFile
   Arguments:
     cmdline_args:
     - /a
-    - '%BUILD_DIR%\%pkg_dir%\sourcepkt\%NAME%_it_%PLATFORM%.msi'
-    - TARGETDIR=%BUILD_DIR%\%pkg_dir%\sourceunzipped\adm
+    - '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\sourcepkt\%NAME%_it_%PLATFORM%.msi'
+    - TARGETDIR=%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\sourceunzipped\adm
     - /qn
     exe_file: 'msiexec.exe'
-    exe_folder: '%BUILD_DIR%\%pkg_dir%\sourcepkt'
+    exe_folder: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\sourcepkt'
     run_elevated: 'false'
 
 - Processor: Copier
   Comment: Copy the TortoiseGit MSI installer file to the release dir
   Arguments:
-    destination_path: '%BUILD_DIR%\%pkg_dir%\release\%NAME%%PF_STRING%_%version%%LANG_STRING%.msi'
+    destination_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\release\%NAME%%PF_STRING%_%version%%LANG_STRING%.msi'
     overwrite: 'true'
-    source_path: '%BUILD_DIR%\%pkg_dir%\sourcepkt\%NAME%_%PLATFORM%.msi'
+    source_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\sourcepkt\%NAME%_%PLATFORM%.msi'
 
 - Processor: Copier
   Comment: Copy the TortoiseGit language files to the build dir
   Arguments:
-    destination_path: '%BUILD_DIR%\%pkg_dir%\wixproject\%NAME%\'
+    destination_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\wixproject\%NAME%\'
     overwrite: 'true'
-    source_path: '%BUILD_DIR%\%pkg_dir%\sourceunzipped\adm\Program Files\TortoiseGit\**'
+    source_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\sourceunzipped\adm\Program Files\TortoiseGit\**'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/FileDateVersionSubst
   Arguments:
-    file_path: '%BUILD_DIR%\%pkg_dir%\read\create-log-%NAME%%PF_STRING%_%build_ver%_ML.txt'
+    file_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\read\create-log-%NAME%%PF_STRING%_%build_ver%_ML.txt'
     new_ver: '%build_ver%'
     re_pattern: '[0-9]+\.[0-9]+\.[0-9]+'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/FileDateVersionSubst
   Arguments:
-    file_path: '%BUILD_DIR%\%pkg_dir%\read\readme-%NAME%%PF_STRING%_%build_ver%_ML.txt'
+    file_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\read\readme-%NAME%%PF_STRING%_%build_ver%_ML.txt'
     new_ver: '%build_ver%'
     re_pattern: '[0-9]+\.[0-9]+\.[0-9]+'
 
 - Processor: com.github.haircut.processors/AppIconExtractor
   Comment: Generate the IrfanView icons for BMS Kiosk.
   Arguments:
-    ICON_PATH: '%BUILD_DIR%\%pkg_dir%\icons'
+    ICON_PATH: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\icons'
     icon_file_number: 0
     # composite_padding: 20
     # composite_position: ul
     # composite_uninstall_path: '%RECIPE_CACHE_DIR%/Icon-Uninstall-%NAME%.png'
     # composite_uninstall_template: /Users/haircut/Documents/delete.png
     icon_output_path: '%ICON_PATH%\Icon-%NAME%.png'
-    #source_app: '%BUILD_DIR%\%pkg_dir%\wixproject\%NAME%\%EXE_NAME%'
+    #source_app: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\wixproject\%NAME%\%EXE_NAME%'
     source_app: '%RECIPE_CACHE_DIR%\downloads\%NAME%_%PLATFORM%.msi'
     msi_icon_name: 'TGITIcon'
     composite_uninstall_path: '%ICON_PATH%\Icon-Uninstall-%NAME%.png'
@@ -117,7 +112,7 @@ Process:
 - Processor: com.github.NickETH.recipes.SharedProcessors/WixSettings
   Comment: Define variables for the WIX build process to the version.wxi file
   Arguments:
-    preproc_file: '%BUILD_DIR%\%pkg_dir%\wixproject\version.wxi'
+    preproc_file: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\wixproject\version.wxi'
     template_file: None
     new_settings:
     - define: 'version="%build_ver%"'
@@ -128,24 +123,24 @@ Process:
 - Processor: com.github.NickETH.recipes.SharedProcessors/MSBuildRun
   Comment: Run the MSBuild script to generate the TortoiseGit Languages MSM module addon.
   Arguments:
-    build_file: '%BUILD_DIR%\%pkg_dir%\wixproject\%ADDON_NAME%%PF_STRING%.build'
-    build_folder: '%BUILD_DIR%\%pkg_dir%\wixproject'
-    build_property: BuildPlatform=%PLATFORM%;BuildName=%ADDON_NAME%;BuildDir=%BUILD_DIR%\%pkg_dir%\wixproject;SourceDir=%BUILD_DIR%\%pkg_dir%\wixproject\%NAME%;version=%build_ver%;Platformstr=%PF_STRING%;LangStr=%LANG_STRING%
+    build_file: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\wixproject\%ADDON_NAME%%PF_STRING%.build'
+    build_folder: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\wixproject'
+    build_property: BuildPlatform=%PLATFORM%;BuildName=%ADDON_NAME%;BuildDir=%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\wixproject;SourceDir=%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\wixproject\%NAME%;version=%build_ver%;Platformstr=%PF_STRING%;LangStr=%LANG_STRING%
     build_target: WIX
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/MSIimportMergeModule
   Arguments:
-    log_file_abs: '%BUILD_DIR%\%pkg_dir%\wixproject\MSM-log.txt'
-    msi_path: '%BUILD_DIR%\%pkg_dir%\release\%NAME%%PF_STRING%_%version%%LANG_STRING%.msi'
+    log_file_abs: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\wixproject\MSM-log.txt'
+    msi_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\release\%NAME%%PF_STRING%_%version%%LANG_STRING%.msi'
     msm_dir: INSTALLDIR
     msm_feature: '%ADDON_NAME%'
-    msm_path: '%BUILD_DIR%\%pkg_dir%\wixproject\%ADDON_NAME%%PF_STRING%_%version%.msm'
-    pkg_dir_abs: '%BUILD_DIR%\%pkg_dir%'
-    temp_path: '%BUILD_DIR%\%pkg_dir%\wixproject'
+    msm_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\wixproject\%ADDON_NAME%%PF_STRING%_%version%.msm'
+    pkg_dir_abs: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%'
+    temp_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\wixproject'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/MSIRunSQL
   Arguments:
     SQL_command:
     - INSERT INTO `Feature` (`Feature`.`Feature`,`Feature`.`Feature_Parent`,`Feature`.`Title`,`Feature`.`Description`, `Feature`.`Display`,`Feature`.`Level`,`Feature`.`Directory_`,`Feature`.`Attributes`) VALUES ('%ADDON_NAME%','DefaultFeature','%ADDON_NAME%','Install %ADDON_NAME%',11,1,'INSTALLDIR',8)
     - UPDATE `Property` SET `Property`.`Value`='%NAME% x64 ML' WHERE `Property`.`Property`='ProductName'
-    msi_path: '%BUILD_DIR%\%pkg_dir%\release\%NAME%%PF_STRING%_%version%%LANG_STRING%.msi'
+    msi_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\release\%NAME%%PF_STRING%_%version%%LANG_STRING%.msi'
