@@ -16,7 +16,7 @@ Process:
 - Processor: URLTextSearcher
   Arguments:
     re_pattern: '%SEARCH_URL_GER%'
-    url: http://sourceforge.net/api/file/index/project-id/95013/rss
+    url: https://sourceforge.net/api/file/index/project-id/95013/rss
 
 - Processor: URLDownloader
   Arguments:
@@ -27,7 +27,7 @@ Process:
 - Processor: URLTextSearcher
   Arguments:
     re_pattern: '%SEARCH_URL_FRA%'
-    url: http://sourceforge.net/api/file/index/project-id/95013/rss
+    url: https://sourceforge.net/api/file/index/project-id/95013/rss
 
 - Processor: URLDownloader
   Arguments:
@@ -38,7 +38,7 @@ Process:
 - Processor: URLTextSearcher
   Arguments:
     re_pattern: '%SEARCH_URL_ITA%'
-    url: http://sourceforge.net/api/file/index/project-id/95013/rss
+    url: https://sourceforge.net/api/file/index/project-id/95013/rss
 
 - Processor: URLDownloader
   Arguments:
@@ -49,7 +49,7 @@ Process:
 - Processor: URLTextSearcher
   Arguments:
     re_pattern: '%SEARCH_URL_SPA%'
-    url: http://sourceforge.net/api/file/index/project-id/95013/rss
+    url: https://sourceforge.net/api/file/index/project-id/95013/rss
 
 - Processor: URLDownloader
   Arguments:
