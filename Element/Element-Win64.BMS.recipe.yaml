@@ -7,7 +7,6 @@ Input:
   NAME: Element
   PLATFORM: x64
   VENDOR: element.io
-  PLATFORM: x64
   PF_STRING: _64
   LANG_STRING: _ML
   DEFAULT_SRV: 'matrix.org'
