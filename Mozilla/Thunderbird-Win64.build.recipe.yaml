@@ -34,45 +34,40 @@ Process:
     file_content: '%build_ver%'
     file_path: '%RECIPE_CACHE_DIR%\version.txt'
 
-- Processor: com.github.sebtomasi.SharedProcessors/RenameVar
-  Arguments:
-    input_var: Thunderbird_64_%build_ver%_ML
-    rename_var: pkg_dir
-
 - Processor: com.github.NickETH.recipes.SharedProcessors/WixDefaults
   Arguments:
-    build_dir: '%BUILD_DIR%\%pkg_dir%'
+    build_dir: '%BUILD_DIR%\Thunderbird_64_%build_ver%_ML'
     build_ver: '%build_ver%'
     org_ver: '%version%'
     prop_file: wixproject\global.prop
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/FileDateVersionSubst
   Arguments:
-    file_path: '%BUILD_DIR%\%pkg_dir%\read\create-log-Thunderbird_64_%build_ver%_ML.txt'
+    file_path: '%BUILD_DIR%\Thunderbird_64_%build_ver%_ML\read\create-log-Thunderbird_64_%build_ver%_ML.txt'
     new_ver: '%version%'
     re_pattern: '[0-9][0-9]\.[0-9]+\.[0-9]+'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/FileDateVersionSubst
   Arguments:
-    file_path: '%BUILD_DIR%\%pkg_dir%\read\readme-Thunderbird_64_%build_ver%_ML.txt'
+    file_path: '%BUILD_DIR%\Thunderbird_64_%build_ver%_ML\read\readme-Thunderbird_64_%build_ver%_ML.txt'
     new_ver: '%version%'
     re_pattern: '[0-9][0-9]\.[0-9]+\.[0-9]+'
 
 - Processor: Copier
   Arguments:
-    destination_path: '%BUILD_DIR%\%pkg_dir%\sourcepkt\%NAME%-Setup-%PLATFORM_STR%.exe'
+    destination_path: '%BUILD_DIR%\Thunderbird_64_%build_ver%_ML\sourcepkt\%NAME%-Setup-%PLATFORM_STR%.exe'
     overwrite: 'true'
     source_path: '%pathname%'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/MozillaAddonIntegrator
   Comment: Integrate Addons into the install. Enable Sideloading in omni.ja
   Arguments:
-    app_build_path: '%BUILD_DIR%\%pkg_dir%\wixproject'
+    app_build_path: '%BUILD_DIR%\Thunderbird_64_%build_ver%_ML\wixproject'
     application_name: Mozilla Thunderbird
     config_file_path: modules\AppConstants.sys.mjs
-    ext_install_path: '%BUILD_DIR%\%pkg_dir%\wixproject\Mozilla Thunderbird\extensions'
-    ext_install_xslt: '%BUILD_DIR%\%pkg_dir%\wixproject\GUID-Preserve-x64.xslt'
-    install_exe: '%BUILD_DIR%\%pkg_dir%\sourcepkt\%NAME%-Setup-%PLATFORM_STR%.exe'
+    ext_install_path: '%BUILD_DIR%\Thunderbird_64_%build_ver%_ML\wixproject\Mozilla Thunderbird\extensions'
+    ext_install_xslt: '%BUILD_DIR%\Thunderbird_64_%build_ver%_ML\wixproject\GUID-Preserve-x64.xslt'
+    install_exe: '%BUILD_DIR%\Thunderbird_64_%build_ver%_ML\sourcepkt\%NAME%-Setup-%PLATFORM_STR%.exe'
     new_extensions:
     - de.xpi|||https://releases.mozilla.org/pub/thunderbird/releases/%version%%ESR_STRING%/linux-x86_64/xpi/de.xpi|||ExtlpDEFiles
     - fr.xpi|||https://releases.mozilla.org/pub/thunderbird/releases/%version%%ESR_STRING%/linux-x86_64/xpi/fr.xpi|||ExtlpFRFiles
@@ -93,22 +88,22 @@ Process:
     - CompactHeader.xpi|||%INTERNAL_EXT_URL%/compact_headers-latest.xpi|||ExtCompactHeaderFiles
     - LookOut.xpi|||%INTERNAL_EXT_URL%/lookout_fix_version-latest.xpi|||ExtLookOutFiles
     omni_path: omni.ja
-    temp_path: '%BUILD_DIR%\%pkg_dir%\adm'
+    temp_path: '%BUILD_DIR%\Thunderbird_64_%build_ver%_ML\adm'
     #- sieve.xpi|||https://polybox.ethz.ch/index.php/s/G6e4OKrKqIBk3LR/download|||ExtSieveFiles
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/DateTimeStamps
 
 - Processor: com.github.haircut.processors/AppIconExtractor
   Arguments:
-    ICON_PATH: '%BUILD_DIR%\%pkg_dir%\icons'
+    ICON_PATH: '%BUILD_DIR%\Thunderbird_64_%build_ver%_ML\icons'
     icon_file_number: 0
     # composite_padding: 20
     # composite_position: ul
     # composite_uninstall_path: '%RECIPE_CACHE_DIR%/Icon-Uninstall-%NAME%.png'
     # composite_uninstall_template: /Users/haircut/Documents/delete.png
     icon_output_path: '%ICON_PATH%\Icon-%NAME%.png'
-    source_app: '%BUILD_DIR%\%pkg_dir%\wixproject\Mozilla Thunderbird\thunderbird.exe'
-    # source_app: '%BUILD_DIR%\%pkg_dir%\release\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%.msi'
+    source_app: '%BUILD_DIR%\Thunderbird_64_%build_ver%_ML\wixproject\Mozilla Thunderbird\thunderbird.exe'
+    # source_app: '%BUILD_DIR%\Thunderbird_64_%build_ver%_ML\release\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%.msi'
     #msi_icon_name: 'MainExecutableIcon.ico'
     composite_uninstall_path: '%ICON_PATH%\Icon-Uninstall-%NAME%.png'
     composite_update_path: '%ICON_PATH%\Icon-Update-%NAME%.png'
@@ -116,6 +111,6 @@ Process:
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/NANTrun
   Arguments:
-    run_folder: '%BUILD_DIR%\%pkg_dir%\wixproject'
+    run_folder: '%BUILD_DIR%\Thunderbird_64_%build_ver%_ML\wixproject'
 
 - Processor: EndOfCheckPhase

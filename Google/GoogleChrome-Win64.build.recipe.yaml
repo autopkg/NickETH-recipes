@@ -37,20 +37,15 @@ Process:
     recipe_dir: '%RECIPE_DIR%'
     recipe_path: '%RECIPE_PATH%'
 
-- Processor: com.github.sebtomasi.SharedProcessors/RenameVar
-  Arguments:
-    input_var: '%NAME%%PF_STRING%_%build_ver%_ML'
-    rename_var: pkg_dir
-
 - Processor: Copier
   Arguments:
-    destination_path: '%BUILD_DIR%\%pkg_dir%\sourceunzipped\GoogleChromeEnterprise-%PLATFORM%.msi'
+    destination_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\sourceunzipped\GoogleChromeEnterprise-%PLATFORM%.msi'
     overwrite: 'true'
     source_path: '%pathname%'
 
 - Processor: Copier
   Arguments:
-    destination_path: '%BUILD_DIR%\%pkg_dir%\release\%NAME%%PF_STRING%_%version%%LANG_STRING%.msi'
+    destination_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\release\%NAME%%PF_STRING%_%version%%LANG_STRING%.msi'
     overwrite: 'true'
     source_path: '%pathname%'
 
@@ -58,14 +53,14 @@ Process:
   Comment: Applies the Settings-Transform to the GoogleChrome.msi in the release folder
   Arguments:
     mode: -a
-    msi_path: '%BUILD_DIR%\%pkg_dir%\release\%NAME%%PF_STRING%_%version%%LANG_STRING%.msi'
-    mst_paths: '%BUILD_DIR%\%pkg_dir%\helpers\GChrome64_Enterprise_byAutoPkg.mst'
+    msi_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\release\%NAME%%PF_STRING%_%version%%LANG_STRING%.msi'
+    mst_paths: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\helpers\GChrome64_Enterprise_byAutoPkg.mst'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/MSIRunSQLget
   Comment: get the ProductCode GUID from the MSI
   Arguments:
     SQL_command: SELECT `Value` FROM `Property` WHERE `Property`='ProductCode'
-    msi_path: '%BUILD_DIR%\%pkg_dir%\release\%NAME%%PF_STRING%_%version%%LANG_STRING%.msi'
+    msi_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\release\%NAME%%PF_STRING%_%version%%LANG_STRING%.msi'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/ChromiumSettings
   Comment: Generate the settings JSON and encode it
@@ -111,26 +106,26 @@ Process:
   Comment: Set the correct version / Harden the uninstall command / set the install options
   Arguments:
     SQL_command:
-    #- UPDATE `Property` SET `Property`.`Value`='%msiversion%' WHERE `Property`.`Property`='ProductVersion'
+    #- UPDATE `Property` SET `Property`.`Value`='%ver_major%.%ver_minor%.%build%' WHERE `Property`.`Property`='ProductVersion'
     - UPDATE `Property` SET `Property`.`Value`='%chrm_settings_url%' WHERE `Property`.`Property`='MASTER_PREFERENCES'
     - UPDATE `InstallExecuteSequence` SET `InstallExecuteSequence`.`Condition`='((?ProductClientState=3) AND ($ProductClientState=2) AND NOT UPGRADINGPRODUCTCODE) AND UNINSTALLCMDLINE AND UNINSTALLCMDARGS' WHERE `InstallExecuteSequence`.`Action`='CallUninstaller'
     #- DELETE FROM `Upgrade` WHERE `Upgrade`.`ActionProperty`='UPGRADEFOUND'
     #- DELETE FROM `Upgrade` WHERE `Upgrade`.`ActionProperty`='NEWPRODUCTFOUND'
-    #- INSERT INTO `Upgrade` (`Upgrade`.`UpgradeCode`,`Upgrade`.`VersionMin`,`Upgrade`.`VersionMax`,`Upgrade`.`Attributes`, `Upgrade`.`ActionProperty`) VALUES ('{C1DFDF69-5945-32F2-A35E-EE94C99C7CF4}','0.0.0','%msiversion%',768,'UPGRADEFOUND')
-    #- INSERT INTO `Upgrade` (`Upgrade`.`UpgradeCode`,`Upgrade`.`VersionMin`,`Upgrade`.`VersionMax`,`Upgrade`.`Attributes`, `Upgrade`.`ActionProperty`) VALUES ('{C1DFDF69-5945-32F2-A35E-EE94C99C7CF4}','%msiversion%','',0,'NEWPRODUCTFOUND')
-    msi_path: '%BUILD_DIR%\%pkg_dir%\release\%NAME%%PF_STRING%_%version%%LANG_STRING%.msi'
+    #- INSERT INTO `Upgrade` (`Upgrade`.`UpgradeCode`,`Upgrade`.`VersionMin`,`Upgrade`.`VersionMax`,`Upgrade`.`Attributes`, `Upgrade`.`ActionProperty`) VALUES ('{C1DFDF69-5945-32F2-A35E-EE94C99C7CF4}','0.0.0','%ver_major%.%ver_minor%.%build%',768,'UPGRADEFOUND')
+    #- INSERT INTO `Upgrade` (`Upgrade`.`UpgradeCode`,`Upgrade`.`VersionMin`,`Upgrade`.`VersionMax`,`Upgrade`.`Attributes`, `Upgrade`.`ActionProperty`) VALUES ('{C1DFDF69-5945-32F2-A35E-EE94C99C7CF4}','%ver_major%.%ver_minor%.%build%','',0,'NEWPRODUCTFOUND')
+    msi_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\release\%NAME%%PF_STRING%_%version%%LANG_STRING%.msi'
 
 - Processor: com.github.haircut.processors/AppIconExtractor
   Arguments:
-    ICON_PATH: '%BUILD_DIR%\%pkg_dir%\icons'
+    ICON_PATH: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\icons'
     icon_file_number: 0
     # composite_padding: 20
     # composite_position: ul
     # composite_uninstall_path: '%RECIPE_CACHE_DIR%/Icon-Uninstall-%NAME%.png'
     # composite_uninstall_template: /Users/haircut/Documents/delete.png
     icon_output_path: '%ICON_PATH%\Icon-%NAME%.png'
-    #source_app: '%BUILD_DIR%\%pkg_dir%\sourcepkt\%filename%'
-    source_app: '%BUILD_DIR%\%pkg_dir%\release\%NAME%%PF_STRING%_%version%%LANG_STRING%.msi'
+    #source_app: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\sourcepkt\%filename%'
+    source_app: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\release\%NAME%%PF_STRING%_%version%%LANG_STRING%.msi'
     #msi_icon_name: 'MainExecutableIcon.ico'
     composite_uninstall_path: '%ICON_PATH%\Icon-Uninstall-%NAME%.png'
     composite_update_path: '%ICON_PATH%\Icon-Update-%NAME%.png'
@@ -140,13 +135,13 @@ Process:
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/FileDateVersionSubst
   Arguments:
-    file_path: '%BUILD_DIR%\%pkg_dir%\read\create-log-%NAME%%PF_STRING%_%version%%LANG_STRING%.txt'
+    file_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\read\create-log-%NAME%%PF_STRING%_%version%%LANG_STRING%.txt'
     new_ver: '%version%'
     re_pattern: '[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/FileDateVersionSubst
   Arguments:
-    file_path: '%BUILD_DIR%\%pkg_dir%\read\readme-%NAME%%PF_STRING%_%version%%LANG_STRING%.txt'
+    file_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\read\readme-%NAME%%PF_STRING%_%version%%LANG_STRING%.txt'
     new_ver: '%version%'
     re_pattern: '[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+'
 
@@ -156,6 +151,6 @@ Process:
       /j: Google Chrome x64 %build_ver% ML
       /o: Altered and hardened version for corporate use. %us_date% by AutoPkg
       /t: Google Chrome x64 %build_ver% ML
-    msi_path: '%BUILD_DIR%\%pkg_dir%\release\%NAME%%PF_STRING%_%version%%LANG_STRING%.msi'
+    msi_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\release\%NAME%%PF_STRING%_%version%%LANG_STRING%.msi'
 
 - Processor: EndOfCheckPhase

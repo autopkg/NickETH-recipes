@@ -22,16 +22,6 @@ Process:
     - DOTALL
     url: https://api.adoptium.net/v3/assets/latest/%FEATUREVER%/hotspot?vendor=adoptium
 
-- Processor: com.github.sebtomasi.SharedProcessors/RenameVar
-  Arguments:
-    input_var: '%ver_major%.%ver_majorminor%.%ver_minor%.%ver_build%'
-    rename_var: version
-
-- Processor: com.github.sebtomasi.SharedProcessors/RenameVar
-  Arguments:
-    input_var: '%ver_major%%ver_majorminor%%ver_minor%%ver_build%'
-    rename_var: version_string
-
 - Processor: URLTextSearcher
   Arguments:
     curl_opts:
@@ -45,16 +35,6 @@ Process:
     #re_pattern: '"(?P<zuludlfile>(?P<zuludldir>zulu.+-ca-fx-%PRODUCT%%ver_major%.%ver_majorminor%.%ver_minor%-win_%ZULUPLATFORM%).zip)"'
     #url: https://cdn.azul.com/zulu/bin
 
-- Processor: com.github.sebtomasi.SharedProcessors/RenameVar
-  Arguments:
-    input_var: '%match%'
-    rename_var: zululink
-
-- Processor: com.github.sebtomasi.SharedProcessors/RenameVar
-  Arguments:
-    input_var: '%ver_major%,%ver_majorminor%,%ver_minor%'
-    rename_var: ASver
-
 - Processor: URLDownloader
   Arguments:
     CHECK_FILESIZE_ONLY: 'False'
@@ -66,16 +46,11 @@ Process:
     expected_subject: CN="Eclipse.org Foundation, Inc.", O="Eclipse.org Foundation, Inc.", L=Ottawa, S=Ontario, C=CA
     input_path: '%pathname%'
 
-- Processor: com.github.sebtomasi.SharedProcessors/RenameVar
-  Arguments:
-    input_var: '%pathname%'
-    rename_var: path_msi
-
 - Processor: URLDownloader
   Arguments:
     CHECK_FILESIZE_ONLY: 'False'
     filename: '%DOWNLOAD_FILE%_zulu_%PLATFORM%.zip'
-    url: '%zululink%'
+    url: '%match%'
 
 - Processor: StopProcessingIf
   Arguments:
@@ -83,7 +58,7 @@ Process:
 
 - Processor: FileCreator
   Arguments:
-    file_content: '%version%'
+    file_content: '%ver_major%.%ver_majorminor%.%ver_minor%.%ver_build%'
     file_path: '%RECIPE_CACHE_DIR%\version.txt'
 
 - Processor: EndOfCheckPhase

@@ -16,7 +16,7 @@ Process:
     PrevVerFiles: PrevVerFiles.txt
     build_dir: '%BUILD_DIR%'
     folder_list: sourcepkt:sourceunzipped:release:read:helpers:wixproject
-    org_ver: '%version%'
+    org_ver: '%match%'
     pkg_dir: Firefox_::VVeerrssiioonn::_ML
     recipe_cache_dir: '%RECIPE_CACHE_DIR%'
     recipe_dir: '%RECIPE_DIR%'
@@ -28,33 +28,28 @@ Process:
     file_content: '%build_ver%'
     file_path: '%RECIPE_CACHE_DIR%\version.txt'
 
-- Processor: com.github.sebtomasi.SharedProcessors/RenameVar
-  Arguments:
-    input_var: Firefox_%build_ver%_ML
-    rename_var: pkg_dir
-
 - Processor: com.github.NickETH.recipes.SharedProcessors/WixDefaults
   Arguments:
-    build_dir: '%BUILD_DIR%\%pkg_dir%'
+    build_dir: '%BUILD_DIR%\Firefox_%build_ver%_ML'
     build_ver: '%build_ver%'
-    org_ver: '%version%'
+    org_ver: '%match%'
     prop_file: wixproject\global.prop
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/FileDateVersionSubst
   Arguments:
-    file_path: '%BUILD_DIR%\%pkg_dir%\read\create-log-FireFox_%build_ver%_ML.txt'
+    file_path: '%BUILD_DIR%\Firefox_%build_ver%_ML\read\create-log-FireFox_%build_ver%_ML.txt'
     new_ver: '%build_ver%'
     re_pattern: '[0-9][0-9]\.[0-9]+\.[0-9]+'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/FileDateVersionSubst
   Arguments:
-    file_path: '%BUILD_DIR%\%pkg_dir%\read\readme-Firefox_%build_ver%_ML.txt'
+    file_path: '%BUILD_DIR%\Firefox_%build_ver%_ML\read\readme-Firefox_%build_ver%_ML.txt'
     new_ver: '%build_ver%'
     re_pattern: '[0-9][0-9]\.[0-9]+\.[0-9]+'
 
 - Processor: Copier
   Arguments:
-    destination_path: '%BUILD_DIR%\%pkg_dir%\sourcepkt\%NAME%-Setup-%PLATFORM_STR%.exe'
+    destination_path: '%BUILD_DIR%\Firefox_%build_ver%_ML\sourcepkt\%NAME%-Setup-%PLATFORM_STR%.exe'
     overwrite: 'true'
     source_path: '%pathname%'
 
@@ -63,36 +58,36 @@ Process:
 - Processor: com.github.NickETH.recipes.SharedProcessors/MozillaAddonIntegrator
   Comment: Integrate Addons into the install. Enable Sideloading in omni.ja
   Arguments:
-    app_build_path: '%BUILD_DIR%\%pkg_dir%\wixproject'
+    app_build_path: '%BUILD_DIR%\Firefox_%build_ver%_ML\wixproject'
     application_name: Mozilla Firefox
     config_file_path: modules\AppConstants.sys.mjs
-    ext_install_path: '%BUILD_DIR%\%pkg_dir%\wixproject\Mozilla Firefox\browser\extensions'
-    ext_install_xslt: '%BUILD_DIR%\%pkg_dir%\wixproject\GUID-Preserve.xslt'
-    install_exe: '%BUILD_DIR%\%pkg_dir%\sourcepkt\%NAME%-Setup-%PLATFORM_STR%.exe'
+    ext_install_path: '%BUILD_DIR%\Firefox_%build_ver%_ML\wixproject\Mozilla Firefox\browser\extensions'
+    ext_install_xslt: '%BUILD_DIR%\Firefox_%build_ver%_ML\wixproject\GUID-Preserve.xslt'
+    install_exe: '%BUILD_DIR%\Firefox_%build_ver%_ML\sourcepkt\%NAME%-Setup-%PLATFORM_STR%.exe'
     new_extensions:
-    - de.xpi|||https://ftp.mozilla.org/pub/firefox/releases/%version%/win64/xpi/de.xpi|||ExtlpDEFiles
-    - fr.xpi|||https://ftp.mozilla.org/pub/firefox/releases/%version%/win64/xpi/fr.xpi|||ExtlpFRFiles
-    - it.xpi|||https://ftp.mozilla.org/pub/firefox/releases/%version%/win64/xpi/it.xpi|||ExtlpITFiles
-    - rm.xpi|||https://ftp.mozilla.org/pub/firefox/releases/%version%/win64/xpi/rm.xpi|||ExtlpRMFiles
+    - de.xpi|||https://ftp.mozilla.org/pub/firefox/releases/%match%/win64/xpi/de.xpi|||ExtlpDEFiles
+    - fr.xpi|||https://ftp.mozilla.org/pub/firefox/releases/%match%/win64/xpi/fr.xpi|||ExtlpFRFiles
+    - it.xpi|||https://ftp.mozilla.org/pub/firefox/releases/%match%/win64/xpi/it.xpi|||ExtlpITFiles
+    - rm.xpi|||https://ftp.mozilla.org/pub/firefox/releases/%match%/win64/xpi/rm.xpi|||ExtlpRMFiles
     - dict-de.xpi|||https://addons.mozilla.org/firefox/downloads/latest/german-dictionary-de_ch-for-sp/|||ExtdicDEFiles
     - dict-fr.xpi|||https://addons.mozilla.org/firefox/downloads/file/3581786/|||ExtdicFRFiles
     - dict-it.xpi|||https://addons.mozilla.org/firefox/downloads/latest/dizionario-italiano/|||ExtdicITFiles
     - noscript.xpi|||https://addons.mozilla.org/firefox/downloads/latest/noscript/|||ExtNoscriptFiles
     - adblock.xpi|||https://addons.mozilla.org/firefox/downloads/latest/adblock-plus/|||ExtAdblockFiles
     omni_path: omni.ja
-    temp_path: '%BUILD_DIR%\%pkg_dir%\adm'
+    temp_path: '%BUILD_DIR%\Firefox_%build_ver%_ML\adm'
 
 - Processor: com.github.haircut.processors/AppIconExtractor
   Arguments:
-    ICON_PATH: '%BUILD_DIR%\%pkg_dir%\icons'
+    ICON_PATH: '%BUILD_DIR%\Firefox_%build_ver%_ML\icons'
     icon_file_number: 0
     # composite_padding: 20
     # composite_position: ul
     # composite_uninstall_path: '%RECIPE_CACHE_DIR%/Icon-Uninstall-%NAME%.png'
     # composite_uninstall_template: /Users/haircut/Documents/delete.png
     icon_output_path: '%ICON_PATH%\Icon-%NAME%.png'
-    source_app: '%BUILD_DIR%\%pkg_dir%\wixproject\Mozilla Firefox\firefox.exe'
-    # source_app: '%BUILD_DIR%\%pkg_dir%\release\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%.msi'
+    source_app: '%BUILD_DIR%\Firefox_%build_ver%_ML\wixproject\Mozilla Firefox\firefox.exe'
+    # source_app: '%BUILD_DIR%\Firefox_%build_ver%_ML\release\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%.msi'
     #msi_icon_name: 'MainExecutableIcon.ico'
     composite_uninstall_path: '%ICON_PATH%\Icon-Uninstall-%NAME%.png'
     composite_update_path: '%ICON_PATH%\Icon-Update-%NAME%.png'
@@ -100,6 +95,6 @@ Process:
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/NANTrun
   Arguments:
-    run_folder: '%BUILD_DIR%\%pkg_dir%\wixproject'
+    run_folder: '%BUILD_DIR%\Firefox_%build_ver%_ML\wixproject'
 
 - Processor: EndOfCheckPhase

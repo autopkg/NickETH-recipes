@@ -49,16 +49,11 @@ Process:
     recipe_path: '%RECIPE_PATH%'
     ver_fields: '4'
 
-- Processor: com.github.sebtomasi.SharedProcessors/RenameVar
-  Arguments:
-    input_var: '%NAME%%PF_STRING%_%version%_ML'
-    rename_var: pkg_dir
-
 - Processor: com.github.NickETH.recipes.SharedProcessors/SevenZipExtractor
   Comment: Extract the MobaXterm installer
   Arguments:
     exe_path: '%pathname%'
-    extract_dir: '%BUILD_DIR%\%pkg_dir%\sourceunzipped\'
+    extract_dir: '%BUILD_DIR%\%NAME%%PF_STRING%_%version%_ML\sourceunzipped\'
     extract_file: '*'
     ignore_pattern: ''
     preserve_paths: 'True'
@@ -66,36 +61,36 @@ Process:
 # - Processor: FileFinder
   # Comment: Get the the name of the extracted MSI-File.
   # Arguments:
-    # pattern: '%BUILD_DIR%\%pkg_dir%\sourceunzipped\*.msi'
+    # pattern: '%BUILD_DIR%\%NAME%%PF_STRING%_%version%_ML\sourceunzipped\*.msi'
 
 - Processor: Copier
   Comment: Copy the MobaXterm installer msi file to the release dir
   Arguments:
-    destination_path: '%BUILD_DIR%\%pkg_dir%\release\%NAME%%PF_STRING%_%version%_ML.MSI'
+    destination_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%version%_ML\release\%NAME%%PF_STRING%_%version%_ML.MSI'
     overwrite: 'true'
-    source_path: '%BUILD_DIR%\%pkg_dir%\sourceunzipped\%found_basename%'
+    source_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%version%_ML\sourceunzipped\%found_basename%'
 
 # - Processor: FileMover
   # Comment: Move the MobaXterm msi file to the release dir
   # Arguments:
-    # target: '%BUILD_DIR%\%pkg_dir%\release\%NAME%%PF_STRING%_%version%_ML.MSI'
+    # target: '%BUILD_DIR%\%NAME%%PF_STRING%_%version%_ML\release\%NAME%%PF_STRING%_%version%_ML.MSI'
     # source: '%found_filename%'
 
 - Processor: FileFinder
   Comment: Get the the name of the extracted DAT-File
   Arguments:
-    pattern: '%BUILD_DIR%\%pkg_dir%\sourceunzipped\*.dat'
+    pattern: '%BUILD_DIR%\%NAME%%PF_STRING%_%version%_ML\sourceunzipped\*.dat'
 
 # - Processor: FileMover
   # Comment: Move the MobaXterm dat file to the release dir
   # Arguments:
-    # target: '%BUILD_DIR%\%pkg_dir%\release\%found_basename%'
+    # target: '%BUILD_DIR%\%NAME%%PF_STRING%_%version%_ML\release\%found_basename%'
     # source: '%found_filename%'
 
 - Processor: Copier
   Comment: Copy the MobaXterm dat file to the release dir
   Arguments:
-    destination_path: '%BUILD_DIR%\%pkg_dir%\release\%found_basename%'
+    destination_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%version%_ML\release\%found_basename%'
     overwrite: 'true'
     source_path: '%found_filename%'
 
@@ -103,40 +98,40 @@ Process:
   Comment: Merges the WixFirewallCA-merge.msi with the main MSI-file
   Arguments:
     mode: -m
-    msi_path: '%BUILD_DIR%\%pkg_dir%\release\%NAME%%PF_STRING%_%version%_ML.MSI'
-    workfile: '%BUILD_DIR%\%pkg_dir%\helpers\WixFirewallCA-merge.msi'
+    msi_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%version%_ML\release\%NAME%%PF_STRING%_%version%_ML.MSI'
+    workfile: '%BUILD_DIR%\%NAME%%PF_STRING%_%version%_ML\helpers\WixFirewallCA-merge.msi'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/MSITransformer
   Comment: Apply the per Computer transform to the Teams MSI
   Arguments:
     mode: -a
-    msi_path: '%BUILD_DIR%\%pkg_dir%\release\%NAME%%PF_STRING%_%version%_ML.MSI'
-    mst_paths: '%BUILD_DIR%\%pkg_dir%\helpers\MobaXtermFW.mst'
+    msi_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%version%_ML\release\%NAME%%PF_STRING%_%version%_ML.MSI'
+    mst_paths: '%BUILD_DIR%\%NAME%%PF_STRING%_%version%_ML\helpers\MobaXtermFW.mst'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/DateTimeStamps
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/FileDateVersionSubst
   Arguments:
-    file_path: '%BUILD_DIR%\%pkg_dir%\read\create-log-%NAME%%PF_STRING%_%version%_ML.txt'
+    file_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%version%_ML\read\create-log-%NAME%%PF_STRING%_%version%_ML.txt'
     new_ver: '%version%'
     re_pattern: '[0-9]+\.[0-9]+\.[0-9]+'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/FileDateVersionSubst
   Arguments:
-    file_path: '%BUILD_DIR%\%pkg_dir%\read\readme-%NAME%%PF_STRING%_%version%_ML.txt'
+    file_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%version%_ML\read\readme-%NAME%%PF_STRING%_%version%_ML.txt'
     new_ver: '%version%'
     re_pattern: '[0-9]+\.[0-9]+\.[0-9]+'
 
 - Processor: com.github.haircut.processors/AppIconExtractor
   Arguments:
-    ICON_PATH: '%BUILD_DIR%\%pkg_dir%\icons'
+    ICON_PATH: '%BUILD_DIR%\%NAME%%PF_STRING%_%version%_ML\icons'
     icon_file_number: 0
     # composite_padding: 20
     # composite_position: ul
     # composite_uninstall_path: '%RECIPE_CACHE_DIR%/Icon-Uninstall-%NAME%.png'
     # composite_uninstall_template: /Users/haircut/Documents/delete.png
     icon_output_path: '%ICON_PATH%\Icon-%NAME%.png'
-    source_app: '%BUILD_DIR%\%pkg_dir%\release\%NAME%%PF_STRING%_%version%_ML.MSI'
+    source_app: '%BUILD_DIR%\%NAME%%PF_STRING%_%version%_ML\release\%NAME%%PF_STRING%_%version%_ML.MSI'
     msi_icon_name: 'MobaXterm.ico'
     composite_uninstall_path: '%ICON_PATH%/Icon-Uninstall-%NAME%.png'
     composite_update_path: '%ICON_PATH%/Icon-Update-%NAME%.png'

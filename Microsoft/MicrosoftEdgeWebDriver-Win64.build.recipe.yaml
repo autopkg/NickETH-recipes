@@ -26,23 +26,18 @@ Process:
     recipe_path: '%RECIPE_PATH%'
     ver_fields: '4'
 
-- Processor: com.github.sebtomasi.SharedProcessors/RenameVar
-  Arguments:
-    input_var: '%VENDOR%_%NAME%%PF_STRING%_%version%_ML'
-    rename_var: pkg_dir
-
 - Processor: Copier
   Comment: Copy the Edge Webdriver zip file to the build dir
   Arguments:
-    destination_path: '%BUILD_DIR%\%pkg_dir%\sourcepkt\%filename%'
+    destination_path: '%BUILD_DIR%\%VENDOR%_%NAME%%PF_STRING%_%version%_ML\sourcepkt\%filename%'
     overwrite: 'true'
     source_path: '%pathname%'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/SevenZipExtractor
   Comment: Extract the Edge Webdriver exe to the release dir
   Arguments:
-    exe_path: '%BUILD_DIR%\%pkg_dir%\sourcepkt\%filename%'
-    extract_dir: '%BUILD_DIR%\%pkg_dir%\release\'
+    exe_path: '%BUILD_DIR%\%VENDOR%_%NAME%%PF_STRING%_%version%_ML\sourcepkt\%filename%'
+    extract_dir: '%BUILD_DIR%\%VENDOR%_%NAME%%PF_STRING%_%version%_ML\release\'
     extract_file: 'msedgedriver.exe'
     ignore_pattern: ''
     preserve_paths: 'False'
@@ -50,23 +45,23 @@ Process:
 - Processor: WindowsSignatureVerifier
   Arguments:
     expected_subject: CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US
-    input_path: '%BUILD_DIR%\%pkg_dir%\release\msedgedriver.exe'
+    input_path: '%BUILD_DIR%\%VENDOR%_%NAME%%PF_STRING%_%version%_ML\release\msedgedriver.exe'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/FileDateVersionSubst
   Arguments:
-    file_path: '%BUILD_DIR%\%pkg_dir%\read\create-log-%VENDOR%_%NAME%%PF_STRING%_%version%_ML.txt'
+    file_path: '%BUILD_DIR%\%VENDOR%_%NAME%%PF_STRING%_%version%_ML\read\create-log-%VENDOR%_%NAME%%PF_STRING%_%version%_ML.txt'
     new_ver: '%version%'
     re_pattern: '[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/FileDateVersionSubst
   Arguments:
-    file_path: '%BUILD_DIR%\%pkg_dir%\read\readme-%VENDOR%_%NAME%%PF_STRING%_%version%_ML.txt'
+    file_path: '%BUILD_DIR%\%VENDOR%_%NAME%%PF_STRING%_%version%_ML\read\readme-%VENDOR%_%NAME%%PF_STRING%_%version%_ML.txt'
     new_ver: '%version%'
     re_pattern: '[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+'
 
 # - Processor: Copier
   # Arguments:
-    # destination_path: '%BUILD_DIR%\%pkg_dir%\release\%VENDOR%_%NAME%%PF_STRING%_%version%_ML.exe'
+    # destination_path: '%BUILD_DIR%\%VENDOR%_%NAME%%PF_STRING%_%version%_ML\release\%VENDOR%_%NAME%%PF_STRING%_%version%_ML.exe'
     # overwrite: 'true'
     # source_path: '%pathname%'
 

@@ -20,17 +20,12 @@ Process:
     recipe_path: '%RECIPE_PATH%'
     ver_fields: '4'
 
-- Processor: com.github.sebtomasi.SharedProcessors/RenameVar
-  Arguments:
-    input_var: '%NAME%_64_%version%_EN'
-    rename_var: pkg_dir
-
 - Processor: com.github.NickETH.recipes.SharedProcessors/ExecuteFile
   Arguments:
     cmdline_args:
     - /s
     - /x
-    - /b%BUILD_DIR%\%pkg_dir%\sourceunzipped
+    - /b%BUILD_DIR%\%NAME%_64_%version%_EN\sourceunzipped
     - /v"/qn"
     exe_file: '%pathname%'
     exe_folder: '%RECIPE_CACHE_DIR%\downloads'
@@ -39,31 +34,31 @@ Process:
 - Processor: FileFinder
   Comment: Get the filename of the extracted MSI file
   Arguments:
-    pattern: '%BUILD_DIR%\%pkg_dir%\sourceunzipped\VanDyke*.msi'
+    pattern: '%BUILD_DIR%\%NAME%_64_%version%_EN\sourceunzipped\VanDyke*.msi'
 
 - Processor: FileMover
   Comment: Move the MSI file to the release dir.
   Arguments:
     overwrite: 'true'
     source: '%found_filename%'
-    target: '%BUILD_DIR%\%pkg_dir%\release\%NAME%_64_%build_ver%_EN.msi'
+    target: '%BUILD_DIR%\%NAME%_64_%version%_EN\release\%NAME%_64_%build_ver%_EN.msi'
 
 - Processor: Copier
   Comment: Save a copy of the downloaded ZIP to the build dir.
   Arguments:
-    destination_path: '%BUILD_DIR%\%pkg_dir%\sourcepkt\%filename%'
+    destination_path: '%BUILD_DIR%\%NAME%_64_%version%_EN\sourcepkt\%filename%'
     overwrite: 'true'
     source_path: '%pathname%'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/FileDateVersionSubst
   Arguments:
-    file_path: '%BUILD_DIR%\%pkg_dir%\read\create-log-SecureCRT_64_%build_ver%_EN.txt'
+    file_path: '%BUILD_DIR%\%NAME%_64_%version%_EN\read\create-log-SecureCRT_64_%build_ver%_EN.txt'
     new_ver: '%build_ver%'
     re_pattern: '[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/FileDateVersionSubst
   Arguments:
-    file_path: '%BUILD_DIR%\%pkg_dir%\read\readme-SecureCRT_64_%build_ver%_EN.txt'
+    file_path: '%BUILD_DIR%\%NAME%_64_%version%_EN\read\readme-SecureCRT_64_%build_ver%_EN.txt'
     new_ver: '%build_ver%'
     re_pattern: '[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+'
 

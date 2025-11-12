@@ -27,30 +27,25 @@ Process:
     recipe_path: '%RECIPE_PATH%'
     ver_fields: '3'
 
-- Processor: com.github.sebtomasi.SharedProcessors/RenameVar
-  Arguments:
-    input_var: '%NAME%%PF_STRING%_%build_ver%%LANG_STRING%'
-    rename_var: pkg_dir
-
 - Processor: Copier
   Comment: Save a copy of the downloaded MSI to the release dir.
   Arguments:
-    destination_path: '%BUILD_DIR%\%pkg_dir%\release\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%.msi'
+    destination_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\release\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%.msi'
     overwrite: 'true'
     source_path: '%pathname%'
 
 - Processor: Copier
   Comment: Save a copy of the corporate MST to the release dir.
   Arguments:
-    destination_path: '%BUILD_DIR%\%pkg_dir%\release\PDF24_Enterprise_byAutoPkg.mst'
+    destination_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\release\PDF24_Enterprise_byAutoPkg.mst'
     overwrite: 'true'
-    source_path: '%BUILD_DIR%\%pkg_dir%\helpers\PDF24_Enterprise_byAutoPkg.mst'
+    source_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\helpers\PDF24_Enterprise_byAutoPkg.mst'
 
 # - Processor: com.github.NickETH.recipes.SharedProcessors/SevenZipExtractor
   # Comment: Extract the InstantClient odbc zip archive
   # Arguments:
-    # exe_path: '%BUILD_DIR%\%pkg_dir%\release\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%.msi'
-    # extract_dir: '%BUILD_DIR%\%pkg_dir%\sourceunzipped\'
+    # exe_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\release\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%.msi'
+    # extract_dir: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\sourceunzipped\'
     # extract_file: 'putty.cab'
     # ignore_pattern: ''
     # preserve_paths: 'False'
@@ -58,15 +53,15 @@ Process:
 # - Processor: com.github.NickETH.recipes.SharedProcessors/SevenZipExtractor
   # Comment: Extract the InstantClient odbc zip archive
   # Arguments:
-    # exe_path: '%BUILD_DIR%\%pkg_dir%\sourceunzipped\putty.cab'
-    # extract_dir: '%BUILD_DIR%\%pkg_dir%\sourceunzipped\'
+    # exe_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\sourceunzipped\putty.cab'
+    # extract_dir: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\sourceunzipped\'
     # extract_file: 'PuTTY_File'
     # ignore_pattern: ''
     # preserve_paths: 'False'
     
 - Processor: com.github.haircut.processors/AppIconExtractor
   Arguments:
-    ICON_PATH: '%BUILD_DIR%\%pkg_dir%\icons'
+    ICON_PATH: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\icons'
     icon_file_number: 0
     # composite_padding: 20
     # composite_position: ul
@@ -81,13 +76,13 @@ Process:
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/FileDateVersionSubst
   Arguments:
-    file_path: '%BUILD_DIR%\%pkg_dir%\read\create-log-%NAME%%PF_STRING%_%build_ver%%LANG_STRING%.txt'
+    file_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\read\create-log-%NAME%%PF_STRING%_%build_ver%%LANG_STRING%.txt'
     new_ver: '%build_ver%'
     re_pattern: '[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/FileDateVersionSubst
   Arguments:
-    file_path: '%BUILD_DIR%\%pkg_dir%\read\readme-%NAME%%PF_STRING%_%build_ver%%LANG_STRING%.txt'
+    file_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\read\readme-%NAME%%PF_STRING%_%build_ver%%LANG_STRING%.txt'
     new_ver: '%build_ver%'
     re_pattern: '[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+'
 

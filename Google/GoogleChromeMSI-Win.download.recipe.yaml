@@ -17,11 +17,6 @@ Process:
     file_content: '%match%'
     file_path: '%RECIPE_CACHE_DIR%\version.txt'
 
-- Processor: com.github.sebtomasi.SharedProcessors/RenameVar
-  Arguments:
-    input_var: '%ver_major%.%ver_minor%.%build%'
-    rename_var: msiversion
-
 - Processor: URLDownloader
   Arguments:
     filename: GoogleChromeEnterprise-%PLATFORM%.msi

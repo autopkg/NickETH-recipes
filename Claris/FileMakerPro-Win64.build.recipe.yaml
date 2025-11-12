@@ -25,11 +25,6 @@ Process:
     recipe_path: '%RECIPE_PATH%'
     ver_fields: '4'
 
-- Processor: com.github.sebtomasi.SharedProcessors/RenameVar
-  Arguments:
-    input_var: '%NAME%%PF_STRING%_%build_ver%_ML'
-    rename_var: pkg_dir
-
 - Processor: com.github.jazzace.processors/TextSearcher
   Arguments:
     text_in: '%build_ver%'
@@ -45,44 +40,44 @@ Process:
 - Processor: Copier
   Comment: Copy the FileMaker installer file to the build dir
   Arguments:
-    destination_path: '%BUILD_DIR%\%pkg_dir%\sourcepkt\%filename%'
+    destination_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\sourcepkt\%filename%'
     overwrite: 'true'
     source_path: '%RECIPE_CACHE_DIR%\downloads\%filename%'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/SevenZipExtractor
   Comment: Extract the FileMaker exe installer wrapper
   Arguments:
-    exe_path: '%BUILD_DIR%\%pkg_dir%\sourcepkt\%filename%'
-    extract_dir: '%BUILD_DIR%\%pkg_dir%\sourceunzipped'
+    exe_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\sourcepkt\%filename%'
+    extract_dir: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\sourceunzipped'
     extract_file: '*'
     ignore_pattern: ''
     preserve_paths: 'True'
 
 - Processor: FileFinder
   Arguments:
-    pattern: '%BUILD_DIR%\%pkg_dir%\sourceunzipped\%ALTNAME%*'
+    pattern: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\sourceunzipped\%ALTNAME%*'
 
 - Processor: Copier
   Comment: Copy the FileMaker installer files to the release dir
   Arguments:
-    destination_path: '%BUILD_DIR%\%pkg_dir%\release\'
+    destination_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\release\'
     overwrite: 'true'
-    #source_path: '%BUILD_DIR%\%pkg_dir%\sourceunzipped\%ALTNAME% %short_version%\Files\'
+    #source_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\sourceunzipped\%ALTNAME% %short_version%\Files\'
     source_path: '%found_filename%\Files\'
 
 - Processor: Copier
   Comment: Make a copy from FileMaker MSI to the helpers folder to apply the language transform and additional properties
   Arguments:
-    destination_path: '%BUILD_DIR%\%pkg_dir%\helpers\%NAME%%PF_STRING%_1031.msi'
+    destination_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\helpers\%NAME%%PF_STRING%_1031.msi'
     overwrite: 'true'
-    source_path: '%BUILD_DIR%\%pkg_dir%\release\%ALTNAME% %MAJOR_VERSION%.msi'
+    source_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\release\%ALTNAME% %MAJOR_VERSION%.msi'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/MSITransformer
   Comment: Apply the language transform to the FileMaker MSI copy
   Arguments:
     mode: -a
-    msi_path: '%BUILD_DIR%\%pkg_dir%\helpers\%NAME%%PF_STRING%_1031.msi'
-    mst_paths: '%BUILD_DIR%\%pkg_dir%\release\1031.mst'
+    msi_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\helpers\%NAME%%PF_STRING%_1031.msi'
+    mst_paths: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\release\1031.mst'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/MSIRunSQL
   Comment: Change a few settings in the FileMaker MSI-file
@@ -102,27 +97,27 @@ Process:
     - DELETE FROM `LaunchCondition` WHERE `LaunchCondition`.`Condition`='ACTIONPROPERTY Or (LanguagePackInstaller=0) Or Installed'
     - INSERT INTO `Directory` (`Directory`.`Directory`,`Directory`.`Directory_Parent`,`Directory`.`DefaultDir`) VALUES ('SHORTCUTDIR','ProgramMenuFolder','Filemaker')
     - UPDATE `Shortcut` SET `Shortcut`.`Directory_`='SHORTCUTDIR', `Shortcut`.`Name`='FILEMA~4|FileMaker Pro %MAJOR_VERSION%' WHERE `Shortcut`.`Shortcut`='FileMakerDeveloper'
-    msi_path: '%BUILD_DIR%\%pkg_dir%\helpers\%NAME%%PF_STRING%_1031.msi'
+    msi_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\helpers\%NAME%%PF_STRING%_1031.msi'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/MSITransformer
   Comment: Generate a new 1031 language transform from the FileMaker MSI-file and the copy
   Arguments:
     mode: -g
-    msi_path: '%BUILD_DIR%\%pkg_dir%\release\%ALTNAME% %MAJOR_VERSION%.msi'
-    msi_path_new: '%BUILD_DIR%\%pkg_dir%\helpers\%NAME%%PF_STRING%_1031.msi'
-    mst_paths: '%BUILD_DIR%\%pkg_dir%\release\p%MAJOR_VERSION%_1031.mst'
+    msi_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\release\%ALTNAME% %MAJOR_VERSION%.msi'
+    msi_path_new: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\helpers\%NAME%%PF_STRING%_1031.msi'
+    mst_paths: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\release\p%MAJOR_VERSION%_1031.mst'
 
 - Processor: com.github.haircut.processors/AppIconExtractor
   Arguments:
-    ICON_PATH: '%BUILD_DIR%\%pkg_dir%\icons'
+    ICON_PATH: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\icons'
     icon_file_number: 0
     # composite_padding: 20
     # composite_position: ul
     # composite_uninstall_path: '%RECIPE_CACHE_DIR%/Icon-Uninstall-%NAME%.png'
     # composite_uninstall_template: /Users/haircut/Documents/delete.png
     icon_output_path: '%ICON_PATH%\Icon-%NAME%.png'
-    #source_app: '%BUILD_DIR%\%pkg_dir%\sourcepkt\%filename%'
-    source_app: '%BUILD_DIR%\%pkg_dir%\release\%ALTNAME% %MAJOR_VERSION%.msi'
+    #source_app: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\sourcepkt\%filename%'
+    source_app: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\release\%ALTNAME% %MAJOR_VERSION%.msi'
     #msi_icon_name: 'MainExecutableIcon.ico'
     composite_uninstall_path: '%ICON_PATH%\Icon-Uninstall-%NAME%.png'
     composite_update_path: '%ICON_PATH%\Icon-Update-%NAME%.png'
@@ -130,12 +125,12 @@ Process:
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/FileDateVersionSubst
   Arguments:
-    file_path: '%BUILD_DIR%\%pkg_dir%\read\create-log-%NAME%%PF_STRING%_%build_ver%_ML.txt'
+    file_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\read\create-log-%NAME%%PF_STRING%_%build_ver%_ML.txt'
     new_ver: '%build_ver%'
     re_pattern: '[0-9]+\.[0-9]+\.[0-9]+'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/FileDateVersionSubst
   Arguments:
-    file_path: '%BUILD_DIR%\%pkg_dir%\read\readme-%NAME%%PF_STRING%_%build_ver%_ML.txt'
+    file_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\read\readme-%NAME%%PF_STRING%_%build_ver%_ML.txt'
     new_ver: '%build_ver%'
     re_pattern: '[0-9]+\.[0-9]+\.[0-9]+'

@@ -15,11 +15,11 @@ Process:
 - Processor: com.github.NickETH.recipes.SharedProcessors/MSIRunSQLget
   Arguments:
     SQL_command: SELECT `Value` FROM `Property` WHERE `Property`='ProductCode'
-    msi_path: '%BUILD_DIR%\%pkg_dir%\release\%NAME%%PF_STRING%_%version%_ML.msi'
+    msi_path: '%BUILD_DIR%\%pkg_dir%\release\%NAME%%PF_STRING%_%msi_value%_ML.msi'
 
 - Processor: com.github.sebtomasi.SharedProcessors/TextSubstituer
   Arguments:
-    input_string: '%version%'
+    input_string: '%msi_value%'
     pattern_replace:
     - pattern: \.
       repl: _
@@ -31,7 +31,7 @@ Process:
     bms_app_category: baramundi Application
     bms_app_comment: 'Imported by: AutoPkg, %us_date% %time%'
     bms_app_conschecks: "CheckAppRC=0,3010\r\nDeinstall.CheckAppRC=0,1605,3010"
-    bms_app_installcmd: '{DIP}\Apl\EdgeChromium\%parsed_string%\ML\%NAME%%PF_STRING%_%version%_ML.msi'
+    bms_app_installcmd: '{DIP}\Apl\EdgeChromium\%parsed_string%\ML\%NAME%%PF_STRING%_%msi_value%_ML.msi'
     bms_app_installparm: /qn /norestart ALLUSERS=1
     bms_app_integration:
     - appname: EdgeChromium
@@ -65,11 +65,11 @@ Process:
     bms_app_uopt_rebootbhv: NoReboot
     bms_app_valid4os: '%BMS_VALID4OS%'
     bms_app_vendor: '%VENDOR%'
-    bms_app_version: '%version% ML (x86)'
+    bms_app_version: '%msi_value% ML (x86)'
     bms_serverport: '%BMS_SERVER_PORT%'
     bms_serverurl: '%BMS_SERVER1%'
     bms_username: '%BMS_USERNAME%'
-    inst_file_src_dest: '%BUILD_DIR%\%pkg_dir%\release\%NAME%%PF_STRING%_%version%_ML.msi|%BMS_IMPORT_PATH_TST%\EdgeChromium\%parsed_string%\ML'
-    read_file_src_dest: '%BUILD_DIR%\%pkg_dir%\read\*-%NAME%%PF_STRING%_%version%_ML.txt|%BMS_IMPORT_PATH_TST%\EdgeChromium\%parsed_string%\DEV'
+    inst_file_src_dest: '%BUILD_DIR%\%pkg_dir%\release\%NAME%%PF_STRING%_%msi_value%_ML.msi|%BMS_IMPORT_PATH_TST%\EdgeChromium\%parsed_string%\ML'
+    read_file_src_dest: '%BUILD_DIR%\%pkg_dir%\read\*-%NAME%%PF_STRING%_%msi_value%_ML.txt|%BMS_IMPORT_PATH_TST%\EdgeChromium\%parsed_string%\DEV'
 
 - Processor: EndOfCheckPhase

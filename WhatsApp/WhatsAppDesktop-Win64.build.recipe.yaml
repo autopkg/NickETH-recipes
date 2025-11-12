@@ -23,23 +23,18 @@ Process:
     recipe_path: '%RECIPE_PATH%'
     ver_fields: '4'
 
-- Processor: com.github.sebtomasi.SharedProcessors/RenameVar
-  Arguments:
-    input_var: '%NAME%%PF_STRING%_%build_ver%%LANG_STRING%'
-    rename_var: pkg_dir
-
 - Processor: com.github.NickETH.recipes.SharedProcessors/SevenZipExtractor
   Comment: Extract the WhatsApp msix package to the release dir
   Arguments:
     exe_path: '%pathname%'
-    extract_dir: '%BUILD_DIR%\%pkg_dir%\release\'
+    extract_dir: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\release\'
     extract_file: WhatsApp_%version%_x64.msix
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/SevenZipExtractor
   Comment: Extract the WhatsApp msix package to the release dir
   Arguments:
-    exe_path: '%BUILD_DIR%\%pkg_dir%\release\WhatsApp_%version%_x64.msix'
-    extract_dir: '%BUILD_DIR%\%pkg_dir%\sourceunzipped\'
+    exe_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\release\WhatsApp_%version%_x64.msix'
+    extract_dir: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\sourceunzipped\'
     extract_file: 'AppList.targetsize-256.png'
     recursive: true
     preserve_paths: false
@@ -52,20 +47,20 @@ Process:
     - move
     - /Y
     - '%RECIPE_CACHE_DIR%\downloads\*.*x'
-    - '%BUILD_DIR%\%pkg_dir%\release\'
+    - '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\release\'
     exe_file: 'cmd.exe'
     exe_folder: '%RECIPE_CACHE_DIR%'
     
 - Processor: com.github.haircut.processors/AppIconExtractor
   Comment: Generate Icon files for the Kiosk from Telegraf
   Arguments:
-    ICON_PATH: '%BUILD_DIR%\%pkg_dir%\icons'
+    ICON_PATH: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\icons'
     icon_file_number: 0
     # composite_padding: 20
     # composite_position: ul
     # composite_uninstall_template: /Users/haircut/Documents/delete.png
     icon_output_path: '%ICON_PATH%\Icon-%NAME%.png'
-    source_app: '%BUILD_DIR%\%pkg_dir%\sourceunzipped\AppList.targetsize-256.png'
+    source_app: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\sourceunzipped\AppList.targetsize-256.png'
     #msi_icon_name: 'MainExecutableIcon.ico'
     composite_uninstall_path: '%ICON_PATH%\Icon-Uninstall-%NAME%.png'
     composite_update_path: '%ICON_PATH%\Icon-Update-%NAME%.png'
@@ -75,13 +70,13 @@ Process:
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/FileDateVersionSubst
   Arguments:
-    file_path: '%BUILD_DIR%\%pkg_dir%\read\Create-log-%NAME%%PF_STRING%_%version%%LANG_STRING%.txt'
+    file_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\read\Create-log-%NAME%%PF_STRING%_%version%%LANG_STRING%.txt'
     new_ver: '%version%'
     re_pattern: '[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/FileDateVersionSubst
   Arguments:
-    file_path: '%BUILD_DIR%\%pkg_dir%\read\readme-%NAME%%PF_STRING%_%version%%LANG_STRING%.txt'
+    file_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\read\readme-%NAME%%PF_STRING%_%version%%LANG_STRING%.txt'
     new_ver: '%version%'
     re_pattern: '[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+'
 

@@ -27,16 +27,11 @@ Process:
     recipe_path: '%RECIPE_PATH%'
     ver_fields: '3'
 
-- Processor: com.github.sebtomasi.SharedProcessors/RenameVar
-  Arguments:
-    input_var: '%NAME%%PF_STRING%_%build_ver%%LANG_STRING%'
-    rename_var: pkg_dir
-
 - Processor: com.github.NickETH.recipes.SharedProcessors/InnoEditor
   Comment: Extract the Greenshot installer
   Arguments:
     inno_path: '%pathname%'
-    workfolder: '%BUILD_DIR%\%pkg_dir%\sourceunzipped\'
+    workfolder: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\sourceunzipped\'
     ignore_errors: False
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/ExecuteFile
@@ -48,9 +43,9 @@ Process:
     - /v
     - /i
     - "https://getgreenshot.org/thank-you"
-    - '%BUILD_DIR%\%pkg_dir%\sourceunzipped\install_script.iss'
+    - '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\sourceunzipped\install_script.iss'
     - '>'
-    - '%BUILD_DIR%\%pkg_dir%\helpers\install_script.iss'
+    - '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\helpers\install_script.iss'
     exe_file: 'cmd.exe'
     exe_folder: '%RECIPE_CACHE_DIR%'
 
@@ -60,7 +55,7 @@ Process:
     cmdline_args:
     - '-i'
     - 's/PrivilegesRequired=lowest/VersionInfoVersion=%version%/'
-    - '%BUILD_DIR%\%pkg_dir%\helpers\install_script.iss'
+    - '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\helpers\install_script.iss'
     exe_file: 'C:\Program Files\Git\usr\bin\sed.exe'
     exe_folder: '%RECIPE_CACHE_DIR%'
 
@@ -71,7 +66,7 @@ Process:
     - '-i'
     - '-e'
     - '"s/^Subkey:/Root: HKA; &/"'
-    - '%BUILD_DIR%\%pkg_dir%\helpers\install_script.iss'
+    - '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\helpers\install_script.iss'
     exe_file: 'C:\Program Files\Git\usr\bin\sed.exe'
     exe_folder: '%RECIPE_CACHE_DIR%'
  
@@ -81,7 +76,7 @@ Process:
     # cmdline_args:
     # - '-i'
     # - 's/AppUpdatesURL=https:\/\/getgreenshot.org/VersionInfoVersion=%version%/'
-    # - '%BUILD_DIR%\%pkg_dir%\helpers\install_script.iss'
+    # - '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\helpers\install_script.iss'
     # exe_file: 'C:\Program Files\Git\usr\bin\sed.exe'
     # exe_folder: '%RECIPE_CACHE_DIR%'
 
@@ -92,12 +87,12 @@ Process:
     - /C
     - copy
     - /y
-    - '%BUILD_DIR%\%pkg_dir%\helpers\install_script.iss'
+    - '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\helpers\install_script.iss'
     - /a
     - '+'
-    - '%BUILD_DIR%\%pkg_dir%\helpers\Code.iss'
+    - '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\helpers\Code.iss'
     - /a
-    - '%BUILD_DIR%\%pkg_dir%\sourceunzipped\install_script.iss'
+    - '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\sourceunzipped\install_script.iss'
     - /a
     exe_file: 'cmd.exe'
     exe_folder: '%RECIPE_CACHE_DIR%'
@@ -106,19 +101,19 @@ Process:
   Comment: Create the new Greenshot installer
   Arguments:
     inno_compiler: 'C:\Program Files (x86)\Inno Setup 6\ISCC.exe'
-    workfolder: '%BUILD_DIR%\%pkg_dir%\sourceunzipped\'
+    workfolder: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\sourceunzipped\'
     ignore_errors: False
 
 - Processor: Copier
   Arguments:
     overwrite: 'true'
-    source_path: '%BUILD_DIR%\%pkg_dir%\sourceunzipped\Output\Greenshot_x64.exe'
-    destination_path: '%BUILD_DIR%\%pkg_dir%\release\%NAME%%PF_STRING%_%version%%LANG_STRING%.exe'
+    source_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\sourceunzipped\Output\Greenshot_x64.exe'
+    destination_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\release\%NAME%%PF_STRING%_%version%%LANG_STRING%.exe'
     
 - Processor: com.github.haircut.processors/AppIconExtractor
   Comment: Generate Icon files for the Kiosk from Greenshot
   Arguments:
-    ICON_PATH: '%BUILD_DIR%\%pkg_dir%\icons'
+    ICON_PATH: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\icons'
     icon_file_number: 0
     # composite_padding: 20
     # composite_position: ul
@@ -133,13 +128,13 @@ Process:
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/FileDateVersionSubst
   Arguments:
-    file_path: '%BUILD_DIR%\%pkg_dir%\read\Create-log-%NAME%%PF_STRING%_%version%%LANG_STRING%.txt'
+    file_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\read\Create-log-%NAME%%PF_STRING%_%version%%LANG_STRING%.txt'
     new_ver: '%version%'
     re_pattern: '[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/FileDateVersionSubst
   Arguments:
-    file_path: '%BUILD_DIR%\%pkg_dir%\read\readme-%NAME%%PF_STRING%_%version%%LANG_STRING%.txt'
+    file_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\read\readme-%NAME%%PF_STRING%_%version%%LANG_STRING%.txt'
     new_ver: '%version%'
     re_pattern: '[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+'
 

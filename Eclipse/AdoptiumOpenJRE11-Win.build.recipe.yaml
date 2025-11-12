@@ -28,62 +28,57 @@ Process:
     BuildFiles: NextVerFiles.txt
     build_dir: '%BUILD_DIR%'
     folder_list: sourcepkt:sourceunzipped:release:read:helpers:wixproject:wixproject\%ADDON_NAME%:wixproject\Resources:wixproject\Lang
-    org_ver: '%version%'
+    org_ver: '%ver_major%.%ver_majorminor%.%ver_minor%.%ver_build%'
     pkg_dir: Adoptium_JRE_Hotspot%PF_STRING%_::VVeerrssiioonn::%LANG_STRING%
     recipe_dir: '%RECIPE_DIR%'
     recipe_path: '%RECIPE_PATH%'
 
-- Processor: com.github.sebtomasi.SharedProcessors/RenameVar
-  Arguments:
-    input_var: Adoptium_JRE_Hotspot%PF_STRING%_%version%%LANG_STRING%
-    rename_var: pkg_dir
-
 - Processor: com.github.NickETH.recipes.SharedProcessors/FileDateVersionSubst
   Arguments:
-    file_path: '%BUILD_DIR%\%pkg_dir%\read\create-log-%FILENAME%%PF_STRING%_%version%%LANG_STRING%.txt'
-    new_ver: '%version%'
+    file_path: '%BUILD_DIR%\Adoptium_JRE_Hotspot%PF_STRING%_%ver_major%.%ver_majorminor%.%ver_minor%.%ver_build%%LANG_STRING%\read\create-log-%FILENAME%%PF_STRING%_%ver_major%.%ver_majorminor%.%ver_minor%.%ver_build%%LANG_STRING%.txt'
+    new_ver: '%ver_major%.%ver_majorminor%.%ver_minor%.%ver_build%'
     re_pattern: '[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/FileDateVersionSubst
   Arguments:
-    file_path: '%BUILD_DIR%\%pkg_dir%\read\readme-%FILENAME%%PF_STRING%_%version%%LANG_STRING%.txt'
-    new_ver: '%version%'
+    file_path: '%BUILD_DIR%\Adoptium_JRE_Hotspot%PF_STRING%_%ver_major%.%ver_majorminor%.%ver_minor%.%ver_build%%LANG_STRING%\read\readme-%FILENAME%%PF_STRING%_%ver_major%.%ver_majorminor%.%ver_minor%.%ver_build%%LANG_STRING%.txt'
+    new_ver: '%ver_major%.%ver_majorminor%.%ver_minor%.%ver_build%'
     re_pattern: '[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+'
 
 - Processor: Copier
   Arguments:
-    destination_path: '%BUILD_DIR%\%pkg_dir%\sourceunzipped\%DOWNLOAD_FILE%_hotspot_%PLATFORM%_%version%.msi'
+    destination_path: '%BUILD_DIR%\Adoptium_JRE_Hotspot%PF_STRING%_%ver_major%.%ver_majorminor%.%ver_minor%.%ver_build%%LANG_STRING%\sourceunzipped\%DOWNLOAD_FILE%_hotspot_%PLATFORM%_%ver_major%.%ver_majorminor%.%ver_minor%.%ver_build%.msi'
     overwrite: 'true'
-    source_path: '%path_msi%'
+    source_path: '%pathname%'
 
 - Processor: Copier
   Arguments:
-    destination_path: '%BUILD_DIR%\%pkg_dir%\release\%FILENAME%%PF_STRING%_%version%%LANG_STRING%.msi'
+    destination_path: '%BUILD_DIR%\Adoptium_JRE_Hotspot%PF_STRING%_%ver_major%.%ver_majorminor%.%ver_minor%.%ver_build%%LANG_STRING%\release\%FILENAME%%PF_STRING%_%ver_major%.%ver_majorminor%.%ver_minor%.%ver_build%%LANG_STRING%.msi'
     overwrite: 'true'
-    source_path: '%path_msi%'
+    source_path: '%pathname%'
 
 - Processor: Copier
   Arguments:
-    destination_path: '%BUILD_DIR%\%pkg_dir%\sourcepkt\%zuludlfile%'
+    destination_path: '%BUILD_DIR%\Adoptium_JRE_Hotspot%PF_STRING%_%ver_major%.%ver_majorminor%.%ver_minor%.%ver_build%%LANG_STRING%\sourcepkt\%zuludlfile%'
     overwrite: 'true'
     source_path: '%pathname%'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/SevenZipExtractor
   Arguments:
-    exe_path: '%BUILD_DIR%\%pkg_dir%\sourcepkt\%zuludlfile%'
-    extract_dir: '%BUILD_DIR%\%pkg_dir%\sourceunzipped'
+    exe_path: '%BUILD_DIR%\Adoptium_JRE_Hotspot%PF_STRING%_%ver_major%.%ver_majorminor%.%ver_minor%.%ver_build%%LANG_STRING%\sourcepkt\%zuludlfile%'
+    extract_dir: '%BUILD_DIR%\Adoptium_JRE_Hotspot%PF_STRING%_%ver_major%.%ver_majorminor%.%ver_minor%.%ver_build%%LANG_STRING%\sourceunzipped'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/FileMoverFromList
   Arguments:
-    file_list: '%BUILD_DIR%\%pkg_dir%\helpers\Zulu-JFX-%PRODUCT%_%FEATUREVER%-%PLATFORM%.txt'
-    source_dir: '%BUILD_DIR%\%pkg_dir%\sourceunzipped\%zuludldir%'
-    target_dir: '%BUILD_DIR%\%pkg_dir%\wixproject\%ADDON_NAME%'
+    file_list: '%BUILD_DIR%\Adoptium_JRE_Hotspot%PF_STRING%_%ver_major%.%ver_majorminor%.%ver_minor%.%ver_build%%LANG_STRING%\helpers\Zulu-JFX-%PRODUCT%_%FEATUREVER%-%PLATFORM%.txt'
+    source_dir: '%BUILD_DIR%\Adoptium_JRE_Hotspot%PF_STRING%_%ver_major%.%ver_majorminor%.%ver_minor%.%ver_build%%LANG_STRING%\sourceunzipped\%zuludldir%'
+    target_dir: '%BUILD_DIR%\Adoptium_JRE_Hotspot%PF_STRING%_%ver_major%.%ver_majorminor%.%ver_minor%.%ver_build%%LANG_STRING%\wixproject\%ADDON_NAME%'
 
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/WixSettings
   Comment: Define variables for the WIX build process to the version.wxi file
   Arguments:
-    preproc_file: '%BUILD_DIR%\%pkg_dir%\wixproject\version.wxi'
+    preproc_file: '%BUILD_DIR%\Adoptium_JRE_Hotspot%PF_STRING%_%ver_major%.%ver_majorminor%.%ver_minor%.%ver_build%%LANG_STRING%\wixproject\version.wxi'
     template_file: None
     new_settings:
     - define: 'version="%build_ver%"'
@@ -93,37 +88,37 @@ Process:
 - Processor: com.github.NickETH.recipes.SharedProcessors/MSBuildRun
   Comment: Run the MSBuild script to generate the JFX MSM module addon.
   Arguments:
-    build_file: '%BUILD_DIR%\%pkg_dir%\wixproject\%ADDON_NAME%%PF_STRING%.build'
-    build_folder: '%BUILD_DIR%\%pkg_dir%\wixproject'
-    build_property: BuildPlatform=%PLATFORM%;BuildName=%ADDON_NAME%;BuildDir=%BUILD_DIR%\%pkg_dir%\wixproject;SourceDir=%BUILD_DIR%\%pkg_dir%\wixproject\%ADDON_NAME%;version=%build_ver%;Platformstr=%PF_STRING%;LangStr=%LANG_STRING%
+    build_file: '%BUILD_DIR%\Adoptium_JRE_Hotspot%PF_STRING%_%ver_major%.%ver_majorminor%.%ver_minor%.%ver_build%%LANG_STRING%\wixproject\%ADDON_NAME%%PF_STRING%.build'
+    build_folder: '%BUILD_DIR%\Adoptium_JRE_Hotspot%PF_STRING%_%ver_major%.%ver_majorminor%.%ver_minor%.%ver_build%%LANG_STRING%\wixproject'
+    build_property: BuildPlatform=%PLATFORM%;BuildName=%ADDON_NAME%;BuildDir=%BUILD_DIR%\Adoptium_JRE_Hotspot%PF_STRING%_%ver_major%.%ver_majorminor%.%ver_minor%.%ver_build%%LANG_STRING%\wixproject;SourceDir=%BUILD_DIR%\Adoptium_JRE_Hotspot%PF_STRING%_%ver_major%.%ver_majorminor%.%ver_minor%.%ver_build%%LANG_STRING%\wixproject\%ADDON_NAME%;version=%build_ver%;Platformstr=%PF_STRING%;LangStr=%LANG_STRING%
     build_target: WIX
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/MSIimportMergeModule
   Arguments:
-    log_file_abs: '%BUILD_DIR%\%pkg_dir%\wixproject\MSM-log.txt'
-    msi_path: '%BUILD_DIR%\%pkg_dir%\release\%FILENAME%%PF_STRING%_%version%%LANG_STRING%.msi'
+    log_file_abs: '%BUILD_DIR%\Adoptium_JRE_Hotspot%PF_STRING%_%ver_major%.%ver_majorminor%.%ver_minor%.%ver_build%%LANG_STRING%\wixproject\MSM-log.txt'
+    msi_path: '%BUILD_DIR%\Adoptium_JRE_Hotspot%PF_STRING%_%ver_major%.%ver_majorminor%.%ver_minor%.%ver_build%%LANG_STRING%\release\%FILENAME%%PF_STRING%_%ver_major%.%ver_majorminor%.%ver_minor%.%ver_build%%LANG_STRING%.msi'
     msm_dir: INSTALLDIR
     msm_feature: FeatureJavaFX
-    msm_path: '%BUILD_DIR%\%pkg_dir%\wixproject\JavaFX%PF_STRING%_%version%.msm'
-    pkg_dir_abs: '%BUILD_DIR%\%pkg_dir%'
-    temp_path: '%BUILD_DIR%\%pkg_dir%\wixproject'
+    msm_path: '%BUILD_DIR%\Adoptium_JRE_Hotspot%PF_STRING%_%ver_major%.%ver_majorminor%.%ver_minor%.%ver_build%%LANG_STRING%\wixproject\JavaFX%PF_STRING%_%ver_major%.%ver_majorminor%.%ver_minor%.%ver_build%.msm'
+    pkg_dir_abs: '%BUILD_DIR%\Adoptium_JRE_Hotspot%PF_STRING%_%ver_major%.%ver_majorminor%.%ver_minor%.%ver_build%%LANG_STRING%'
+    temp_path: '%BUILD_DIR%\Adoptium_JRE_Hotspot%PF_STRING%_%ver_major%.%ver_majorminor%.%ver_minor%.%ver_build%%LANG_STRING%\wixproject'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/MSIRunSQL
   Arguments:
     SQL_command:
     - INSERT INTO `Feature` (`Feature`.`Feature`,`Feature`.`Feature_Parent`,`Feature`.`Title`,`Feature`.`Description`, `Feature`.`Display`,`Feature`.`Level`,`Feature`.`Directory_`,`Feature`.`Attributes`) VALUES ('FeatureJavaFX','FeatureMain','JavaFX','Install JavaFX',%FEATUREVER%,2,'INSTALLDIR',8)
-    - UPDATE `Property` SET `Property`.`Value`='Adoptium Java RE Hotspot x64 %version% ML' WHERE `Property`.`Property`='ProductName'
-    msi_path: '%BUILD_DIR%\%pkg_dir%\release\%FILENAME%%PF_STRING%_%version%%LANG_STRING%.msi'
+    - UPDATE `Property` SET `Property`.`Value`='Adoptium Java RE Hotspot x64 %ver_major%.%ver_majorminor%.%ver_minor%.%ver_build% ML' WHERE `Property`.`Property`='ProductName'
+    msi_path: '%BUILD_DIR%\Adoptium_JRE_Hotspot%PF_STRING%_%ver_major%.%ver_majorminor%.%ver_minor%.%ver_build%%LANG_STRING%\release\%FILENAME%%PF_STRING%_%ver_major%.%ver_majorminor%.%ver_minor%.%ver_build%%LANG_STRING%.msi'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/DateTimeStamps
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/MSIApplySumInfo
   Arguments:
     cmnds_sinfo:
-      /j: Adoptium JRE Hotspot x64 %version% ML
-      /o: Version %version% with JavaFX. %us_date% by AutoPkg
+      /j: Adoptium JRE Hotspot x64 %ver_major%.%ver_majorminor%.%ver_minor%.%ver_build% ML
+      /o: Version %ver_major%.%ver_majorminor%.%ver_minor%.%ver_build% with JavaFX. %us_date% by AutoPkg
       /p: x64;1033
-      /t: Adoptium JRE Hotspot x64 %version% ML
-    msi_path: '%BUILD_DIR%\%pkg_dir%\release\%FILENAME%%PF_STRING%_%version%%LANG_STRING%.msi'
+      /t: Adoptium JRE Hotspot x64 %ver_major%.%ver_majorminor%.%ver_minor%.%ver_build% ML
+    msi_path: '%BUILD_DIR%\Adoptium_JRE_Hotspot%PF_STRING%_%ver_major%.%ver_majorminor%.%ver_minor%.%ver_build%%LANG_STRING%\release\%FILENAME%%PF_STRING%_%ver_major%.%ver_majorminor%.%ver_minor%.%ver_build%%LANG_STRING%.msi'
 
 - Processor: EndOfCheckPhase

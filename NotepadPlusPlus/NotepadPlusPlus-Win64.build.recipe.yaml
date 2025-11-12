@@ -25,30 +25,25 @@ Process:
     recipe_path: '%RECIPE_PATH%'
     ver_fields: '4'
 
-- Processor: com.github.sebtomasi.SharedProcessors/RenameVar
-  Arguments:
-    input_var: '%NAME%%PF_STRING%_%build_ver%_ML'
-    rename_var: pkg_dir
-
 - Processor: Copier
   Comment: Copy the Notepad++ installer exe file to the build dir
   Arguments:
-    destination_path: '%BUILD_DIR%\%pkg_dir%\sourcepkt\%NAME%.exe'
+    destination_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\sourcepkt\%NAME%.exe'
     overwrite: 'true'
     source_path: '%RECIPE_CACHE_DIR%\downloads\%NAME%.exe'
 
 - Processor: Copier
   Comment: Copy the Notepad++ installer zip file to the build dir
   Arguments:
-    destination_path: '%BUILD_DIR%\%pkg_dir%\sourcepkt\%NAME%.zip'
+    destination_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\sourcepkt\%NAME%.zip'
     overwrite: 'true'
     source_path: '%RECIPE_CACHE_DIR%\downloads\%NAME%.zip'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/SevenZipExtractor
   Comment: Extract the Notepad++ installer
   Arguments:
-    exe_path: '%BUILD_DIR%\%pkg_dir%\sourcepkt\%NAME%.zip'
-    extract_dir: '%BUILD_DIR%\%pkg_dir%\wixproject\%NAME%'
+    exe_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\sourcepkt\%NAME%.zip'
+    extract_dir: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\wixproject\%NAME%'
     extract_file: '*'
     ignore_pattern: ''
     preserve_paths: 'True'
@@ -56,8 +51,8 @@ Process:
 - Processor: com.github.NickETH.recipes.SharedProcessors/SevenZipExtractor
   Comment: Extract the Notepad++ installer
   Arguments:
-    exe_path: '%BUILD_DIR%\%pkg_dir%\sourcepkt\%NAME%.exe'
-    extract_dir: '%BUILD_DIR%\%pkg_dir%\wixproject\%NAME%\contextMenu'
+    exe_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\sourcepkt\%NAME%.exe'
+    extract_dir: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\wixproject\%NAME%\contextMenu'
     extract_file: '*\NppShell.*'
     ignore_pattern: ''
     preserve_paths: 'False'
@@ -65,15 +60,15 @@ Process:
 - Processor: Copier
   Comment: Copy the Notepad++ updater to outside of the build dir
   Arguments:
-    destination_path: '%BUILD_DIR%\%pkg_dir%\wixproject\updater'
+    destination_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\wixproject\updater'
     overwrite: 'true'
-    source_path: '%BUILD_DIR%\%pkg_dir%\wixproject\%NAME%\updater'
+    source_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\wixproject\%NAME%\updater'
 
 - Processor: PathDeleter
   Comment: Delete the updater files from the build dir
   Arguments:
     path_list:
-    - '%BUILD_DIR%\%pkg_dir%\wixproject\%NAME%\updater'
+    - '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\wixproject\%NAME%\updater'
 
 - Processor: URLTextSearcher
   Arguments:
@@ -88,14 +83,14 @@ Process:
 - Processor: com.github.NickETH.recipes.SharedProcessors/SevenZipExtractor
   Arguments:
     exe_path: '%pathname%'
-    extract_dir: '%BUILD_DIR%\%pkg_dir%\sourceunzipped\'
+    extract_dir: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\sourceunzipped\'
     extract_file: '*\pl.x64.json'
     preserve_paths: 'False'
     recursive: 'True'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/TextFileSearcher
   Arguments:
-    file_to_open: '%BUILD_DIR%\%pkg_dir%\sourceunzipped\pl.x64.json'
+    file_to_open: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\sourceunzipped\pl.x64.json'
     re_pattern: https://github.com/.*/compare-plugin/releases/download/v[0-9.]+/ComparePlugin_v[0-9.]+_X64.zip
 
 - Processor: URLDownloader
@@ -107,14 +102,14 @@ Process:
   Comment: Extract the Notepad++ installer
   Arguments:
     exe_path: '%pathname%'
-    extract_dir: '%BUILD_DIR%\%pkg_dir%\wixproject\%NAME%\plugins\ComparePlugin'
+    extract_dir: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\wixproject\%NAME%\plugins\ComparePlugin'
     extract_file: '*'
     ignore_pattern: ''
     preserve_paths: 'False'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/TextFileSearcher
   Arguments:
-    file_to_open: '%BUILD_DIR%\%pkg_dir%\sourceunzipped\pl.x64.json'
+    file_to_open: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\sourceunzipped\pl.x64.json'
     re_pattern: https://sourceforge.net/.*/JSToolNPP[0-9.]+uni.64.zip
 
 - Processor: URLDownloader
@@ -126,7 +121,7 @@ Process:
   Comment: Extract the Notepad++ installer
   Arguments:
     exe_path: '%pathname%'
-    extract_dir: '%BUILD_DIR%\%pkg_dir%\wixproject\%NAME%\plugins\JSMinNPP'
+    extract_dir: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\wixproject\%NAME%\plugins\JSMinNPP'
     extract_file: '*'
     ignore_pattern: ''
     preserve_paths: 'False'
@@ -137,35 +132,30 @@ Process:
     github_repo: chcg/NPP_HexEdit
     include_prereleases: 'true'
 
-- Processor: com.github.sebtomasi.SharedProcessors/RenameVar
-  Arguments:
-    input_var: https://github.com/chcg/NPP_HexEdit/releases/download/%version%/HexEditor_%version%_x64.zip
-    rename_var: hexplugin_url
-
 - Processor: URLDownloader
   Arguments:
     filename: hexeditplugin.zip
-    url: '%hexplugin_url%'
+    url: 'https://github.com/chcg/NPP_HexEdit/releases/download/%version%/HexEditor_%version%_x64.zip'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/SevenZipExtractor
   Comment: Extract the Notepad++ installer
   Arguments:
     exe_path: '%pathname%'
-    extract_dir: '%BUILD_DIR%\%pkg_dir%\wixproject\%NAME%\plugins\HexEditor'
+    extract_dir: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\wixproject\%NAME%\plugins\HexEditor'
     extract_file: '*'
     ignore_pattern: ''
     preserve_paths: 'False'
 
 - Processor: com.github.haircut.processors/AppIconExtractor
   Arguments:
-    ICON_PATH: '%BUILD_DIR%\%pkg_dir%\icons'
+    ICON_PATH: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\icons'
     icon_file_number: 0
     # composite_padding: 20
     # composite_position: ul
     # composite_uninstall_path: '%RECIPE_CACHE_DIR%/Icon-Uninstall-%NAME%.png'
     # composite_uninstall_template: /Users/haircut/Documents/delete.png
     icon_output_path: '%ICON_PATH%\Icon-%NAME%.png'
-    source_app: '%BUILD_DIR%\%pkg_dir%\wixproject\%NAME%\%NAME%.exe'
+    source_app: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\wixproject\%NAME%\%NAME%.exe'
     #msi_icon_name: 'MainExecutableIcon.ico'
     composite_uninstall_path: '%ICON_PATH%\Icon-Uninstall-%NAME%.png'
     composite_update_path: '%ICON_PATH%\Icon-Update-%NAME%.png'
@@ -174,8 +164,8 @@ Process:
 - Processor: com.github.NickETH.recipes.SharedProcessors/ResourceWorker
   Comment: Extract the Notepad++ res file
   Arguments:
-    exe_path: '%BUILD_DIR%\%pkg_dir%\wixproject\%NAME%\%NAME%.exe'
-    output_file: '%BUILD_DIR%\%pkg_dir%\sourceunzipped\Icon-%NAME%.res'
+    exe_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\wixproject\%NAME%\%NAME%.exe'
+    output_file: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\sourceunzipped\Icon-%NAME%.res'
     reswork_action: 'extract'
     reswork_cmd: 'ICONGROUP,100,'
     # ignore_errors: 'True'
@@ -183,38 +173,38 @@ Process:
 - Processor: com.github.NickETH.recipes.SharedProcessors/ResourceWorker
   Comment: Generate a new Icon.exe file for Notepad++
   Arguments:
-    exe_path: '%BUILD_DIR%\%pkg_dir%\helpers\Icon-Stub-1.exe'
-    input_file: '%BUILD_DIR%\%pkg_dir%\sourceunzipped\Icon-%NAME%.res'
-    output_file: '%BUILD_DIR%\%pkg_dir%\wixproject\Resources\Main-Icon.exe'
+    exe_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\helpers\Icon-Stub-1.exe'
+    input_file: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\sourceunzipped\Icon-%NAME%.res'
+    output_file: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\wixproject\Resources\Main-Icon.exe'
     reswork_action: 'add'
     reswork_cmd: 'ICONGROUP,100,'
     # ignore_errors: 'True'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/FileDateVersionSubst
   Arguments:
-    file_path: '%BUILD_DIR%\%pkg_dir%\read\create-log-%NAME%%PF_STRING%_%build_ver%_ML.txt'
+    file_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\read\create-log-%NAME%%PF_STRING%_%build_ver%_ML.txt'
     new_ver: '%build_ver%'
     re_pattern: '[0-9]+\.[0-9]+\.[0-9]+'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/FileDateVersionSubst
   Arguments:
-    file_path: '%BUILD_DIR%\%pkg_dir%\read\readme-%NAME%%PF_STRING%_%build_ver%_ML.txt'
+    file_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\read\readme-%NAME%%PF_STRING%_%build_ver%_ML.txt'
     new_ver: '%build_ver%'
     re_pattern: '[0-9]+\.[0-9]+\.[0-9]+'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/WixDefaults
   Comment: Set the actual version strings to the version.wxi file
   Arguments:
-    build_dir: '%BUILD_DIR%\%pkg_dir%'
+    build_dir: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML'
     build_ver: '%build_ver%'
     org_ver: '%build_ver%'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/MSBuildRun
   Comment: Run the MSBuild script to generate the Notepad++ MSI installer
   Arguments:
-    build_file: '%BUILD_DIR%\%pkg_dir%\wixproject\%NAME%.build'
-    build_folder: '%BUILD_DIR%\%pkg_dir%\wixproject'
-    build_property: BuildPlatform=%PLATFORM%;BuildName=%NAME%;BuildDir=%BUILD_DIR%\%pkg_dir%\wixproject;SourceDir=%BUILD_DIR%\%pkg_dir%\wixproject\%NAME%;version=%build_ver%
+    build_file: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\wixproject\%NAME%.build'
+    build_folder: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\wixproject'
+    build_property: BuildPlatform=%PLATFORM%;BuildName=%NAME%;BuildDir=%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\wixproject;SourceDir=%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\wixproject\%NAME%;version=%build_ver%
     build_target: WIX
 
 # - Processor: com.github.NickETH.recipes.SharedProcessors/MSIRunSQL
@@ -224,6 +214,6 @@ Process:
     # - UPDATE `DuplicateFile` SET `DuplicateFile`.`File_`='config.xml' WHERE `DuplicateFile`.`FileKey`='DupFile1'
     # - DELETE FROM `File` WHERE `File`.`File`='config_xml'
     # - DELETE FROM `MsiFileHash` WHERE `MsiFileHash`.`File_`='config_xml'
-    # msi_path: '%BUILD_DIR%\%pkg_dir%\release\%NAME%%PF_STRING%_%build_ver%_ML.msi'
+    # msi_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\release\%NAME%%PF_STRING%_%build_ver%_ML.msi'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/DateTimeStamps

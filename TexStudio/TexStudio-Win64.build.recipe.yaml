@@ -25,15 +25,10 @@ Process:
     recipe_path: '%RECIPE_PATH%'
     ver_fields: '3'
 
-- Processor: com.github.sebtomasi.SharedProcessors/RenameVar
-  Arguments:
-    input_var: '%NAME%%PF_STRING%_%build_ver%_ML'
-    rename_var: pkg_dir
-
 - Processor: Copier
   Comment: Copy the TexStudio installer file to the build dir
   Arguments:
-    destination_path: '%BUILD_DIR%\%pkg_dir%\sourcepkt\%filename%'
+    destination_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\sourcepkt\%filename%'
     overwrite: 'true'
     source_path: '%RECIPE_CACHE_DIR%\downloads\%filename%'
 
@@ -42,59 +37,59 @@ Process:
   Arguments:
     cmdline_args:
     - /S
-    - /D=%BUILD_DIR%\%pkg_dir%\sourceunzipped
-    exe_file: '%BUILD_DIR%\%pkg_dir%\sourcepkt\%filename%'
-    exe_folder: '%BUILD_DIR%\%pkg_dir%\sourcepkt'
+    - /D=%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\sourceunzipped
+    exe_file: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\sourcepkt\%filename%'
+    exe_folder: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\sourcepkt'
     run_elevated: true
 
 - Processor: Copier
   Comment: Copy the TexStudio installer file to the build dir
   Arguments:
-    destination_path: '%BUILD_DIR%\%pkg_dir%\wixproject\TexStudio\'
+    destination_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\wixproject\TexStudio\'
     overwrite: 'true'
-    source_path: '%BUILD_DIR%\%pkg_dir%\sourceunzipped\'
+    source_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\sourceunzipped\'
     
 - Processor: com.github.NickETH.recipes.SharedProcessors/DateTimeStamps
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/FileDateVersionSubst
   Arguments:
-    file_path: '%BUILD_DIR%\%pkg_dir%\read\create-log-%NAME%%PF_STRING%_%build_ver%_ML.txt'
+    file_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\read\create-log-%NAME%%PF_STRING%_%build_ver%_ML.txt'
     new_ver: '%build_ver%'
     re_pattern: '[0-9]+\.[0-9]+\.[0-9]+'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/FileDateVersionSubst
   Arguments:
-    file_path: '%BUILD_DIR%\%pkg_dir%\read\readme-%NAME%%PF_STRING%_%build_ver%_ML.txt'
+    file_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\read\readme-%NAME%%PF_STRING%_%build_ver%_ML.txt'
     new_ver: '%build_ver%'
     re_pattern: '[0-9]+\.[0-9]+\.[0-9]+'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/WixDefaults
   Comment: Set the actual version strings to the version.wxi file
   Arguments:
-    build_dir: '%BUILD_DIR%\%pkg_dir%'
+    build_dir: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML'
     build_ver: '%build_ver%'
     org_ver: '%build_ver%'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/MSBuildRun
   Comment: Run the MSBuild script to generate the TexStudio MSI installer
   Arguments:
-    build_file: '%BUILD_DIR%\%pkg_dir%\wixproject\TexStudio.build'
-    build_folder: '%BUILD_DIR%\%pkg_dir%\wixproject'
-    build_property: BuildDir=%BUILD_DIR%\%pkg_dir%\wixproject;TexStudioDir=%BUILD_DIR%\%pkg_dir%\wixproject\TexStudio;version=%version%
+    build_file: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\wixproject\TexStudio.build'
+    build_folder: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\wixproject'
+    build_property: BuildDir=%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\wixproject;TexStudioDir=%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\wixproject\TexStudio;version=%version%
     build_target: WIX
 
 - Processor: com.github.haircut.processors/AppIconExtractor
   Comment: Extract the TexStudio icons and generate BMS-Kiosk-Icons
   Arguments:
-    ICON_PATH: '%BUILD_DIR%\%pkg_dir%\icons'
+    ICON_PATH: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\icons'
     icon_file_number: 0
     # composite_padding: 20
     # composite_position: ul
     # composite_uninstall_path: '%RECIPE_CACHE_DIR%/Icon-Uninstall-%NAME%.png'
     # composite_uninstall_template: /Users/haircut/Documents/delete.png
     icon_output_path: '%ICON_PATH%\Icon-%NAME%.png'
-    #source_app: '%BUILD_DIR%\%pkg_dir%\wixproject\%NAME%\Resources\SqlDeveloper.ico'
-    source_app: '%BUILD_DIR%\%pkg_dir%\release\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%.msi'
+    #source_app: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\wixproject\%NAME%\Resources\SqlDeveloper.ico'
+    source_app: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\release\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%.msi'
     msi_icon_name: 'TeXstudio.ico'
     composite_uninstall_path: '%ICON_PATH%\Icon-Uninstall-%NAME%.png'
     composite_update_path: '%ICON_PATH%\Icon-Update-%NAME%.png'
@@ -106,6 +101,6 @@ Process:
   Arguments:
     cmdline_args:
     - /S
-    - _?=%BUILD_DIR%\%pkg_dir%\sourceunzipped
-    exe_file: '%BUILD_DIR%\%pkg_dir%\sourceunzipped\uninstall.exe'
-    exe_folder: '%BUILD_DIR%\%pkg_dir%\sourceunzipped'
+    - _?=%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\sourceunzipped
+    exe_file: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\sourceunzipped\uninstall.exe'
+    exe_folder: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\sourceunzipped'

@@ -26,52 +26,42 @@ Process:
     SQL_command: SELECT `Value` FROM `Property` WHERE `Property`='ProductVersion'
     msi_path: '%pathname%'
 
-- Processor: com.github.sebtomasi.SharedProcessors/RenameVar
-  Arguments:
-    input_var: '%msi_value%'
-    rename_var: version
-
 - Processor: com.github.NickETH.recipes.SharedProcessors/CreateNextBuild
   Comment: Create the build environment
   Arguments:
     BuildFiles: NextVerFiles.txt
     build_dir: '%BUILD_DIR%'
     folder_list: sourceunzipped:release:read:helpers
-    org_ver: '%version%'
-    pkg_dir: ZoomClient%PF_STRING%_%version%_ML
+    org_ver: '%msi_value%'
+    pkg_dir: ZoomClient%PF_STRING%_%msi_value%_ML
     recipe_dir: '%RECIPE_DIR%'
     recipe_path: '%RECIPE_PATH%'
     ver_fields: '3'
 
-- Processor: com.github.sebtomasi.SharedProcessors/RenameVar
-  Arguments:
-    input_var: ZoomClient%PF_STRING%_%version%_ML
-    rename_var: pkg_dir
-
 - Processor: Copier
   Comment: Save a copy of the downloaded MSI file to the release dir.
   Arguments:
-    destination_path: '%BUILD_DIR%\%pkg_dir%\release\%NAME%%PF_STRING%_%build_ver%_ML.msi'
+    destination_path: '%BUILD_DIR%\ZoomClient%PF_STRING%_%msi_value%_ML\release\%NAME%%PF_STRING%_%build_ver%_ML.msi'
     overwrite: 'true'
     source_path: '%pathname%'
 
 - Processor: Copier
   Comment: Save a copy of the downloaded MSI file to the build dir.
   Arguments:
-    destination_path: '%BUILD_DIR%\%pkg_dir%\sourceunzipped\%NAME%.msi'
+    destination_path: '%BUILD_DIR%\ZoomClient%PF_STRING%_%msi_value%_ML\sourceunzipped\%NAME%.msi'
     overwrite: 'true'
     source_path: '%pathname%'
 
 - Processor: com.github.haircut.processors/AppIconExtractor
   Arguments:
-    ICON_PATH: '%BUILD_DIR%\%pkg_dir%\icons'
+    ICON_PATH: '%BUILD_DIR%\ZoomClient%PF_STRING%_%msi_value%_ML\icons'
     icon_file_number: 0
     # composite_padding: 20
     # composite_position: ul
     # composite_uninstall_path: '%RECIPE_CACHE_DIR%/Icon-Uninstall-%NAME%.png'
     # composite_uninstall_template: /Users/haircut/Documents/delete.png
     icon_output_path: '%ICON_PATH%\Icon-%NAME%.png'
-    source_app: '%BUILD_DIR%\%pkg_dir%\helpers\ZoomClient_256.ico'
+    source_app: '%BUILD_DIR%\ZoomClient%PF_STRING%_%msi_value%_ML\helpers\ZoomClient_256.ico'
     #msi_icon_name: 'MainExecutableIcon.ico'
     composite_uninstall_path: '%ICON_PATH%\Icon-Uninstall-%NAME%.png'
     composite_update_path: '%ICON_PATH%\Icon-Update-%NAME%.png'
@@ -79,13 +69,13 @@ Process:
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/FileDateVersionSubst
   Arguments:
-    file_path: '%BUILD_DIR%\%pkg_dir%\read\create-log-ZoomClient%PF_STRING%_%build_ver%_ML.txt'
+    file_path: '%BUILD_DIR%\ZoomClient%PF_STRING%_%msi_value%_ML\read\create-log-ZoomClient%PF_STRING%_%build_ver%_ML.txt'
     new_ver: '%build_ver%'
     re_pattern: '[0-9]+\.[0-9]+\.[0-9]+'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/FileDateVersionSubst
   Arguments:
-    file_path: '%BUILD_DIR%\%pkg_dir%\read\readme-ZoomClient%PF_STRING%_%build_ver%_ML.txt'
+    file_path: '%BUILD_DIR%\ZoomClient%PF_STRING%_%msi_value%_ML\read\readme-ZoomClient%PF_STRING%_%build_ver%_ML.txt'
     new_ver: '%build_ver%'
     re_pattern: '[0-9]+\.[0-9]+\.[0-9]+'
 

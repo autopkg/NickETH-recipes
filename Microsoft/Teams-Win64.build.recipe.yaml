@@ -20,39 +20,29 @@ Process:
     SQL_command: SELECT `Value` FROM `Property` WHERE `Property`='ProductVersion'
     msi_path: '%pathname%'
 
-- Processor: com.github.sebtomasi.SharedProcessors/RenameVar
-  Arguments:
-    input_var: '%msi_value%'
-    rename_var: version
-
 - Processor: com.github.NickETH.recipes.SharedProcessors/CreateNextBuild
   Comment: Create the build environment
   Arguments:
     BuildFiles: NextVerFiles.txt
     build_dir: '%BUILD_DIR%'
     folder_list: helpers:release:read
-    org_ver: '%version%'
+    org_ver: '%msi_value%'
     pkg_dir: '%NAME%%PF_STRING%_::VVeerrssiioonn::_ML'
     recipe_dir: '%RECIPE_DIR%'
     recipe_path: '%RECIPE_PATH%'
     ver_fields: '4'
 
-- Processor: com.github.sebtomasi.SharedProcessors/RenameVar
-  Arguments:
-    input_var: '%NAME%%PF_STRING%_%build_ver%_ML'
-    rename_var: pkg_dir
-
 - Processor: Copier
   Comment: Save a copy of the downloaded MSI to the release dir.
   Arguments:
-    destination_path: '%BUILD_DIR%\%pkg_dir%\release\%NAME%%PF_STRING%_%build_ver%_ML.msi'
+    destination_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\release\%NAME%%PF_STRING%_%build_ver%_ML.msi'
     overwrite: 'true'
     source_path: '%pathname%'
 
 - Processor: Copier
   Comment: Save an extra copy of the downloaded MSI to the release dir for the per computer install.
   Arguments:
-    destination_path: '%BUILD_DIR%\%pkg_dir%\release\%NAME%-perComp%PF_STRING%_%build_ver%_ML.msi'
+    destination_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\release\%NAME%-perComp%PF_STRING%_%build_ver%_ML.msi'
     overwrite: 'true'
     source_path: '%pathname%'
 
@@ -60,16 +50,16 @@ Process:
   Comment: Merges the WixFirewallCA-merge.msi with the main MSI-file
   Arguments:
     mode: -m
-    msi_path: '%BUILD_DIR%\%pkg_dir%\release\%NAME%-perComp%PF_STRING%_%build_ver%_ML.msi'
-    workfile: '%BUILD_DIR%\%pkg_dir%\helpers\WixFirewallCA-merge.msi'
+    msi_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\release\%NAME%-perComp%PF_STRING%_%build_ver%_ML.msi'
+    workfile: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\helpers\WixFirewallCA-merge.msi'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/MSIDbWorker
   Comment: Import the Upgrade Table into the Teams MSI-file
   Arguments:
     mode: -i
-    msi_path: '%BUILD_DIR%\%pkg_dir%\release\%NAME%-perComp%PF_STRING%_%build_ver%_ML.msi'
+    msi_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\release\%NAME%-perComp%PF_STRING%_%build_ver%_ML.msi'
     workfile: Upgrade
-    workfolder: '%BUILD_DIR%\%pkg_dir%\helpers'
+    workfolder: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\helpers'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/MSIRunSQL
   Comment: Set the Upgrade and Property table entries for the upgrade code in the Teams MSI-file
@@ -77,31 +67,31 @@ Process:
     SQL_command:
     - INSERT INTO `Upgrade` (`Upgrade`.`UpgradeCode`,`Upgrade`.`VersionMin`,`Upgrade`.`VersionMax`,`Upgrade`.`Attributes`, `Upgrade`.`ActionProperty`) VALUES ('{57602353-1593-497F-B8D1-6A53F86E2760}','0.0.0.0','%build_ver%',768,'UPGRADEFOUND')
     - UPDATE `Property` SET `Property`.`Value`='NETFRAMEWORK45;UPGRADEFOUND' WHERE `Property`.`Property`='SecureCustomProperties'
-    msi_path: '%BUILD_DIR%\%pkg_dir%\release\%NAME%-perComp%PF_STRING%_%build_ver%_ML.msi'
+    msi_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\release\%NAME%-perComp%PF_STRING%_%build_ver%_ML.msi'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/MSITransformer
   Comment: Apply the per Computer transform to the Teams MSI
   Arguments:
     mode: -a
-    msi_path: '%BUILD_DIR%\%pkg_dir%\release\%NAME%-perComp%PF_STRING%_%build_ver%_ML.msi'
-    mst_paths: '%BUILD_DIR%\%pkg_dir%\helpers\teams_perComp_x64.mst'
+    msi_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\release\%NAME%-perComp%PF_STRING%_%build_ver%_ML.msi'
+    mst_paths: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\helpers\teams_perComp_x64.mst'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/MSITransformer
   Comment: Apply the per User transform to the Teams MSI
   Arguments:
     mode: -a
-    msi_path: '%BUILD_DIR%\%pkg_dir%\release\%NAME%%PF_STRING%_%build_ver%_ML.msi'
-    mst_paths: '%BUILD_DIR%\%pkg_dir%\helpers\teams_perUser_x64.mst'
+    msi_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\release\%NAME%%PF_STRING%_%build_ver%_ML.msi'
+    mst_paths: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\helpers\teams_perUser_x64.mst'
     
 - Processor: com.github.NickETH.recipes.SharedProcessors/FileDateVersionSubst
   Arguments:
-    file_path: '%BUILD_DIR%\%pkg_dir%\read\create-log-%NAME%%PF_STRING%_%build_ver%_ML.txt'
+    file_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\read\create-log-%NAME%%PF_STRING%_%build_ver%_ML.txt'
     new_ver: '%build_ver%'
     re_pattern: '[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/FileDateVersionSubst
   Arguments:
-    file_path: '%BUILD_DIR%\%pkg_dir%\read\readme-%NAME%%PF_STRING%_%build_ver%_ML.txt'
+    file_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\read\readme-%NAME%%PF_STRING%_%build_ver%_ML.txt'
     new_ver: '%build_ver%'
     re_pattern: '[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+'
 
