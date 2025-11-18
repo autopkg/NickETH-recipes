@@ -25,23 +25,18 @@ Process:
     recipe_path: '%RECIPE_PATH%'
     ver_fields: '2'
 
-- Processor: com.github.sebtomasi.SharedProcessors/RenameVar
-  Arguments:
-    input_var: '%NAME%%PF_STRING%_%build_ver%_EN'
-    rename_var: pkg_dir
-
 - Processor: Copier
   Comment: Save a copy of the downloaded MSI to the release dir.
   Arguments:
-    destination_path: '%BUILD_DIR%\%pkg_dir%\release\%NAME%%PF_STRING%_%build_ver%_EN.msi'
+    destination_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_EN\release\%NAME%%PF_STRING%_%build_ver%_EN.msi'
     overwrite: 'true'
     source_path: '%pathname%'
 
 # - Processor: com.github.NickETH.recipes.SharedProcessors/SevenZipExtractor
   # Comment: Extract the InstantClient odbc zip archive
   # Arguments:
-    # exe_path: '%BUILD_DIR%\%pkg_dir%\release\%NAME%%PF_STRING%_%build_ver%_EN.msi'
-    # extract_dir: '%BUILD_DIR%\%pkg_dir%\sourceunzipped\'
+    # exe_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_EN\release\%NAME%%PF_STRING%_%build_ver%_EN.msi'
+    # extract_dir: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_EN\sourceunzipped\'
     # extract_file: 'putty.cab'
     # ignore_pattern: ''
     # preserve_paths: 'False'
@@ -49,22 +44,22 @@ Process:
 # - Processor: com.github.NickETH.recipes.SharedProcessors/SevenZipExtractor
   # Comment: Extract the InstantClient odbc zip archive
   # Arguments:
-    # exe_path: '%BUILD_DIR%\%pkg_dir%\sourceunzipped\putty.cab'
-    # extract_dir: '%BUILD_DIR%\%pkg_dir%\sourceunzipped\'
+    # exe_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_EN\sourceunzipped\putty.cab'
+    # extract_dir: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_EN\sourceunzipped\'
     # extract_file: 'PuTTY_File'
     # ignore_pattern: ''
     # preserve_paths: 'False'
     
 - Processor: com.github.haircut.processors/AppIconExtractor
   Arguments:
-    ICON_PATH: '%BUILD_DIR%\%pkg_dir%\icons'
+    ICON_PATH: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_EN\icons'
     icon_file_number: 0
     # composite_padding: 20
     # composite_position: ul
     # composite_uninstall_path: '%RECIPE_CACHE_DIR%/Icon-Uninstall-%NAME%.png'
     # composite_uninstall_template: /Users/haircut/Documents/delete.png
     icon_output_path: '%ICON_PATH%\Icon-%NAME%.png'
-    source_app: '%BUILD_DIR%\%pkg_dir%\helpers\PuTTY_256.ico'
+    source_app: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_EN\helpers\PuTTY_256.ico'
     # msi_icon_name: 'installericon.exe'
     composite_uninstall_path: '%ICON_PATH%\Icon-Uninstall-%NAME%.png'
     composite_update_path: '%ICON_PATH%\Icon-Update-%NAME%.png'
@@ -72,13 +67,13 @@ Process:
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/FileDateVersionSubst
   Arguments:
-    file_path: '%BUILD_DIR%\%pkg_dir%\read\create-log-%NAME%%PF_STRING%_%build_ver%_EN.txt'
+    file_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_EN\read\create-log-%NAME%%PF_STRING%_%build_ver%_EN.txt'
     new_ver: '%build_ver%'
     re_pattern: '[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/FileDateVersionSubst
   Arguments:
-    file_path: '%BUILD_DIR%\%pkg_dir%\read\readme-%NAME%%PF_STRING%_%build_ver%_EN.txt'
+    file_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_EN\read\readme-%NAME%%PF_STRING%_%build_ver%_EN.txt'
     new_ver: '%build_ver%'
     re_pattern: '[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+'
 

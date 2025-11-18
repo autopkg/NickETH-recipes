@@ -23,104 +23,99 @@ Process:
     recipe_path: '%RECIPE_PATH%'
     ver_fields: '3'
 
-- Processor: com.github.sebtomasi.SharedProcessors/RenameVar
-  Arguments:
-    input_var: Keepass_%build_ver%%LANG_STRING%
-    rename_var: pkg_dir
-
 # - Processor: com.github.NickETH.recipes.SharedProcessors/WixDefaults
   # Arguments:
-    # build_dir: '%BUILD_DIR%\%pkg_dir%'
+    # build_dir: '%BUILD_DIR%\Keepass_%build_ver%%LANG_STRING%'
     # build_ver: '%build_ver%'
     # org_ver: '%version%'
     # prop_file: wixproject\global.prop
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/FileDateVersionSubst
   Arguments:
-    file_path: '%BUILD_DIR%\%pkg_dir%\read\create-log-Keepass_%build_ver%%LANG_STRING%.txt'
+    file_path: '%BUILD_DIR%\Keepass_%build_ver%%LANG_STRING%\read\create-log-Keepass_%build_ver%%LANG_STRING%.txt'
     new_ver: '%build_ver%'
     re_pattern: '[0-9]+\.[0-9]+\.[0-9]+'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/FileDateVersionSubst
   Arguments:
-    file_path: '%BUILD_DIR%\%pkg_dir%\read\readme-Keepass_%build_ver%%LANG_STRING%.txt'
+    file_path: '%BUILD_DIR%\Keepass_%build_ver%%LANG_STRING%\read\readme-Keepass_%build_ver%%LANG_STRING%.txt'
     new_ver: '%build_ver%'
     re_pattern: '[0-9]+\.[0-9]+\.[0-9]+'
 
 - Processor: Copier
   Arguments:
-    destination_path: '%BUILD_DIR%\%pkg_dir%\sourceunzipped\%NAME%_%build_ver%.msi'
+    destination_path: '%BUILD_DIR%\Keepass_%build_ver%%LANG_STRING%\sourceunzipped\%NAME%_%build_ver%.msi'
     overwrite: 'true'
     source_path: '%RECIPE_CACHE_DIR%\downloads\%NAME%.msi'
 
 - Processor: Copier
   Arguments:
-    destination_path: '%BUILD_DIR%\%pkg_dir%\release\%NAME%_%build_ver%%LANG_STRING%.msi'
+    destination_path: '%BUILD_DIR%\Keepass_%build_ver%%LANG_STRING%\release\%NAME%_%build_ver%%LANG_STRING%.msi'
     overwrite: 'true'
     source_path: '%RECIPE_CACHE_DIR%\downloads\%NAME%.msi'
 
 - Processor: Copier
   Arguments:
-    destination_path: '%BUILD_DIR%\%pkg_dir%\wixproject\%NAME%\KeePass.config.enforced.xml'
+    destination_path: '%BUILD_DIR%\Keepass_%build_ver%%LANG_STRING%\wixproject\%NAME%\KeePass.config.enforced.xml'
     overwrite: 'true'
-    source_path: '%BUILD_DIR%\%pkg_dir%\helpers\KeePass.config.enforced.xml'
+    source_path: '%BUILD_DIR%\Keepass_%build_ver%%LANG_STRING%\helpers\KeePass.config.enforced.xml'
 
 - Processor: Copier
   Arguments:
-    destination_path: '%BUILD_DIR%\%pkg_dir%\sourcepkt\%NAME%-ger.zip'
+    destination_path: '%BUILD_DIR%\Keepass_%build_ver%%LANG_STRING%\sourcepkt\%NAME%-ger.zip'
     overwrite: 'true'
     source_path: '%RECIPE_CACHE_DIR%\downloads\%NAME%-ger.zip'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/SevenZipExtractor
   Comment: Extract the Keepass german language file to the wixproject dir
   Arguments:
-    exe_path: '%BUILD_DIR%\%pkg_dir%\sourcepkt\%NAME%-ger.zip'
-    extract_dir: '%BUILD_DIR%\%pkg_dir%\wixproject\%NAME%\Languages'
+    exe_path: '%BUILD_DIR%\Keepass_%build_ver%%LANG_STRING%\sourcepkt\%NAME%-ger.zip'
+    extract_dir: '%BUILD_DIR%\Keepass_%build_ver%%LANG_STRING%\wixproject\%NAME%\Languages'
     extract_file: '*'
     ignore_pattern: ''
     preserve_paths: 'True'
 
 - Processor: Copier
   Arguments:
-    destination_path: '%BUILD_DIR%\%pkg_dir%\sourcepkt\%NAME%-fra.zip'
+    destination_path: '%BUILD_DIR%\Keepass_%build_ver%%LANG_STRING%\sourcepkt\%NAME%-fra.zip'
     overwrite: 'true'
     source_path: '%RECIPE_CACHE_DIR%\downloads\%NAME%-fra.zip'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/SevenZipExtractor
   Comment: Extract the Keepass french language file to the wixproject dir
   Arguments:
-    exe_path: '%BUILD_DIR%\%pkg_dir%\sourcepkt\%NAME%-fra.zip'
-    extract_dir: '%BUILD_DIR%\%pkg_dir%\wixproject\%NAME%\Languages'
+    exe_path: '%BUILD_DIR%\Keepass_%build_ver%%LANG_STRING%\sourcepkt\%NAME%-fra.zip'
+    extract_dir: '%BUILD_DIR%\Keepass_%build_ver%%LANG_STRING%\wixproject\%NAME%\Languages'
     extract_file: '*'
     ignore_pattern: ''
     preserve_paths: 'True'
 
 - Processor: Copier
   Arguments:
-    destination_path: '%BUILD_DIR%\%pkg_dir%\sourcepkt\%NAME%-ita.zip'
+    destination_path: '%BUILD_DIR%\Keepass_%build_ver%%LANG_STRING%\sourcepkt\%NAME%-ita.zip'
     overwrite: 'true'
     source_path: '%RECIPE_CACHE_DIR%\downloads\%NAME%-ita.zip'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/SevenZipExtractor
   Comment: Extract the Keepass italian language file to the wixproject dir
   Arguments:
-    exe_path: '%BUILD_DIR%\%pkg_dir%\sourcepkt\%NAME%-ita.zip'
-    extract_dir: '%BUILD_DIR%\%pkg_dir%\wixproject\%NAME%\Languages'
+    exe_path: '%BUILD_DIR%\Keepass_%build_ver%%LANG_STRING%\sourcepkt\%NAME%-ita.zip'
+    extract_dir: '%BUILD_DIR%\Keepass_%build_ver%%LANG_STRING%\wixproject\%NAME%\Languages'
     extract_file: '*'
     ignore_pattern: ''
     preserve_paths: 'True'
 
 - Processor: Copier
   Arguments:
-    destination_path: '%BUILD_DIR%\%pkg_dir%\sourcepkt\%NAME%-spa.zip'
+    destination_path: '%BUILD_DIR%\Keepass_%build_ver%%LANG_STRING%\sourcepkt\%NAME%-spa.zip'
     overwrite: 'true'
     source_path: '%RECIPE_CACHE_DIR%\downloads\%NAME%-spa.zip'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/SevenZipExtractor
   Comment: Extract the Keepass spanish language file to the wixproject dir
   Arguments:
-    exe_path: '%BUILD_DIR%\%pkg_dir%\sourcepkt\%NAME%-spa.zip'
-    extract_dir: '%BUILD_DIR%\%pkg_dir%\wixproject\%NAME%\Languages'
+    exe_path: '%BUILD_DIR%\Keepass_%build_ver%%LANG_STRING%\sourcepkt\%NAME%-spa.zip'
+    extract_dir: '%BUILD_DIR%\Keepass_%build_ver%%LANG_STRING%\wixproject\%NAME%\Languages'
     extract_file: '*'
     ignore_pattern: ''
     preserve_paths: 'True'
@@ -128,16 +123,16 @@ Process:
 - Processor: com.github.haircut.processors/AppIconExtractor
   Comment: Generate the IrfanView icons for BMS Kiosk.
   Arguments:
-    ICON_PATH: '%BUILD_DIR%\%pkg_dir%\icons'
+    ICON_PATH: '%BUILD_DIR%\Keepass_%build_ver%%LANG_STRING%\icons'
     icon_file_number: 0
     # composite_padding: 20
     # composite_position: ul
     # composite_uninstall_path: '%RECIPE_CACHE_DIR%/Icon-Uninstall-%NAME%.png'
     # composite_uninstall_template: /Users/haircut/Documents/delete.png
     icon_output_path: '%ICON_PATH%\Icon-%NAME%.png'
-    #source_app: '%BUILD_DIR%\%pkg_dir%\wixproject\%NAME%\%EXE_NAME%'
+    #source_app: '%BUILD_DIR%\Keepass_%build_ver%%LANG_STRING%\wixproject\%NAME%\%EXE_NAME%'
     #source_app: '%RECIPE_CACHE_DIR%\downloads\%NAME%_%PLATFORM%.msi'
-    source_app: '%BUILD_DIR%\%pkg_dir%\helpers\Keepass_256.png'
+    source_app: '%BUILD_DIR%\Keepass_%build_ver%%LANG_STRING%\helpers\Keepass_256.png'
     msi_icon_name: 'Icon0'
     composite_uninstall_path: '%ICON_PATH%\Icon-Uninstall-%NAME%.png'
     composite_update_path: '%ICON_PATH%\Icon-Update-%NAME%.png'
@@ -146,7 +141,7 @@ Process:
 - Processor: com.github.NickETH.recipes.SharedProcessors/WixSettings
   Comment: Define variables for the WIX build process to the version.wxi file
   Arguments:
-    preproc_file: '%BUILD_DIR%\%pkg_dir%\wixproject\version.wxi'
+    preproc_file: '%BUILD_DIR%\Keepass_%build_ver%%LANG_STRING%\wixproject\version.wxi'
     template_file: None
     new_settings:
     - define: 'version="%build_ver%"'
@@ -157,20 +152,20 @@ Process:
 - Processor: com.github.NickETH.recipes.SharedProcessors/MSBuildRun
   Comment: Run the MSBuild script to generate the TortoiseGit Languages MSM module addon.
   Arguments:
-    build_file: '%BUILD_DIR%\%pkg_dir%\wixproject\%ADDON_NAME%%PF_STRING%.build'
-    build_folder: '%BUILD_DIR%\%pkg_dir%\wixproject'
-    build_property: BuildPlatform=%PLATFORM%;BuildName=%ADDON_NAME%;BuildDir=%BUILD_DIR%\%pkg_dir%\wixproject;SourceDir=%BUILD_DIR%\%pkg_dir%\wixproject\%NAME%;version=%build_ver%;Platformstr=%PF_STRING%;LangStr=%LANG_STRING%
+    build_file: '%BUILD_DIR%\Keepass_%build_ver%%LANG_STRING%\wixproject\%ADDON_NAME%%PF_STRING%.build'
+    build_folder: '%BUILD_DIR%\Keepass_%build_ver%%LANG_STRING%\wixproject'
+    build_property: BuildPlatform=%PLATFORM%;BuildName=%ADDON_NAME%;BuildDir=%BUILD_DIR%\Keepass_%build_ver%%LANG_STRING%\wixproject;SourceDir=%BUILD_DIR%\Keepass_%build_ver%%LANG_STRING%\wixproject\%NAME%;version=%build_ver%;Platformstr=%PF_STRING%;LangStr=%LANG_STRING%
     build_target: WIX
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/MSIimportMergeModule
   Arguments:
-    log_file_abs: '%BUILD_DIR%\%pkg_dir%\wixproject\MSM-log.txt'
-    msi_path: '%BUILD_DIR%\%pkg_dir%\release\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%.msi'
+    log_file_abs: '%BUILD_DIR%\Keepass_%build_ver%%LANG_STRING%\wixproject\MSM-log.txt'
+    msi_path: '%BUILD_DIR%\Keepass_%build_ver%%LANG_STRING%\release\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%.msi'
     msm_dir: TARGETDIR
     msm_feature: '%ADDON_NAME%'
-    msm_path: '%BUILD_DIR%\%pkg_dir%\wixproject\%ADDON_NAME%%PF_STRING%_%build_ver%.msm'
-    pkg_dir_abs: '%BUILD_DIR%\%pkg_dir%'
-    temp_path: '%BUILD_DIR%\%pkg_dir%\wixproject'
+    msm_path: '%BUILD_DIR%\Keepass_%build_ver%%LANG_STRING%\wixproject\%ADDON_NAME%%PF_STRING%_%build_ver%.msm'
+    pkg_dir_abs: '%BUILD_DIR%\Keepass_%build_ver%%LANG_STRING%'
+    temp_path: '%BUILD_DIR%\Keepass_%build_ver%%LANG_STRING%\wixproject'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/MSIRunSQL
   Arguments:
@@ -178,7 +173,7 @@ Process:
     - INSERT INTO `Feature` (`Feature`.`Feature`,`Feature`.`Feature_Parent`,`Feature`.`Title`,`Feature`.`Description`, `Feature`.`Display`,`Feature`.`Level`,`Feature`.`Directory_`,`Feature`.`Attributes`) VALUES ('%ADDON_NAME%','','%ADDON_NAME%','Install Language and Config',11,1,'TARGETDIR',8)
     - UPDATE `Property` SET `Property`.`Value`='%NAME% ML' WHERE `Property`.`Property`='ProductName'
     - DELETE FROM `Shortcut` WHERE `Shortcut`.`Directory_` = 'DesktopFolder'
-    msi_path: '%BUILD_DIR%\%pkg_dir%\release\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%.msi'
+    msi_path: '%BUILD_DIR%\Keepass_%build_ver%%LANG_STRING%\release\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%.msi'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/DateTimeStamps
 
@@ -189,6 +184,6 @@ Process:
       /j: Keepass ML
       /o: Extended with Langpacks and Cfg for corporate use. %us_date% by AutoPkg
       /t: Keepass ML
-    msi_path: '%BUILD_DIR%\%pkg_dir%\release\Keepass_%build_ver%%LANG_STRING%.msi'
+    msi_path: '%BUILD_DIR%\Keepass_%build_ver%%LANG_STRING%\release\Keepass_%build_ver%%LANG_STRING%.msi'
 
 - Processor: EndOfCheckPhase

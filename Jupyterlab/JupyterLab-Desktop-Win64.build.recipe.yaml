@@ -27,16 +27,11 @@ Process:
     ver_fields: '4'
     create_AS_ver: 'true'
 
-- Processor: com.github.sebtomasi.SharedProcessors/RenameVar
-  Arguments:
-    input_var: '%NAME%%PF_STRING%_%version%_ML'
-    rename_var: pkg_dir
-
 - Processor: Copier
   #Comment: Copy the Element installer file to the build dir
   Comment: Copy the JupyterLab-Desktop installer file to the build dir
   Arguments:
-    destination_path: '%BUILD_DIR%\%pkg_dir%\sourcepkt\%filename%'
+    destination_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%version%_ML\sourcepkt\%filename%'
     overwrite: 'true'
     #source_path: '%RECIPE_CACHE_DIR%\downloads\%filename%'
     source_path: '%pathname%'
@@ -44,15 +39,15 @@ Process:
 # - Processor: Copier
   # Comment: Copy the JupyterLab-Desktop installer file to the release dir
   # Arguments:
-    # destination_path: '%BUILD_DIR%\%pkg_dir%\release\%NAME%%PF_STRING%_%build_ver%_ML.exe'
+    # destination_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%version%_ML\release\%NAME%%PF_STRING%_%build_ver%_ML.exe'
     # overwrite: 'true'
     # source_path: '%pathname%'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/SevenZipExtractor
   Comment: Extract the JupyterLab-Desktop NSIS installer to the sourceunzipped dir
   Arguments:
-    exe_path: '%BUILD_DIR%\%pkg_dir%\sourcepkt\%filename%'
-    extract_dir: '%BUILD_DIR%\%pkg_dir%\sourceunzipped\'
+    exe_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%version%_ML\sourcepkt\%filename%'
+    extract_dir: '%BUILD_DIR%\%NAME%%PF_STRING%_%version%_ML\sourceunzipped\'
     extract_file: '*'
     ignore_pattern: ''
     preserve_paths: 'True'
@@ -60,22 +55,22 @@ Process:
 - Processor: com.github.NickETH.recipes.SharedProcessors/SevenZipExtractor
   Comment: Extract the JupyterLab-Desktop NSIS installer to the sourceunzipped dir
   Arguments:
-    exe_path: '%BUILD_DIR%\%pkg_dir%\sourceunzipped\$PLUGINSDIR\app-64.7z'
-    extract_dir: '%BUILD_DIR%\%pkg_dir%\wixproject\%NAMESHORT%\'
+    exe_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%version%_ML\sourceunzipped\$PLUGINSDIR\app-64.7z'
+    extract_dir: '%BUILD_DIR%\%NAME%%PF_STRING%_%version%_ML\wixproject\%NAMESHORT%\'
     extract_file: '*'
     ignore_pattern: ''
     preserve_paths: 'True'
 
 - Processor: com.github.haircut.processors/AppIconExtractor
   Arguments:
-    ICON_PATH: '%BUILD_DIR%\%pkg_dir%\icons'
+    ICON_PATH: '%BUILD_DIR%\%NAME%%PF_STRING%_%version%_ML\icons'
     icon_file_number: 0
     # composite_padding: 20
     # composite_position: ul
     # composite_uninstall_path: '%RECIPE_CACHE_DIR%/Icon-Uninstall-%NAME%.png'
     # composite_uninstall_template: /Users/haircut/Documents/delete.png
     icon_output_path: '%ICON_PATH%\Icon-%NAME%.png'
-    source_app: '%BUILD_DIR%\%pkg_dir%\wixproject\%NAMESHORT%\%NAMESHORT%.exe'
+    source_app: '%BUILD_DIR%\%NAME%%PF_STRING%_%version%_ML\wixproject\%NAMESHORT%\%NAMESHORT%.exe'
     #msi_icon_name: 'MainExecutableIcon.ico'
     composite_uninstall_path: '%ICON_PATH%\Icon-Uninstall-%NAME%.png'
     composite_update_path: '%ICON_PATH%\Icon-Update-%NAME%.png'
@@ -84,8 +79,8 @@ Process:
 - Processor: com.github.NickETH.recipes.SharedProcessors/ResourceWorker
   Comment: Extract the Eclipse res file
   Arguments:
-    exe_path: '%BUILD_DIR%\%pkg_dir%\wixproject\%NAMESHORT%\%NAMESHORT%.exe'
-    output_file: '%BUILD_DIR%\%pkg_dir%\sourceunzipped\Icon-%NAME%.res'
+    exe_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%version%_ML\wixproject\%NAMESHORT%\%NAMESHORT%.exe'
+    output_file: '%BUILD_DIR%\%NAME%%PF_STRING%_%version%_ML\sourceunzipped\Icon-%NAME%.res'
     reswork_action: 'extract'
     reswork_cmd: 'ICONGROUP,,'
     # ignore_errors: 'True'
@@ -93,9 +88,9 @@ Process:
 - Processor: com.github.NickETH.recipes.SharedProcessors/ResourceWorker
   Comment: Generate a new Icon.exe file for Eclipse-Java
   Arguments:
-    exe_path: '%BUILD_DIR%\%pkg_dir%\helpers\Icon-Stub-1.exe'
-    input_file: '%BUILD_DIR%\%pkg_dir%\sourceunzipped\Icon-%NAME%.res'
-    output_file: '%BUILD_DIR%\%pkg_dir%\wixproject\Resources\Main-Icon.exe'
+    exe_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%version%_ML\helpers\Icon-Stub-1.exe'
+    input_file: '%BUILD_DIR%\%NAME%%PF_STRING%_%version%_ML\sourceunzipped\Icon-%NAME%.res'
+    output_file: '%BUILD_DIR%\%NAME%%PF_STRING%_%version%_ML\wixproject\Resources\Main-Icon.exe'
     reswork_action: 'add'
     reswork_cmd: 'ICONGROUP,,'
     # ignore_errors: 'True'
@@ -104,20 +99,20 @@ Process:
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/FileDateVersionSubst
   Arguments:
-    file_path: '%BUILD_DIR%\%pkg_dir%\read\create-log-%NAME%%PF_STRING%_%build_ver%_ML.txt'
+    file_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%version%_ML\read\create-log-%NAME%%PF_STRING%_%build_ver%_ML.txt'
     new_ver: '%build_ver%'
     re_pattern: '[0-9]+\.[0-9]+\.[0-9]+'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/FileDateVersionSubst
   Arguments:
-    file_path: '%BUILD_DIR%\%pkg_dir%\read\readme-%NAME%%PF_STRING%_%build_ver%_ML.txt'
+    file_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%version%_ML\read\readme-%NAME%%PF_STRING%_%build_ver%_ML.txt'
     new_ver: '%build_ver%'
     re_pattern: '[0-9]+\.[0-9]+\.[0-9]+'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/WixSettings
   Comment: Define variables for the WIX build process to the version.wxi file
   Arguments:
-    preproc_file: '%BUILD_DIR%\%pkg_dir%\wixproject\version.wxi'
+    preproc_file: '%BUILD_DIR%\%NAME%%PF_STRING%_%version%_ML\wixproject\version.wxi'
     # template_file: None
     new_settings:
     - define: 'version="%build_ver%"'
@@ -138,8 +133,8 @@ Process:
 - Processor: com.github.NickETH.recipes.SharedProcessors/MSBuildRun
   Comment: Run the MSBuild script to generate the Eclipse MSI installer
   Arguments:
-    build_file: '%BUILD_DIR%\%pkg_dir%\wixproject\%NAMESHORT%.build'
-    build_folder: '%BUILD_DIR%\%pkg_dir%\wixproject'
-    build_property: BuildPlatform=%PLATFORM%;BuildName=%NAMESHORT%;BuildDir=%BUILD_DIR%\%pkg_dir%\wixproject;SourceDir=%BUILD_DIR%\%pkg_dir%\wixproject\%NAMESHORT%;version=%build_ver%;Platformstr=%PF_STRING%;LangStr=%LANG_STRING%
+    build_file: '%BUILD_DIR%\%NAME%%PF_STRING%_%version%_ML\wixproject\%NAMESHORT%.build'
+    build_folder: '%BUILD_DIR%\%NAME%%PF_STRING%_%version%_ML\wixproject'
+    build_property: BuildPlatform=%PLATFORM%;BuildName=%NAMESHORT%;BuildDir=%BUILD_DIR%\%NAME%%PF_STRING%_%version%_ML\wixproject;SourceDir=%BUILD_DIR%\%NAME%%PF_STRING%_%version%_ML\wixproject\%NAMESHORT%;version=%build_ver%;Platformstr=%PF_STRING%;LangStr=%LANG_STRING%
     #;"ASVersion=%AS_ver%"
     build_target: WIX

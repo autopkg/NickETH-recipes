@@ -20,29 +20,24 @@ Process:
     BuildFiles: NextVerFiles.txt
     build_dir: '%BUILD_DIR%'
     folder_list: sourcepkt:sourceunzipped:release:read:helpers:wixproject:wixproject\RStudio:wixproject\Includes:wixproject\Resources:wixproject\Lang:wixproject\Fragments
-    org_ver: '%version%'
+    org_ver: '%versionraw%.%buildraw%'
     pkg_dir: '%NAME%%PF_STRING%_::VVeerrssiioonn::%LANG_STRING%'
     recipe_dir: '%RECIPE_DIR%'
     recipe_path: '%RECIPE_PATH%'
     ver_fields: '4'
 
-- Processor: com.github.sebtomasi.SharedProcessors/RenameVar
-  Arguments:
-    input_var: '%NAME%%PF_STRING%_%build_ver%%LANG_STRING%'
-    rename_var: pkg_dir
-
 - Processor: Copier
   Comment: Copy the RStudio installer file to the build dir
   Arguments:
-    destination_path: '%BUILD_DIR%\%pkg_dir%\sourcepkt\%filename%'
+    destination_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\sourcepkt\%filename%'
     overwrite: 'true'
     source_path: '%RECIPE_CACHE_DIR%\downloads\%filename%'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/SevenZipExtractor
   Comment: Extract the autopkg zip archive
   Arguments:
-    exe_path: '%BUILD_DIR%\%pkg_dir%\sourcepkt\%filename%'
-    extract_dir: '%BUILD_DIR%\%pkg_dir%\wixproject\RStudio'
+    exe_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\sourcepkt\%filename%'
+    extract_dir: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\wixproject\RStudio'
     extract_file: '*'
     ignore_pattern: ''
     preserve_paths: 'True'
@@ -51,31 +46,31 @@ Process:
   Comment: Delete unnesessary folders from the RStudio installer files
   Arguments:
     path_list:
-    - '%BUILD_DIR%\%pkg_dir%\wixproject\RStudio\$PLUGINSDIR'
+    - '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\wixproject\RStudio\$PLUGINSDIR'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/FileDateVersionSubst
   Arguments:
-    file_path: '%BUILD_DIR%\%pkg_dir%\read\create-log-%NAME%%PF_STRING%_%build_ver%%LANG_STRING%.txt'
+    file_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\read\create-log-%NAME%%PF_STRING%_%build_ver%%LANG_STRING%.txt'
     new_ver: '%build_ver%'
     re_pattern: '[0-9]+\.[0-9]+\.[0-9]+'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/FileDateVersionSubst
   Arguments:
-    file_path: '%BUILD_DIR%\%pkg_dir%\read\readme-%NAME%%PF_STRING%_%build_ver%%LANG_STRING%.txt'
+    file_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\read\readme-%NAME%%PF_STRING%_%build_ver%%LANG_STRING%.txt'
     new_ver: '%build_ver%'
     re_pattern: '[0-9]+\.[0-9]+\.[0-9]+'
 
 - Processor: com.github.haircut.processors/AppIconExtractor
   Arguments:
-    ICON_PATH: '%BUILD_DIR%\%pkg_dir%\icons'
+    ICON_PATH: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\icons'
     icon_file_number: 0
     # composite_padding: 20
     # composite_position: ul
     # composite_uninstall_path: '%RECIPE_CACHE_DIR%/Icon-Uninstall-%NAME%.png'
     # composite_uninstall_template: /Users/haircut/Documents/delete.png
     icon_output_path: '%ICON_PATH%\Icon-%NAME%.png'
-    source_app: '%BUILD_DIR%\%pkg_dir%\wixproject\RStudio\rstudio.exe'
-    #source_app: '%BUILD_DIR%\%pkg_dir%\release\%NAME%%PF_STRING%_%version%%LANG_STRING%.msi'
+    source_app: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\wixproject\RStudio\rstudio.exe'
+    #source_app: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\release\%NAME%%PF_STRING%_%versionraw%.%buildraw%%LANG_STRING%.msi'
     #msi_icon_name: 'MainExecutableIcon.ico'
     composite_uninstall_path: '%ICON_PATH%\Icon-Uninstall-%NAME%.png'
     composite_update_path: '%ICON_PATH%\Icon-Update-%NAME%.png'
@@ -84,8 +79,8 @@ Process:
 - Processor: com.github.NickETH.recipes.SharedProcessors/ResourceWorker
   Comment: Extract the RStudio res file
   Arguments:
-    exe_path: '%BUILD_DIR%\%pkg_dir%\wixproject\RStudio\rstudio.exe'
-    output_file: '%BUILD_DIR%\%pkg_dir%\sourceunzipped\Icon-%NAME%.res'
+    exe_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\wixproject\RStudio\rstudio.exe'
+    output_file: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\sourceunzipped\Icon-%NAME%.res'
     reswork_action: 'extract'
     reswork_cmd: 'ICONGROUP,,'
     # ignore_errors: 'True'
@@ -93,9 +88,9 @@ Process:
 - Processor: com.github.NickETH.recipes.SharedProcessors/ResourceWorker
   Comment: Generate a new Icon.exe file for RStudio
   Arguments:
-    exe_path: '%BUILD_DIR%\%pkg_dir%\helpers\Icon-Stub-1.exe'
-    input_file: '%BUILD_DIR%\%pkg_dir%\sourceunzipped\Icon-%NAME%.res'
-    output_file: '%BUILD_DIR%\%pkg_dir%\wixproject\Resources\Main-Icon.exe'
+    exe_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\helpers\Icon-Stub-1.exe'
+    input_file: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\sourceunzipped\Icon-%NAME%.res'
+    output_file: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\wixproject\Resources\Main-Icon.exe'
     reswork_action: 'add'
     reswork_cmd: 'ICONGROUP,,'
     # ignore_errors: 'True'
@@ -103,16 +98,16 @@ Process:
 - Processor: com.github.NickETH.recipes.SharedProcessors/WixDefaults
   Comment: Set the actual version strings to the version.wxi file
   Arguments:
-    build_dir: '%BUILD_DIR%\%pkg_dir%'
+    build_dir: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%'
     build_ver: '%build_ver%'
     org_ver: '%build_ver%'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/MSBuildRun
   Comment: Run the MSBuild script to generate the RStudio MSI installer
   Arguments:
-    build_file: '%BUILD_DIR%\%pkg_dir%\wixproject\RStudio.build'
-    build_folder: '%BUILD_DIR%\%pkg_dir%\wixproject'
-    build_property: BuildPlatform=%PLATFORM%;BuildName=%NAME%;BuildDir=%BUILD_DIR%\%pkg_dir%\wixproject;RStudioDir=%BUILD_DIR%\%pkg_dir%\wixproject\RStudio;version=%version%
+    build_file: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\wixproject\RStudio.build'
+    build_folder: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\wixproject'
+    build_property: BuildPlatform=%PLATFORM%;BuildName=%NAME%;BuildDir=%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\wixproject;RStudioDir=%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\wixproject\RStudio;version=%versionraw%.%buildraw%
     build_target: WIX
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/DateTimeStamps

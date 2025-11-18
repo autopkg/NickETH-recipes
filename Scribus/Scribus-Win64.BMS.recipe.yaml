@@ -69,7 +69,7 @@ Process:
       </ACTION>
       </ACTIONS>
       </baramundiDeployScript>
-    file_path: '%BUILD_DIR%\%pkg_dir%\release\i_%NAME%%PF_STRING%_%build_ver%.bds'
+    file_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%version%_ML\release\i_%NAME%%PF_STRING%_%build_ver%.bds'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/BMSImporter
   Comment: Import the Application into Baramundi (BMS)
@@ -114,9 +114,9 @@ Process:
     bms_serverport: '%BMS_SERVER_PORT%'
     bms_serverurl: '%BMS_SERVER1%'
     bms_username: '%BMS_USERNAME1%'
-    inst_file_src_dest: '%BUILD_DIR%\%pkg_dir%\release\*.*|%BMS_IMPORT_PATH_TST%\%DIP_NAME%\%parsed_string%\%DIP_SUBDIR%'
-    icon_file_src: '%BUILD_DIR%\%pkg_dir%\icons\*.*'
+    inst_file_src_dest: '%BUILD_DIR%\%NAME%%PF_STRING%_%version%_ML\release\*.*|%BMS_IMPORT_PATH_TST%\%DIP_NAME%\%parsed_string%\%DIP_SUBDIR%'
+    icon_file_src: '%BUILD_DIR%\%NAME%%PF_STRING%_%version%_ML\icons\*.*'
     json_file_dest: '%BMS_IMPORT_PATH_TST%\%DIP_NAME%\bms_app_integration.json'
-    read_file_src_dest: '%BUILD_DIR%\%pkg_dir%\read\*-%NAME%%PF_STRING%_%build_ver%_ML.txt|%BMS_IMPORT_PATH_TST%\%DIP_NAME%\%parsed_string%\DEV'
+    read_file_src_dest: '%BUILD_DIR%\%NAME%%PF_STRING%_%version%_ML\read\*-%NAME%%PF_STRING%_%build_ver%_ML.txt|%BMS_IMPORT_PATH_TST%\%DIP_NAME%\%parsed_string%\DEV'
 
 - Processor: EndOfCheckPhase

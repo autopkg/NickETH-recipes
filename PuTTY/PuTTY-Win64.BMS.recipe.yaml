@@ -14,7 +14,7 @@ Process:
 - Processor: com.github.NickETH.recipes.SharedProcessors/MSIRunSQLget
   Arguments:
     SQL_command: SELECT `Value` FROM `Property` WHERE `Property`='ProductCode'
-    msi_path: '%BUILD_DIR%\%pkg_dir%\release\%NAME%%PF_STRING%_%build_ver%_EN.msi'
+    msi_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_EN\release\%NAME%%PF_STRING%_%build_ver%_EN.msi'
 
 - Processor: com.github.sebtomasi.SharedProcessors/TextSubstituer
   Arguments:
@@ -92,9 +92,9 @@ Process:
     bms_serverport: '%BMS_SERVER_PORT%'
     bms_serverurl: '%BMS_SERVER1%'
     bms_username: '%BMS_USERNAME1%'
-    inst_file_src_dest: '%BUILD_DIR%\%pkg_dir%\release\*.*|%BMS_IMPORT_PATH_TST%\%NAME%\%parsed_string%\EN'
+    inst_file_src_dest: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_EN\release\*.*|%BMS_IMPORT_PATH_TST%\%NAME%\%parsed_string%\EN'
     json_file_dest: '%BMS_IMPORT_PATH_TST%\%NAME%\bms_app_integration.json'
-    icon_file_src: '%BUILD_DIR%\%pkg_dir%\icons\*.*'
-    read_file_src_dest: '%BUILD_DIR%\%pkg_dir%\read\*-%NAME%%PF_STRING%_%build_ver%%LANG_STRING%.txt|%BMS_IMPORT_PATH_TST%\%NAME%\%parsed_string%\DEV'
+    icon_file_src: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_EN\icons\*.*'
+    read_file_src_dest: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_EN\read\*-%NAME%%PF_STRING%_%build_ver%%LANG_STRING%.txt|%BMS_IMPORT_PATH_TST%\%NAME%\%parsed_string%\DEV'
 
 - Processor: EndOfCheckPhase

@@ -15,7 +15,7 @@ Process:
   Arguments:
     destination_path: 'C:\Tools\MSITools\msedgedriver.exe'
     overwrite: 'true'
-    source_path: '%BUILD_DIR%\%pkg_dir%\release\msedgedriver.exe'
+    source_path: '%BUILD_DIR%\%VENDOR%_%NAME%%PF_STRING%_%version%_ML\release\msedgedriver.exe'
 
 # - Processor: com.github.NickETH.recipes.SharedProcessors/ExecuteFile
   # Comment: stop the MS Edge browser

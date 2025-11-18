@@ -28,16 +28,6 @@ Process:
     url: https://www.adobe.com/devnet-docs/acrobatetk/tools/ReleaseNotesDC/%match%
     #url: https://www.adobe.com/devnet-docs/acrobatetk/tools/ReleaseNotesDC/%sub_string%
 
-- Processor: com.github.sebtomasi.SharedProcessors/RenameVar
-  Arguments:
-    input_var: '%ver_major%.%ver_majorminor%.%ver_minor%'
-    rename_var: version
-
-- Processor: com.github.sebtomasi.SharedProcessors/RenameVar
-  Arguments:
-    input_var: '%ver_major%,%ver_majorminor%,%ver_minor%'
-    rename_var: ASver
-
 - Processor: URLDownloader
   Arguments:
     CHECK_FILESIZE_ONLY: 'False'

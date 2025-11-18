@@ -132,7 +132,7 @@ Process:
       </ACTION>
       </ACTIONS>
       </baramundiDeployScript>
-    file_path: '%BUILD_DIR%\%pkg_dir%\release\%NAME%%PF_STRING%_%build_ver%_(Un-)Install.bds'
+    file_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\release\%NAME%%PF_STRING%_%build_ver%_(Un-)Install.bds'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/BMSImporter
   Comment: Import the Application into Baramundi (BMS)
@@ -187,9 +187,9 @@ Process:
       jobdescription: 'Mit WhatsApp Desktop können alle Funktionen von WhatsApp (Textnachrichten, Bild-, Video- und Ton-Dateien, Dokumente und Kontaktdaten und Video-Telefonie) auf Windows verwendet werden.'
       autoenableapp: '%NAME% - Enable AutoUpdate'
       autoreleasejob: '@_AU-Rel_%NAME%'
-    inst_file_src_dest: '%BUILD_DIR%\%pkg_dir%\release\*.*|%BMS_IMPORT_PATH_TST%\%DIP_NAME%\%parsed_string%\%DIP_SUBDIR%'
-    icon_file_src: '%BUILD_DIR%\%pkg_dir%\icons\*.*'
+    inst_file_src_dest: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\release\*.*|%BMS_IMPORT_PATH_TST%\%DIP_NAME%\%parsed_string%\%DIP_SUBDIR%'
+    icon_file_src: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\icons\*.*'
     json_file_dest: '%BMS_IMPORT_PATH_TST%\%DIP_NAME%\bms_app_integration.json'
-    read_file_src_dest: '%BUILD_DIR%\%pkg_dir%\read\*-%NAME%%PF_STRING%_%build_ver%_ML.txt|%BMS_IMPORT_PATH_TST%\%DIP_NAME%\%parsed_string%\DEV'
+    read_file_src_dest: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\read\*-%NAME%%PF_STRING%_%build_ver%_ML.txt|%BMS_IMPORT_PATH_TST%\%DIP_NAME%\%parsed_string%\DEV'
 
 - Processor: EndOfCheckPhase

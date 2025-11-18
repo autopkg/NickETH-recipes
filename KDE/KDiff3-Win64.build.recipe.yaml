@@ -25,17 +25,12 @@ Process:
     recipe_path: '%RECIPE_PATH%'
     ver_fields: '3'
 
-- Processor: com.github.sebtomasi.SharedProcessors/RenameVar
-  Arguments:
-    input_var: '%NAME%%PF_STRING%_%build_ver%_ML'
-    rename_var: pkg_dir
-
 - Processor: com.github.NickETH.recipes.SharedProcessors/DateTimeStamps
 
 - Processor: Copier
   Comment: Copy the install exe file to the release dir
   Arguments:
-    destination_path: '%BUILD_DIR%\%pkg_dir%\release\%NAME%%PF_STRING%_%build_ver%_ML.exe'
+    destination_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\release\%NAME%%PF_STRING%_%build_ver%_ML.exe'
     overwrite: 'true'
     source_path: '%pathname%'
 
@@ -53,8 +48,8 @@ Process:
   Comment: Extract the install executable
   Arguments:
     exe_path: '%found_filename%'
-    #exe_path: '%BUILD_DIR%\%pkg_dir%\release\%NAME%%PF_STRING%_%build_ver%_ML.exe'
-    extract_dir: '%BUILD_DIR%\%pkg_dir%\sourceunzipped\'
+    #exe_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\release\%NAME%%PF_STRING%_%build_ver%_ML.exe'
+    extract_dir: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\sourceunzipped\'
     extract_file: 'bin\kdiff3.exe'
     ignore_pattern: ''
     preserve_paths: 'False'
@@ -62,14 +57,14 @@ Process:
 - Processor: com.github.haircut.processors/AppIconExtractor
   Comment: Extract the icon and create custom icons for the deployment.
   Arguments:
-    ICON_PATH: '%BUILD_DIR%\%pkg_dir%\icons'
+    ICON_PATH: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\icons'
     icon_file_number: 0
     # composite_padding: 20
     # composite_position: bl
     # composite_uninstall_path: '%RECIPE_CACHE_DIR%/Icon-Uninstall-%NAME%.png'
     # composite_uninstall_template: /Users/haircut/Documents/delete.png
     icon_output_path: '%ICON_PATH%\Icon-%NAME%.png'
-    source_app: '%BUILD_DIR%\%pkg_dir%\sourceunzipped\kdiff3.exe'
+    source_app: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\sourceunzipped\kdiff3.exe'
     # msi_icon_name: 'ProductIcon.ico'
     composite_uninstall_path: '%ICON_PATH%\Icon-Uninstall-%NAME%.png'
     composite_update_path: '%ICON_PATH%\Icon-Update-%NAME%.png'
@@ -77,12 +72,12 @@ Process:
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/FileDateVersionSubst
   Arguments:
-    file_path: '%BUILD_DIR%\%pkg_dir%\read\create-log-%NAME%%PF_STRING%_%build_ver%_ML.txt'
+    file_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\read\create-log-%NAME%%PF_STRING%_%build_ver%_ML.txt'
     new_ver: '%build_ver%'
     re_pattern: '[0-9]+\.[0-9]+\.[0-9]+'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/FileDateVersionSubst
   Arguments:
-    file_path: '%BUILD_DIR%\%pkg_dir%\read\readme-%NAME%%PF_STRING%_%build_ver%_ML.txt'
+    file_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\read\readme-%NAME%%PF_STRING%_%build_ver%_ML.txt'
     new_ver: '%build_ver%'
     re_pattern: '[0-9]+\.[0-9]+\.[0-9]+'

@@ -42,24 +42,19 @@ Process:
     recipe_path: '%RECIPE_PATH%'
     ver_fields: '3'
 
-- Processor: com.github.sebtomasi.SharedProcessors/RenameVar
-  Arguments:
-    input_var: '%NAME%%PF_STRING%_%build_ver%_ML'
-    rename_var: pkg_dir
-
 - Processor: Copier
   Comment: Copy the Eclipse installer files to the build dir
   Arguments:
-    destination_path: '%BUILD_DIR%\%pkg_dir%\sourcepkt\%filename%'
+    destination_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\sourcepkt\%filename%'
     overwrite: 'true'
     source_path: '%RECIPE_CACHE_DIR%\downloads\%filename%'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/SevenZipExtractor
   Comment: Extract the autopkg zip archive
   Arguments:
-    exe_path: '%BUILD_DIR%\%pkg_dir%\sourcepkt\%filename%'
-    # extract_dir: '%BUILD_DIR%\%pkg_dir%\wixproject\%NAME%'
-    extract_dir: '%BUILD_DIR%\%pkg_dir%\wixproject\'
+    exe_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\sourcepkt\%filename%'
+    # extract_dir: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\wixproject\%NAME%'
+    extract_dir: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\wixproject\'
     extract_file: '*'
     ignore_pattern: ''
     preserve_paths: 'True'
@@ -67,19 +62,19 @@ Process:
 - Processor: FileMover
   Comment: Rename the Eclipse installer folder to the build dir
   Arguments:
-    target: '%BUILD_DIR%\%pkg_dir%\wixproject\%NAME%\'
-    source: '%BUILD_DIR%\%pkg_dir%\wixproject\eclipse\'
+    target: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\wixproject\%NAME%\'
+    source: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\wixproject\eclipse\'
 
 - Processor: com.github.haircut.processors/AppIconExtractor
   Arguments:
-    ICON_PATH: '%BUILD_DIR%\%pkg_dir%\icons'
+    ICON_PATH: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\icons'
     icon_file_number: 0
     # composite_padding: 20
     # composite_position: ul
     # composite_uninstall_path: '%RECIPE_CACHE_DIR%/Icon-Uninstall-%NAME%.png'
     # composite_uninstall_template: /Users/haircut/Documents/delete.png
     icon_output_path: '%ICON_PATH%\Icon-%NAME%.png'
-    source_app: '%BUILD_DIR%\%pkg_dir%\wixproject\Eclipse-Java\eclipse.exe'
+    source_app: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\wixproject\Eclipse-Java\eclipse.exe'
     #msi_icon_name: 'MainExecutableIcon.ico'
     composite_uninstall_path: '%ICON_PATH%\Icon-Uninstall-%NAME%.png'
     composite_update_path: '%ICON_PATH%\Icon-Update-%NAME%.png'
@@ -88,8 +83,8 @@ Process:
 - Processor: com.github.NickETH.recipes.SharedProcessors/ResourceWorker
   Comment: Extract the Eclipse res file
   Arguments:
-    exe_path: '%BUILD_DIR%\%pkg_dir%\wixproject\Eclipse-Java\eclipse.exe'
-    output_file: '%BUILD_DIR%\%pkg_dir%\sourceunzipped\Icon-%NAME%.res'
+    exe_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\wixproject\Eclipse-Java\eclipse.exe'
+    output_file: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\sourceunzipped\Icon-%NAME%.res'
     reswork_action: 'extract'
     reswork_cmd: 'ICONGROUP,,'
     # ignore_errors: 'True'
@@ -97,9 +92,9 @@ Process:
 - Processor: com.github.NickETH.recipes.SharedProcessors/ResourceWorker
   Comment: Generate a new Icon.exe file for Eclipse-Java
   Arguments:
-    exe_path: '%BUILD_DIR%\%pkg_dir%\helpers\Icon-Stub-1.exe'
-    input_file: '%BUILD_DIR%\%pkg_dir%\sourceunzipped\Icon-%NAME%.res'
-    output_file: '%BUILD_DIR%\%pkg_dir%\wixproject\Resources\Main-Icon.exe'
+    exe_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\helpers\Icon-Stub-1.exe'
+    input_file: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\sourceunzipped\Icon-%NAME%.res'
+    output_file: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\wixproject\Resources\Main-Icon.exe'
     reswork_action: 'add'
     reswork_cmd: 'ICONGROUP,,'
     # ignore_errors: 'True'
@@ -108,20 +103,20 @@ Process:
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/FileDateVersionSubst
   Arguments:
-    file_path: '%BUILD_DIR%\%pkg_dir%\read\create-log-%NAME%%PF_STRING%_%build_ver%_ML.txt'
+    file_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\read\create-log-%NAME%%PF_STRING%_%build_ver%_ML.txt'
     new_ver: '%build_ver%'
     re_pattern: '[0-9]+\.[0-9]+\.[0-9]+'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/FileDateVersionSubst
   Arguments:
-    file_path: '%BUILD_DIR%\%pkg_dir%\read\readme-%NAME%%PF_STRING%_%build_ver%_ML.txt'
+    file_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\read\readme-%NAME%%PF_STRING%_%build_ver%_ML.txt'
     new_ver: '%build_ver%'
     re_pattern: '[0-9]+\.[0-9]+\.[0-9]+'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/WixSettings
   Comment: Define variables for the WIX build process to the version.wxi file
   Arguments:
-    preproc_file: '%BUILD_DIR%\%pkg_dir%\wixproject\version.wxi'
+    preproc_file: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\wixproject\version.wxi'
     # template_file: None
     new_settings:
     - define: 'version="%build_ver%"'
@@ -142,8 +137,8 @@ Process:
 - Processor: com.github.NickETH.recipes.SharedProcessors/MSBuildRun
   Comment: Run the MSBuild script to generate the Eclipse MSI installer
   Arguments:
-    build_file: '%BUILD_DIR%\%pkg_dir%\wixproject\%NAME%.build'
-    build_folder: '%BUILD_DIR%\%pkg_dir%\wixproject'
-    build_property: BuildPlatform=%PLATFORM%;BuildName=%NAME%;BuildDir=%BUILD_DIR%\%pkg_dir%\wixproject;SourceDir=%BUILD_DIR%\%pkg_dir%\wixproject\%NAME%;version=%build_ver%;Platformstr=%PF_STRING%;LangStr=%LANG_STRING%
+    build_file: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\wixproject\%NAME%.build'
+    build_folder: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\wixproject'
+    build_property: BuildPlatform=%PLATFORM%;BuildName=%NAME%;BuildDir=%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\wixproject;SourceDir=%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\wixproject\%NAME%;version=%build_ver%;Platformstr=%PF_STRING%;LangStr=%LANG_STRING%
 
     build_target: WIX

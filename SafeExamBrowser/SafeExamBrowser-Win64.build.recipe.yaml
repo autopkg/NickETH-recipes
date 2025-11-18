@@ -22,15 +22,10 @@ Process:
     recipe_path: '%RECIPE_PATH%'
     ver_fields: '3'
 
-- Processor: com.github.sebtomasi.SharedProcessors/RenameVar
-  Arguments:
-    input_var: '%NAME%%PF_STRING%_%build_ver%%LANG_STRING%'
-    rename_var: pkg_dir
-
 - Processor: Copier
   Comment: Copy the SEB installer files to the release dir
   Arguments:
-    destination_path: '%BUILD_DIR%\%pkg_dir%\release\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%.msi'
+    destination_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\release\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%.msi'
     overwrite: 'true'
     source_path: '%pathname%'
 
@@ -39,7 +34,7 @@ Process:
   # Arguments:
     # archive_type: '#'
     # exe_path: '%pathname%'
-    # extract_dir: '%BUILD_DIR%\%pkg_dir%\sourceunzipped'
+    # extract_dir: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\sourceunzipped'
     # extract_file: 4.cab
     # ignore_pattern: ''
     # preserve_paths: 'False'
@@ -48,8 +43,8 @@ Process:
   # Comment: Extract the SafeExamBrowser setup exe
   # Arguments:
     # archive_type: '*'
-    # exe_path: '%BUILD_DIR%\%pkg_dir%\sourceunzipped\4.cab'
-    # extract_dir: '%BUILD_DIR%\%pkg_dir%\sourceunzipped'
+    # exe_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\sourceunzipped\4.cab'
+    # extract_dir: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\sourceunzipped'
     # extract_file: a0
     # ignore_pattern: ''
     # preserve_paths: 'False'
@@ -58,25 +53,25 @@ Process:
   # Comment: Move the SafeExamBrowser x64 MSI file to the release dir
   # Arguments:
     # overwrite: 'true'
-    # source: '%BUILD_DIR%\%pkg_dir%\sourceunzipped\a0'
-    # target: '%BUILD_DIR%\%pkg_dir%\release\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%.msi'
+    # source: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\sourceunzipped\a0'
+    # target: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\release\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%.msi'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/MSITransformer
   Comment: Applies the Settings-Transform to the SafeExamBrowser.msi to the release folder
   Arguments:
     mode: -a
-    msi_path: '%BUILD_DIR%\%pkg_dir%\release\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%.msi'
-    mst_paths: '%BUILD_DIR%\%pkg_dir%\helpers\SEB_Uninst-log-Rem-Chng-Add-SC.mst'
+    msi_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\release\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%.msi'
+    mst_paths: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\helpers\SEB_Uninst-log-Rem-Chng-Add-SC.mst'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/FileDateVersionSubst
   Arguments:
-    file_path: '%BUILD_DIR%\%pkg_dir%\read\create-log-%NAME%%PF_STRING%_%build_ver%%LANG_STRING%.txt'
+    file_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\read\create-log-%NAME%%PF_STRING%_%build_ver%%LANG_STRING%.txt'
     new_ver: '%build_ver%'
     re_pattern: '[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/FileDateVersionSubst
   Arguments:
-    file_path: '%BUILD_DIR%\%pkg_dir%\read\readme-%NAME%%PF_STRING%_%build_ver%%LANG_STRING%.txt'
+    file_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\read\readme-%NAME%%PF_STRING%_%build_ver%%LANG_STRING%.txt'
     new_ver: '%build_ver%'
     re_pattern: '[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+'
 

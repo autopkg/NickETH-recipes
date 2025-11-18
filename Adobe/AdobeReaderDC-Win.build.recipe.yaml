@@ -16,21 +16,21 @@ Process:
     BuildFiles: NextVerFiles.txt
     build_dir: '%BUILD_DIR%'
     folder_list: sourceunzipped:release:read:helpers
-    org_ver: '%version%'
-    pkg_dir: AdobeReaderDC_%version%_deu
+    org_ver: '%ver_major%.%ver_majorminor%.%ver_minor%'
+    pkg_dir: AdobeReaderDC_%ver_major%.%ver_majorminor%.%ver_minor%_deu
     recipe_dir: '%RECIPE_DIR%'
     recipe_path: '%RECIPE_PATH%'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/FileDateVersionSubst
   Arguments:
-    file_path: '%BUILD_DIR%\%pkg_dir%\read\create-log-AdobeReaderDC_%version%_deu.txt'
-    new_ver: '%version%'
+    file_path: '%BUILD_DIR%\%pkg_dir%\read\create-log-AdobeReaderDC_%ver_major%.%ver_majorminor%.%ver_minor%_deu.txt'
+    new_ver: '%ver_major%.%ver_majorminor%.%ver_minor%'
     re_pattern: '[0-9][0-9]\.[0-9]+\.[0-9]+'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/FileDateVersionSubst
   Arguments:
-    file_path: '%BUILD_DIR%\%pkg_dir%\read\readme-AdobeReaderDC_%version%_deu.txt'
-    new_ver: '%version%'
+    file_path: '%BUILD_DIR%\%pkg_dir%\read\readme-AdobeReaderDC_%ver_major%.%ver_majorminor%.%ver_minor%_deu.txt'
+    new_ver: '%ver_major%.%ver_majorminor%.%ver_minor%'
     re_pattern: '[0-9][0-9]\.[0-9]+\.[0-9]+'
 
 - Processor: Copier
@@ -54,7 +54,7 @@ Process:
 - Processor: com.github.NickETH.recipes.SharedProcessors/AcrobatGUIDPatcher
   Arguments:
     base_GUID: '{AC76BA86-7AD7-1031-7B44-AC0F074E4100}'
-    new_ver: '%version%'
+    new_ver: '%ver_major%.%ver_majorminor%.%ver_minor%'
     old_hex_ver: 0F074E41
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/MSIRunSQL
@@ -63,12 +63,12 @@ Process:
     - UPDATE `Property` SET `Property`.`Value`='%newGUID%' WHERE `Property`.`Property`='ProductCode'
     - UPDATE `Property` SET `Property`.`Value`='Adobe Acrobat Reader DC DE-EN' WHERE `Property`.`Property`='ProductName'
     - UPDATE `Component` SET `Component`.`Condition`='CHROMEPLUGIN' WHERE `Component`.`Component`='WCChromeNativeMessagingHost'
-    - UPDATE `MoveFile` SET `MoveFile`.`SourceName`='AdobeReaderDC_%version%_Deu.msi', `MoveFile`.`DestName`='AdobeReaderDC_%version%_Deu.msi' WHERE `MoveFile`.`FileKey`='CacheSetupFiles_AcroRdrDC1501720050_de_DE.msi'
+    - UPDATE `MoveFile` SET `MoveFile`.`SourceName`='AdobeReaderDC_%ver_major%.%ver_majorminor%.%ver_minor%_Deu.msi', `MoveFile`.`DestName`='AdobeReaderDC_%ver_major%.%ver_majorminor%.%ver_minor%_Deu.msi' WHERE `MoveFile`.`FileKey`='CacheSetupFiles_AcroRdrDC1501720050_de_DE.msi'
     msi_path: '%BUILD_DIR%\%pkg_dir%\adm\AcroRdrDC%version_string%_de_DE.msi'
 
 - Processor: Copier
   Arguments:
-    destination_path: '%BUILD_DIR%\%pkg_dir%\release\AdobeReaderDC_%version%_Deu.msi'
+    destination_path: '%BUILD_DIR%\%pkg_dir%\release\AdobeReaderDC_%ver_major%.%ver_majorminor%.%ver_minor%_Deu.msi'
     overwrite: 'true'
     source_path: '%BUILD_DIR%\%pkg_dir%\adm\AcroRdrDC%version_string%_de_DE.msi'
 
@@ -76,7 +76,7 @@ Process:
   Comment: Applies the transforms to the AdobeReaderDC.msi in the release folder
   Arguments:
     mode: -a
-    msi_path: '%BUILD_DIR%\%pkg_dir%\release\AdobeReaderDC_%version%_Deu.msi'
+    msi_path: '%BUILD_DIR%\%pkg_dir%\release\AdobeReaderDC_%ver_major%.%ver_majorminor%.%ver_minor%_Deu.msi'
     mst_paths:
     - '%BUILD_DIR%\%pkg_dir%\helpers\CurrentUser1.mst'
     - '%BUILD_DIR%\%pkg_dir%\helpers\ActiveSetup1.mst'
@@ -91,10 +91,10 @@ Process:
   Arguments:
     SQL_command:
     - UPDATE `InstallExecuteSequence` SET `InstallExecuteSequence`.`Condition`='Not Installed And (UT_FRB Or UT_FRS)' WHERE `InstallExecuteSequence`.`Action`='OlderOverNewerAbort'
-    - UPDATE `Registry` SET `Registry`.`Value`='%ASver%' WHERE `Registry`.`Registry`='RegHKLM2'
-    - UPDATE `Registry` SET `Registry`.`Value`='%ASver%' WHERE `Registry`.`Registry`='Reg64HKLM2'
-    - UPDATE `MoveFile` SET `MoveFile`.`SourceName`='AdobeReaderDC_%version%_Deu.msi', `MoveFile`.`DestName`='AdobeReaderDC_%version%_Deu.msi' WHERE `MoveFile`.`FileKey`='CacheSetupFiles_AcroRdrDC1501720050_de_DE.msi'
-    msi_path: '%BUILD_DIR%\%pkg_dir%\release\AdobeReaderDC_%version%_Deu.msi'
+    - UPDATE `Registry` SET `Registry`.`Value`='%ver_major%,%ver_majorminor%,%ver_minor%' WHERE `Registry`.`Registry`='RegHKLM2'
+    - UPDATE `Registry` SET `Registry`.`Value`='%ver_major%,%ver_majorminor%,%ver_minor%' WHERE `Registry`.`Registry`='Reg64HKLM2'
+    - UPDATE `MoveFile` SET `MoveFile`.`SourceName`='AdobeReaderDC_%ver_major%.%ver_majorminor%.%ver_minor%_Deu.msi', `MoveFile`.`DestName`='AdobeReaderDC_%ver_major%.%ver_majorminor%.%ver_minor%_Deu.msi' WHERE `MoveFile`.`FileKey`='CacheSetupFiles_AcroRdrDC1501720050_de_DE.msi'
+    msi_path: '%BUILD_DIR%\%pkg_dir%\release\AdobeReaderDC_%ver_major%.%ver_majorminor%.%ver_minor%_Deu.msi'
 
 - Processor: com.github.haircut.processors/AppIconExtractor
   Comment: Generate the Adobe Reader icons for BMS Kiosk.
@@ -106,7 +106,7 @@ Process:
     # composite_uninstall_path: '%RECIPE_CACHE_DIR%/Icon-Uninstall-%NAME%.png'
     # composite_uninstall_template: /Users/haircut/Documents/delete.png
     icon_output_path: '%ICON_PATH%\Icon-%NAMELONG%.png'
-    source_app: '%BUILD_DIR%\%pkg_dir%\release\AdobeReaderDC_%version%_Deu.msi'
+    source_app: '%BUILD_DIR%\%pkg_dir%\release\AdobeReaderDC_%ver_major%.%ver_majorminor%.%ver_minor%_Deu.msi'
     msi_icon_name: 'SC_Reader.ico'
     composite_uninstall_path: '%ICON_PATH%\Icon-Uninstall-%NAMELONG%.png'
     composite_update_path: '%ICON_PATH%\Icon-Update-%NAMELONG%.png'
@@ -120,6 +120,6 @@ Process:
       /j: 'Acrobat Reader DC'
       /o: Altered and hardened version for corporate use. %us_date% by AutoPkg
       /t: 'Acrobat Reader DC'
-    msi_path: '%BUILD_DIR%\%pkg_dir%\release\AdobeReaderDC_%version%_Deu.msi'
+    msi_path: '%BUILD_DIR%\%pkg_dir%\release\AdobeReaderDC_%ver_major%.%ver_majorminor%.%ver_minor%_Deu.msi'
 
 - Processor: EndOfCheckPhase

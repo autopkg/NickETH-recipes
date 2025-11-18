@@ -20,31 +20,26 @@ Process:
     SQL_command: SELECT `Value` FROM `Property` WHERE `Property`='ProductVersion'
     msi_path: '%pathname%'
 
-- Processor: com.github.sebtomasi.SharedProcessors/RenameVar
-  Arguments:
-    input_var: '%msi_value%'
-    rename_var: version
-
 - Processor: com.github.NickETH.recipes.SharedProcessors/CreateNextBuild
   Arguments:
     BuildFiles: NextVerFiles.txt
     build_dir: '%BUILD_DIR%'
     folder_list: sourceunzipped:release:read:helpers
-    org_ver: '%version%'
-    pkg_dir: MicrosoftEdge_64_%version%_ML
+    org_ver: '%msi_value%'
+    pkg_dir: MicrosoftEdge_64_%msi_value%_ML
     recipe_dir: '%RECIPE_DIR%'
     recipe_path: '%RECIPE_PATH%'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/FileDateVersionSubst
   Arguments:
-    file_path: '%BUILD_DIR%\%pkg_dir%\read\create-log-MicrosoftEdge_64_%version%_ML.txt'
-    new_ver: '%version%'
+    file_path: '%BUILD_DIR%\%pkg_dir%\read\create-log-MicrosoftEdge_64_%msi_value%_ML.txt'
+    new_ver: '%msi_value%'
     re_pattern: '[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/FileDateVersionSubst
   Arguments:
-    file_path: '%BUILD_DIR%\%pkg_dir%\read\readme-MicrosoftEdge_64_%version%_ML.txt'
-    new_ver: '%version%'
+    file_path: '%BUILD_DIR%\%pkg_dir%\read\readme-MicrosoftEdge_64_%msi_value%_ML.txt'
+    new_ver: '%msi_value%'
     re_pattern: '[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+'
 
 - Processor: Copier
@@ -55,14 +50,14 @@ Process:
 
 - Processor: Copier
   Arguments:
-    destination_path: '%BUILD_DIR%\%pkg_dir%\release\MicrosoftEdge_64_%version%_ML.msi'
+    destination_path: '%BUILD_DIR%\%pkg_dir%\release\MicrosoftEdge_64_%msi_value%_ML.msi'
     overwrite: 'true'
     source_path: '%pathname%'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/MSIRunSQLget
   Arguments:
     SQL_command: SELECT `Value` FROM `Property` WHERE `Property`='ProductCode'
-    msi_path: '%BUILD_DIR%\%pkg_dir%\release\MicrosoftEdge_64_%version%_ML.msi'
+    msi_path: '%BUILD_DIR%\%pkg_dir%\release\MicrosoftEdge_64_%msi_value%_ML.msi'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/ChromiumSettings
   Arguments:
@@ -107,7 +102,7 @@ Process:
   Comment: Applies the Settings-Transform to the MicrosoftEdge.msi in the release folder
   Arguments:
     mode: -a
-    msi_path: '%BUILD_DIR%\%pkg_dir%\release\MicrosoftEdge_64_%version%_ML.msi'
+    msi_path: '%BUILD_DIR%\%pkg_dir%\release\MicrosoftEdge_64_%msi_value%_ML.msi'
     mst_paths: '%BUILD_DIR%\%pkg_dir%\helpers\MsEdge64_ETHZchanges.mst'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/MSIRunSQL
@@ -115,16 +110,16 @@ Process:
     SQL_command:
     - UPDATE `Property` SET `Property`.`Value`='%chrm_settings_url%' WHERE `Property`.`Property`='MASTER_PREFERENCES'
     - UPDATE `InstallExecuteSequence` SET `InstallExecuteSequence`.`Condition`='((?ProductClientState=3) AND ($ProductClientState=2) AND NOT UPGRADINGPRODUCTCODE) AND UNINSTALLCMDLINE AND UNINSTALLCMDARGS' WHERE `InstallExecuteSequence`.`Action`='CallUninstaller'
-    msi_path: '%BUILD_DIR%\%pkg_dir%\release\MicrosoftEdge_64_%version%_ML.msi'
+    msi_path: '%BUILD_DIR%\%pkg_dir%\release\MicrosoftEdge_64_%msi_value%_ML.msi'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/DateTimeStamps
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/MSIApplySumInfo
   Arguments:
     cmnds_sinfo:
-      /j: Edge Chromium x64 %version% ML
+      /j: Edge Chromium x64 %msi_value% ML
       /o: 'Altered version for enterprise. %us_date% by AutoPkg'
-      /t: Edge Chromium x64 %version% ML
-    msi_path: '%BUILD_DIR%\%pkg_dir%\release\MicrosoftEdge_64_%version%_ML.msi'
+      /t: Edge Chromium x64 %msi_value% ML
+    msi_path: '%BUILD_DIR%\%pkg_dir%\release\MicrosoftEdge_64_%msi_value%_ML.msi'
 
 - Processor: EndOfCheckPhase

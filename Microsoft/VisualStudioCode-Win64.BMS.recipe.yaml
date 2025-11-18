@@ -48,7 +48,7 @@ Process:
       </ACTION>
       </ACTIONS>
       </baramundiDeployScript>
-    file_path: '%BUILD_DIR%\%pkg_dir%\release\VSCode_SetDisableUpdate.bds'
+    file_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\release\VSCode_SetDisableUpdate.bds'
 
 - Processor: FileCreator
   Comment: Generate the VSCode_UnsetDisableUpdate.bds in the release dir.
@@ -80,7 +80,7 @@ Process:
       </ACTION>
       </ACTIONS>
       </baramundiDeployScript>
-    file_path: '%BUILD_DIR%\%pkg_dir%\release\VSCode_UnsetDisableUpdate.bds'
+    file_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\release\VSCode_UnsetDisableUpdate.bds'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/BMSImporter
   Comment: Import the Application into Baramundi (BMS)
@@ -129,8 +129,8 @@ Process:
     bms_serverport: '%BMS_SERVER_PORT%'
     bms_serverurl: '%BMS_SERVER1%'
     bms_username: '%BMS_USERNAME%'
-    inst_file_src_dest: '%BUILD_DIR%\%pkg_dir%\release\*|%BMS_IMPORT_PATH_TST%\VSCode\%parsed_string%\ML'
-    read_file_src_dest: '%BUILD_DIR%\%pkg_dir%\read\*-%NAME%%PF_STRING%_%build_ver%_ML.txt|%BMS_IMPORT_PATH_TST%\VSCode\%parsed_string%\DEV'
+    inst_file_src_dest: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\release\*|%BMS_IMPORT_PATH_TST%\VSCode\%parsed_string%\ML'
+    read_file_src_dest: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\read\*-%NAME%%PF_STRING%_%build_ver%_ML.txt|%BMS_IMPORT_PATH_TST%\VSCode\%parsed_string%\DEV'
     json_file_dest: '%BMS_IMPORT_PATH_TST%\VSCode\bms_app_integration.json'
 
 - Processor: EndOfCheckPhase

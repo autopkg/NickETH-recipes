@@ -29,23 +29,18 @@ Process:
     recipe_path: '%RECIPE_PATH%'
     ver_fields: '3'
 
-- Processor: com.github.sebtomasi.SharedProcessors/RenameVar
-  Arguments:
-    input_var: '%NAME%%PF_STRING%_%build_ver%_ML'
-    rename_var: pkg_dir
-
 - Processor: Copier
   Comment: Copy the IrfanView installer file to the build dir
   Arguments:
-    destination_path: '%BUILD_DIR%\%pkg_dir%\sourcepkt\%exe_file%'
+    destination_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\sourcepkt\%exe_file%'
     overwrite: 'true'
     source_path: '%RECIPE_CACHE_DIR%\downloads\%exe_file%'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/SevenZipExtractor
   Comment: Extract the IrfanView installer to the wixproject dir
   Arguments:
-    exe_path: '%BUILD_DIR%\%pkg_dir%\sourcepkt\%exe_file%'
-    extract_dir: '%BUILD_DIR%\%pkg_dir%\wixproject\%NAME%\'
+    exe_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\sourcepkt\%exe_file%'
+    extract_dir: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\wixproject\%NAME%\'
     extract_file: '*'
     ignore_pattern: ''
     preserve_paths: 'True'
@@ -53,15 +48,15 @@ Process:
 - Processor: Copier
   Comment: Copy the IrfanView plugins installer file to the build dir
   Arguments:
-    destination_path: '%BUILD_DIR%\%pkg_dir%\sourcepkt\%filename%'
+    destination_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\sourcepkt\%filename%'
     overwrite: 'true'
     source_path: '%RECIPE_CACHE_DIR%\downloads\%filename%'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/SevenZipExtractor
   Comment: Extract the IrfanView plugins installer to the wixproject dir
   Arguments:
-    exe_path: '%BUILD_DIR%\%pkg_dir%\sourcepkt\%filename%'
-    extract_dir: '%BUILD_DIR%\%pkg_dir%\wixproject\%NAME%\Plugins'
+    exe_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\sourcepkt\%filename%'
+    extract_dir: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\wixproject\%NAME%\Plugins'
     extract_file: '*'
     ignore_pattern: ''
     preserve_paths: 'True'
@@ -74,15 +69,15 @@ Process:
 - Processor: Copier
   Comment: Copy the IrfanView plugins installer file to the build dir
   Arguments:
-    destination_path: '%BUILD_DIR%\%pkg_dir%\sourcepkt\%NAME%_French_Lng.zip'
+    destination_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\sourcepkt\%NAME%_French_Lng.zip'
     overwrite: 'true'
     source_path: '%RECIPE_CACHE_DIR%\downloads\%NAME%_French_Lng.zip'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/SevenZipExtractor
   Comment: Extract the IrfanView plugins installer to the wixproject dir
   Arguments:
-    exe_path: '%BUILD_DIR%\%pkg_dir%\sourcepkt\%NAME%_French_Lng.zip'
-    extract_dir: '%BUILD_DIR%\%pkg_dir%\wixproject\%NAME%\Languages'
+    exe_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\sourcepkt\%NAME%_French_Lng.zip'
+    extract_dir: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\wixproject\%NAME%\Languages'
     extract_file: '*'
     ignore_pattern: ''
     preserve_paths: 'True'
@@ -95,28 +90,28 @@ Process:
 - Processor: Copier
   Comment: Copy the IrfanView plugins installer file to the build dir
   Arguments:
-    destination_path: '%BUILD_DIR%\%pkg_dir%\sourcepkt\%NAME%_Italian_Lng.zip'
+    destination_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\sourcepkt\%NAME%_Italian_Lng.zip'
     overwrite: 'true'
     source_path: '%RECIPE_CACHE_DIR%\downloads\%NAME%_Italian_Lng.zip'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/SevenZipExtractor
   Comment: Extract the IrfanView plugins installer to the wixproject dir
   Arguments:
-    exe_path: '%BUILD_DIR%\%pkg_dir%\sourcepkt\%NAME%_Italian_Lng.zip'
-    extract_dir: '%BUILD_DIR%\%pkg_dir%\wixproject\%NAME%\Languages'
+    exe_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\sourcepkt\%NAME%_Italian_Lng.zip'
+    extract_dir: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\wixproject\%NAME%\Languages'
     extract_file: '*'
     ignore_pattern: ''
     preserve_paths: 'True'
 
 # - Processor: FileFinder
   # Arguments:
-    # pattern: '%BUILD_DIR%\%pkg_dir%\sourcepkt\GithubDesktop-*-full.nupkg'
+    # pattern: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\sourcepkt\GithubDesktop-*-full.nupkg'
 
 # - Processor: com.github.NickETH.recipes.SharedProcessors/SevenZipExtractor
   # Comment: Extract the autopkg zip archive
   # Arguments:
     # exe_path: '%found_filename%'
-    # extract_dir: '%BUILD_DIR%\%pkg_dir%\sourceunzipped'
+    # extract_dir: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\sourceunzipped'
     # extract_file: '*'
     # ignore_pattern: ''
     # preserve_paths: 'True'
@@ -124,33 +119,33 @@ Process:
 # - Processor: Copier
   # Comment: Copy the IrfanView installer file to the build dir
   # Arguments:
-    # destination_path: '%BUILD_DIR%\%pkg_dir%\wixproject\GithubDesktop\'
+    # destination_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\wixproject\GithubDesktop\'
     # overwrite: 'true'
-    # source_path: '%BUILD_DIR%\%pkg_dir%\sourceunzipped\lib\net45\'
+    # source_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\sourceunzipped\lib\net45\'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/FileDateVersionSubst
   Arguments:
-    file_path: '%BUILD_DIR%\%pkg_dir%\read\create-log-%NAME%%PF_STRING%_%build_ver%_ML.txt'
+    file_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\read\create-log-%NAME%%PF_STRING%_%build_ver%_ML.txt'
     new_ver: '%build_ver%'
     re_pattern: '[0-9]+\.[0-9]+\.[0-9]+'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/FileDateVersionSubst
   Arguments:
-    file_path: '%BUILD_DIR%\%pkg_dir%\read\readme-%NAME%%PF_STRING%_%build_ver%_ML.txt'
+    file_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\read\readme-%NAME%%PF_STRING%_%build_ver%_ML.txt'
     new_ver: '%build_ver%'
     re_pattern: '[0-9]+\.[0-9]+\.[0-9]+'
 
 - Processor: com.github.haircut.processors/AppIconExtractor
   Comment: Generate the IrfanView icons for BMS Kiosk.
   Arguments:
-    ICON_PATH: '%BUILD_DIR%\%pkg_dir%\icons'
+    ICON_PATH: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\icons'
     icon_file_number: 0
     # composite_padding: 20
     # composite_position: ul
     # composite_uninstall_path: '%RECIPE_CACHE_DIR%/Icon-Uninstall-%NAME%.png'
     # composite_uninstall_template: /Users/haircut/Documents/delete.png
     icon_output_path: '%ICON_PATH%\Icon-%NAME%.png'
-    source_app: '%BUILD_DIR%\%pkg_dir%\wixproject\%NAME%\%EXE_NAME%'
+    source_app: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\wixproject\%NAME%\%EXE_NAME%'
     #msi_icon_name: 'MainExecutableIcon.ico'
     composite_uninstall_path: '%ICON_PATH%\Icon-Uninstall-%NAME%.png'
     composite_update_path: '%ICON_PATH%\Icon-Update-%NAME%.png'
@@ -159,8 +154,8 @@ Process:
 - Processor: com.github.NickETH.recipes.SharedProcessors/ResourceWorker
   Comment: Extract the IrfanView res file
   Arguments:
-    exe_path: '%BUILD_DIR%\%pkg_dir%\wixproject\%NAME%\%EXE_NAME%'
-    output_file: '%BUILD_DIR%\%pkg_dir%\sourceunzipped\Icon-%NAME%.res'
+    exe_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\wixproject\%NAME%\%EXE_NAME%'
+    output_file: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\sourceunzipped\Icon-%NAME%.res'
     reswork_action: 'extract'
     reswork_cmd: 'ICONGROUP,,'
     # ignore_errors: 'True'
@@ -168,9 +163,9 @@ Process:
 - Processor: com.github.NickETH.recipes.SharedProcessors/ResourceWorker
   Comment: Generate a new Icon.exe file for IrfanView
   Arguments:
-    exe_path: '%BUILD_DIR%\%pkg_dir%\helpers\Icon-Stub-1.exe'
-    input_file: '%BUILD_DIR%\%pkg_dir%\sourceunzipped\Icon-%NAME%.res'
-    output_file: '%BUILD_DIR%\%pkg_dir%\wixproject\Resources\Main-Icon.exe'
+    exe_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\helpers\Icon-Stub-1.exe'
+    input_file: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\sourceunzipped\Icon-%NAME%.res'
+    output_file: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\wixproject\Resources\Main-Icon.exe'
     reswork_action: 'add'
     reswork_cmd: 'ICONGROUP,,'
     # ignore_errors: 'True'
@@ -185,12 +180,12 @@ Process:
     - '>>'
     - user_view64.ini
     exe_file: 'cmd.exe'
-    exe_folder: '%BUILD_DIR%\%pkg_dir%\wixproject\%NAME%'
+    exe_folder: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\wixproject\%NAME%'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/WixSettings
   Comment: Define variables for the WIX build process to the version.wxi file
   Arguments:
-    preproc_file: '%BUILD_DIR%\%pkg_dir%\wixproject\version.wxi'
+    preproc_file: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\wixproject\version.wxi'
     # template_file: None
     new_settings:
     - define: 'version="%build_ver%"'
@@ -213,7 +208,7 @@ Process:
 - Processor: com.github.NickETH.recipes.SharedProcessors/MSBuildRun
   Comment: Run the MSBuild script to generate the IrfanView MSI installer
   Arguments:
-    build_file: '%BUILD_DIR%\%pkg_dir%\wixproject\%NAME%.build'
-    build_folder: '%BUILD_DIR%\%pkg_dir%\wixproject'
-    build_property: BuildPlatform=%PLATFORM%;BuildName=%NAME%;BuildDir=%BUILD_DIR%\%pkg_dir%\wixproject;SourceDir=%BUILD_DIR%\%pkg_dir%\wixproject\%NAME%;version=%build_ver%;Platformstr=%PF_STRING%;LangStr=%LANG_STRING%
+    build_file: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\wixproject\%NAME%.build'
+    build_folder: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\wixproject'
+    build_property: BuildPlatform=%PLATFORM%;BuildName=%NAME%;BuildDir=%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\wixproject;SourceDir=%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\wixproject\%NAME%;version=%build_ver%;Platformstr=%PF_STRING%;LangStr=%LANG_STRING%
     build_target: WIX

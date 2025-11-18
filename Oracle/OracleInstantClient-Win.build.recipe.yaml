@@ -30,24 +30,19 @@ Process:
     recipe_path: '%RECIPE_PATH%'
     ver_fields: '4'
 
-- Processor: com.github.sebtomasi.SharedProcessors/RenameVar
-  Arguments:
-    input_var: '%NAME%%PF_STRING%_%build_ver%_ML'
-    rename_var: pkg_dir
-
 - Processor: Copier
   Comment: Copy the Eclipse installer files to the build dir
   Arguments:
-    destination_path: '%BUILD_DIR%\%pkg_dir%\sourcepkt\%NAME%.zip'
+    destination_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\sourcepkt\%NAME%.zip'
     overwrite: 'true'
     source_path: '%pathname%'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/SevenZipExtractor
   Comment: Extract the autopkg zip archive
   Arguments:
-    exe_path: '%BUILD_DIR%\%pkg_dir%\sourcepkt\%filename%'
-    # extract_dir: '%BUILD_DIR%\%pkg_dir%\wixproject\%NAME%'
-    extract_dir: '%BUILD_DIR%\%pkg_dir%\wixproject\'
+    exe_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\sourcepkt\%filename%'
+    # extract_dir: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\wixproject\%NAME%'
+    extract_dir: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\wixproject\'
     extract_file: '*'
     ignore_pattern: ''
     preserve_paths: 'True'
@@ -62,15 +57,15 @@ Process:
 - Processor: URLDownloader
   Arguments:
     #filename: '%NAME%-odbc.zip'
-    filename: '%BUILD_DIR%\%pkg_dir%\sourcepkt\%NAME%-odbc.zip'
+    filename: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\sourcepkt\%NAME%-odbc.zip'
     url: 'https:%match%'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/SevenZipExtractor
   Comment: Extract the autopkg zip archive
   Arguments:
-    exe_path: '%BUILD_DIR%\%pkg_dir%\sourcepkt\%NAME%-odbc.zip'
-    # extract_dir: '%BUILD_DIR%\%pkg_dir%\wixproject\%NAME%'
-    extract_dir: '%BUILD_DIR%\%pkg_dir%\wixproject\'
+    exe_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\sourcepkt\%NAME%-odbc.zip'
+    # extract_dir: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\wixproject\%NAME%'
+    extract_dir: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\wixproject\'
     extract_file: '*'
     ignore_pattern: ''
     preserve_paths: 'True'
@@ -84,15 +79,15 @@ Process:
 - Processor: URLDownloader
   Arguments:
     #filename: '%NAME%-sqlplus.zip'
-    filename: '%BUILD_DIR%\%pkg_dir%\sourcepkt\%NAME%-sqlplus.zip'
+    filename: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\sourcepkt\%NAME%-sqlplus.zip'
     url: 'https:%match%'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/SevenZipExtractor
   Comment: Extract the autopkg zip archive
   Arguments:
-    exe_path: '%BUILD_DIR%\%pkg_dir%\sourcepkt\%NAME%-sqlplus.zip'
-    # extract_dir: '%BUILD_DIR%\%pkg_dir%\wixproject\%NAME%'
-    extract_dir: '%BUILD_DIR%\%pkg_dir%\wixproject\'
+    exe_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\sourcepkt\%NAME%-sqlplus.zip'
+    # extract_dir: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\wixproject\%NAME%'
+    extract_dir: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\wixproject\'
     extract_file: '*'
     ignore_pattern: ''
     preserve_paths: 'True'
@@ -106,15 +101,15 @@ Process:
 - Processor: URLDownloader
   Arguments:
     #filename: '%NAME%-tools.zip'
-    filename: '%BUILD_DIR%\%pkg_dir%\sourcepkt\%NAME%-tools.zip'
+    filename: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\sourcepkt\%NAME%-tools.zip'
     url: 'https:%match%'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/SevenZipExtractor
   Comment: Extract the autopkg zip archive
   Arguments:
-    exe_path: '%BUILD_DIR%\%pkg_dir%\sourcepkt\%NAME%-tools.zip'
-    # extract_dir: '%BUILD_DIR%\%pkg_dir%\wixproject\%NAME%'
-    extract_dir: '%BUILD_DIR%\%pkg_dir%\wixproject\'
+    exe_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\sourcepkt\%NAME%-tools.zip'
+    # extract_dir: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\wixproject\%NAME%'
+    extract_dir: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\wixproject\'
     extract_file: '*'
     ignore_pattern: ''
     preserve_paths: 'True'
@@ -122,34 +117,34 @@ Process:
 - Processor: FileMover
   Comment: Rename the installer folder to the final application dir
   Arguments:
-    target: '%BUILD_DIR%\%pkg_dir%\wixproject\%APPFOLDER%_%MAJOR_VERSION%\'
-    source: '%BUILD_DIR%\%pkg_dir%\wixproject\instantclient_%MAJOR_VERSION%_%MINOR_VERSION%\'
+    target: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\wixproject\%APPFOLDER%_%MAJOR_VERSION%\'
+    source: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\wixproject\instantclient_%MAJOR_VERSION%_%MINOR_VERSION%\'
 
 # - Processor: Copier
   # Arguments:
-    # destination_path: '%BUILD_DIR%\%pkg_dir%\wixproject\%APPFOLDER%_%MAJOR_VERSION%\network\admin'
+    # destination_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\wixproject\%APPFOLDER%_%MAJOR_VERSION%\network\admin'
     # overwrite: 'true'
-    # source_path: '%BUILD_DIR%\%pkg_dir%\helpers\*.zip'
+    # source_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\helpers\*.zip'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/SevenZipExtractor
   Comment: Extract the autopkg zip archive
   Arguments:
-    exe_path: '%BUILD_DIR%\%pkg_dir%\helpers\orafiles.zip'
-    extract_dir: '%BUILD_DIR%\%pkg_dir%\wixproject\%APPFOLDER%_%MAJOR_VERSION%'
+    exe_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\helpers\orafiles.zip'
+    extract_dir: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\wixproject\%APPFOLDER%_%MAJOR_VERSION%'
     extract_file: '*'
     ignore_pattern: ''
     preserve_paths: 'True'
 
 # - Processor: com.github.haircut.processors/AppIconExtractor
   # Arguments:
-    # ICON_PATH: '%BUILD_DIR%\%pkg_dir%\icons'
+    # ICON_PATH: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\icons'
     # icon_file_number: 0
     # # composite_padding: 20
     # # composite_position: ul
     # # composite_uninstall_path: '%RECIPE_CACHE_DIR%/Icon-Uninstall-%NAME%.png'
     # # composite_uninstall_template: /Users/haircut/Documents/delete.png
     # icon_output_path: '%ICON_PATH%\Icon-%NAME%.png'
-    # source_app: '%BUILD_DIR%\%pkg_dir%\wixproject\Eclipse-Java\eclipse.exe'
+    # source_app: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\wixproject\Eclipse-Java\eclipse.exe'
     # #msi_icon_name: 'MainExecutableIcon.ico'
     # composite_uninstall_path: '%ICON_PATH%\Icon-Uninstall-%NAME%.png'
     # composite_update_path: '%ICON_PATH%\Icon-Update-%NAME%.png'
@@ -157,28 +152,28 @@ Process:
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/FileDateVersionSubst
   Arguments:
-    file_path: '%BUILD_DIR%\%pkg_dir%\read\create-log-%NAME%%PF_STRING%_%build_ver%_ML.txt'
+    file_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\read\create-log-%NAME%%PF_STRING%_%build_ver%_ML.txt'
     new_ver: '%build_ver%'
     re_pattern: '[0-9]+\.[0-9]+\.[0-9]+'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/FileDateVersionSubst
   Arguments:
-    file_path: '%BUILD_DIR%\%pkg_dir%\read\readme-%NAME%%PF_STRING%_%build_ver%_ML.txt'
+    file_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\read\readme-%NAME%%PF_STRING%_%build_ver%_ML.txt'
     new_ver: '%build_ver%'
     re_pattern: '[0-9]+\.[0-9]+\.[0-9]+'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/WixDefaults
   Comment: Set the actual version strings to the version.wxi file
   Arguments:
-    build_dir: '%BUILD_DIR%\%pkg_dir%'
+    build_dir: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML'
     build_ver: '%build_ver%'
     org_ver: '%build_ver%'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/MSBuildRun
   Comment: Run the MSBuild script to generate the Eclipse MSI installer
   Arguments:
-    build_file: '%BUILD_DIR%\%pkg_dir%\wixproject\%NAME%.build'
-    build_folder: '%BUILD_DIR%\%pkg_dir%\wixproject'
-    build_property: BuildPlatform=%PLATFORM%;BuildName=%NAME%;BuildDir=%BUILD_DIR%\%pkg_dir%\wixproject;SourceDir=%BUILD_DIR%\%pkg_dir%\wixproject\%APPFOLDER%_%MAJOR_VERSION%;version=%build_ver%;Platformstr=%PF_STRING%;LangStr=%LANG_STRING%;InstallFolder=%APPFOLDER%_%MAJOR_VERSION%
-    #build_property: BuildPlatform=%PLATFORM%;BuildName=%NAME%;BuildDir=%BUILD_DIR%\%pkg_dir%\wixproject;SourceDir=%BUILD_DIR%\%pkg_dir%\wixproject\%NAME%;version=%build_ver%;Platformstr=%PF_STRING%;LangStr=%LANG_STRING%
+    build_file: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\wixproject\%NAME%.build'
+    build_folder: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\wixproject'
+    build_property: BuildPlatform=%PLATFORM%;BuildName=%NAME%;BuildDir=%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\wixproject;SourceDir=%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\wixproject\%APPFOLDER%_%MAJOR_VERSION%;version=%build_ver%;Platformstr=%PF_STRING%;LangStr=%LANG_STRING%;InstallFolder=%APPFOLDER%_%MAJOR_VERSION%
+    #build_property: BuildPlatform=%PLATFORM%;BuildName=%NAME%;BuildDir=%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\wixproject;SourceDir=%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\wixproject\%NAME%;version=%build_ver%;Platformstr=%PF_STRING%;LangStr=%LANG_STRING%
     build_target: WIX

@@ -24,9 +24,4 @@ Process:
     expected_subject: CN="Posit Software, PBC", O="Posit Software, PBC", L=Boston, S=Massachusetts, C=US
     input_path: '%pathname%'
 
-- Processor: com.github.sebtomasi.SharedProcessors/RenameVar
-  Arguments:
-    input_var: '%versionraw%.%buildraw%'
-    rename_var: version
-
 - Processor: EndOfCheckPhase

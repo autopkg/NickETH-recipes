@@ -73,9 +73,4 @@ Process:
     - pattern: _
       repl: .
 
-- Processor: com.github.sebtomasi.SharedProcessors/RenameVar
-  Arguments:
-    input_var: '%parsed_string%'
-    rename_var: version
-
 - Processor: EndOfCheckPhase

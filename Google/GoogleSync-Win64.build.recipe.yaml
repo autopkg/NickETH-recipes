@@ -19,21 +19,16 @@ Process:
     BuildFiles: NextVerFiles.txt
     build_dir: '%BUILD_DIR%'
     folder_list: sourceunzipped:release:read
-    org_ver: '%version%'
+    org_ver: '%msi_value%'
     pkg_dir: '%NAME%%PF_STRING%_::VVeerrssiioonn::_ML'
     recipe_dir: '%RECIPE_DIR%'
     recipe_path: '%RECIPE_PATH%'
     ver_fields: '4'
 
-- Processor: com.github.sebtomasi.SharedProcessors/RenameVar
-  Arguments:
-    input_var: '%NAME%%PF_STRING%_%build_ver%_ML'
-    rename_var: pkg_dir
-
 - Processor: Copier
   Comment: Save a copy of the downloaded MSI to the release dir.
   Arguments:
-    destination_path: '%BUILD_DIR%\%pkg_dir%\release\%NAME%%PF_STRING%_%build_ver%_ML.msi'
+    destination_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\release\%NAME%%PF_STRING%_%build_ver%_ML.msi'
     overwrite: 'true'
     source_path: '%pathname%'
 
@@ -48,17 +43,17 @@ Process:
     - UPDATE `Component` SET `Component`.`Condition`='GOOGLESHEETSDESKTOPSHORTCUT' WHERE `Component`.`Component`='GoogleSheetsDesktopShortcutComponent'
     - UPDATE `Component` SET `Component`.`Condition`='GOOGLESLIDESDESKTOPSHORTCUT' WHERE `Component`.`Component`='GoogleSlidesDesktopShortcutComponent'
     - UPDATE `Component` SET `Component`.`Condition`='GOOGLEDOCSDESKTOPSHORTCUT' WHERE `Component`.`Component`='GoogleDocsDesktopShortcutComponent'
-    msi_path: '%BUILD_DIR%\%pkg_dir%\release\%NAME%%PF_STRING%_%build_ver%_ML.msi'
+    msi_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\release\%NAME%%PF_STRING%_%build_ver%_ML.msi'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/FileDateVersionSubst
   Arguments:
-    file_path: '%BUILD_DIR%\%pkg_dir%\read\create-log-%NAME%%PF_STRING%_%build_ver%_ML.txt'
+    file_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\read\create-log-%NAME%%PF_STRING%_%build_ver%_ML.txt'
     new_ver: '%build_ver%'
     re_pattern: '[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/FileDateVersionSubst
   Arguments:
-    file_path: '%BUILD_DIR%\%pkg_dir%\read\readme-%NAME%%PF_STRING%_%build_ver%_ML.txt'
+    file_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\read\readme-%NAME%%PF_STRING%_%build_ver%_ML.txt'
     new_ver: '%build_ver%'
     re_pattern: '[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+'
 

@@ -23,34 +23,29 @@ Process:
     recipe_path: '%RECIPE_PATH%'
     ver_fields: '3'
 
-- Processor: com.github.sebtomasi.SharedProcessors/RenameVar
-  Arguments:
-    input_var: '%NAME%%PF_STRING%_%version%_ML'
-    rename_var: pkg_dir
-
 - Processor: Copier
   Comment: Copy the EXE-file to the sourceunzipped dir
   Arguments:
-    destination_path: '%BUILD_DIR%\%pkg_dir%\sourceunzipped\%NAME%%PF_STRING%_%version%_raw.exe'
+    destination_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%version%_ML\sourceunzipped\%NAME%%PF_STRING%_%version%_raw.exe'
     overwrite: 'true'
     source_path: '%pathname%'
 
 - Processor: Copier
   Comment: Copy the EXE-file to the release dir
   Arguments:
-    destination_path: '%BUILD_DIR%\%pkg_dir%\release\%NAME%%PF_STRING%_%version%_ML.exe'
+    destination_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%version%_ML\release\%NAME%%PF_STRING%_%version%_ML.exe'
     overwrite: 'true'
     source_path: '%pathname%'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/FileDateVersionSubst
   Arguments:
-    file_path: '%BUILD_DIR%\%pkg_dir%\read\create-log-%NAME%%PF_STRING%_%version%_ML.txt'
+    file_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%version%_ML\read\create-log-%NAME%%PF_STRING%_%version%_ML.txt'
     new_ver: '%version%'
     re_pattern: '[0-9]+\.[0-9]+\.[0-9]+'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/FileDateVersionSubst
   Arguments:
-    file_path: '%BUILD_DIR%\%pkg_dir%\read\readme-%NAME%%PF_STRING%_%version%_ML.txt'
+    file_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%version%_ML\read\readme-%NAME%%PF_STRING%_%version%_ML.txt'
     new_ver: '%version%'
     re_pattern: '[0-9]+\.[0-9]+\.[0-9]+'
 
@@ -59,21 +54,21 @@ Process:
 - Processor: com.github.NickETH.recipes.SharedProcessors/SevenZipExtractor
   Arguments:
     exe_path: '%pathname%'
-    extract_dir: '%BUILD_DIR%\%pkg_dir%\sourceunzipped\'
+    extract_dir: '%BUILD_DIR%\%NAME%%PF_STRING%_%version%_ML\sourceunzipped\'
     # extract_file: 'bin\gswin64.exe'
     extract_file: '%NAME%.exe'
     preserve_paths: 'False'
 
 - Processor: com.github.haircut.processors/AppIconExtractor
   Arguments:
-    ICON_PATH: '%BUILD_DIR%\%pkg_dir%\icons'
+    ICON_PATH: '%BUILD_DIR%\%NAME%%PF_STRING%_%version%_ML\icons'
     icon_file_number: 0
     # composite_padding: 20
     # composite_position: ul
     # composite_uninstall_path: '%RECIPE_CACHE_DIR%/Icon-Uninstall-%NAME%.png'
     # composite_uninstall_template: /Users/haircut/Documents/delete.png
     icon_output_path: '%ICON_PATH%\Icon-%NAME%.png'
-    source_app: '%BUILD_DIR%\%pkg_dir%\sourceunzipped\%NAME%.exe'
+    source_app: '%BUILD_DIR%\%NAME%%PF_STRING%_%version%_ML\sourceunzipped\%NAME%.exe'
     #msi_icon_name: 'MainExecutableIcon.ico'
     composite_uninstall_path: '%ICON_PATH%/Icon-Uninstall-%NAME%.png'
     composite_update_path: '%ICON_PATH%/Icon-Update-%NAME%.png'

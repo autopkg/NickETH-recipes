@@ -25,23 +25,18 @@ Process:
     recipe_path: '%RECIPE_PATH%'
     ver_fields: '3'
 
-- Processor: com.github.sebtomasi.SharedProcessors/RenameVar
-  Arguments:
-    input_var: '%NAME%%PF_STRING%_%build_ver%_ML'
-    rename_var: pkg_dir
-
 - Processor: Copier
   Comment: Copy the FileZilla installer file to the build dir
   Arguments:
-    destination_path: '%BUILD_DIR%\%pkg_dir%\sourcepkt\%filename%'
+    destination_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\sourcepkt\%filename%'
     overwrite: 'true'
     source_path: '%RECIPE_CACHE_DIR%\downloads\%filename%'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/SevenZipExtractor
   Comment: Extract the autopkg zip archive
   Arguments:
-    exe_path: '%BUILD_DIR%\%pkg_dir%\sourcepkt\%filename%'
-    extract_dir: '%BUILD_DIR%\%pkg_dir%\wixproject\%NAME%'
+    exe_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\sourcepkt\%filename%'
+    extract_dir: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\wixproject\%NAME%'
     extract_file: '*'
     ignore_pattern: ''
     preserve_paths: 'True'
@@ -50,33 +45,33 @@ Process:
   Comment: Rename the $R0 file to fzshellext_64.dll
   Arguments:
     overwrite: 'true'
-    source: '%BUILD_DIR%\%pkg_dir%\wixproject\%NAME%\$R0'
-    target: '%BUILD_DIR%\%pkg_dir%\wixproject\%NAME%\fzshellext_64.dll'
+    source: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\wixproject\%NAME%\$R0'
+    target: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\wixproject\%NAME%\fzshellext_64.dll'
 
 - Processor: Copier
   Comment: Copy the FileZilla installer file to the build dir
   Arguments:
-    destination_path: '%BUILD_DIR%\%pkg_dir%\wixproject\%NAME%\fzdefaults.xml'
+    destination_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\wixproject\%NAME%\fzdefaults.xml'
     overwrite: 'true'
-    source_path: '%BUILD_DIR%\%pkg_dir%\helpers\fzdefaults.xml'
+    source_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\helpers\fzdefaults.xml'
 
 - Processor: PathDeleter
   Comment: Delete unnesessary folders from the FileZilla installer files
   Arguments:
     path_list:
-    - '%BUILD_DIR%\%pkg_dir%\wixproject\%NAME%\$PLUGINSDIR'
-    - '%BUILD_DIR%\%pkg_dir%\wixproject\%NAME%\$R2'
+    - '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\wixproject\%NAME%\$PLUGINSDIR'
+    - '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\wixproject\%NAME%\$R2'
 
 - Processor: com.github.haircut.processors/AppIconExtractor
   Arguments:
-    ICON_PATH: '%BUILD_DIR%\%pkg_dir%\icons'
+    ICON_PATH: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\icons'
     icon_file_number: 0
     # composite_padding: 20
     # composite_position: ul
     # composite_uninstall_path: '%RECIPE_CACHE_DIR%/Icon-Uninstall-%NAME%.png'
     # composite_uninstall_template: /Users/haircut/Documents/delete.png
     icon_output_path: '%ICON_PATH%\Icon-%NAME%.png'
-    source_app: '%BUILD_DIR%\%pkg_dir%\sourcepkt\%NAME%.exe'
+    source_app: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\sourcepkt\%NAME%.exe'
     #msi_icon_name: 'MainExecutableIcon.ico'
     composite_uninstall_path: '%ICON_PATH%\Icon-Uninstall-%NAME%.png'
     composite_update_path: '%ICON_PATH%\Icon-Update-%NAME%.png'
@@ -84,38 +79,38 @@ Process:
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/FileDateVersionSubst
   Arguments:
-    file_path: '%BUILD_DIR%\%pkg_dir%\read\create-log-%NAME%%PF_STRING%_%build_ver%_ML.txt'
+    file_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\read\create-log-%NAME%%PF_STRING%_%build_ver%_ML.txt'
     new_ver: '%build_ver%'
     re_pattern: '[0-9]+\.[0-9]+\.[0-9]+'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/FileDateVersionSubst
   Arguments:
-    file_path: '%BUILD_DIR%\%pkg_dir%\read\readme-%NAME%%PF_STRING%_%build_ver%_ML.txt'
+    file_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\read\readme-%NAME%%PF_STRING%_%build_ver%_ML.txt'
     new_ver: '%build_ver%'
     re_pattern: '[0-9]+\.[0-9]+\.[0-9]+'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/WixDefaults
   Comment: Set the actual version strings to the version.wxi file
   Arguments:
-    build_dir: '%BUILD_DIR%\%pkg_dir%'
+    build_dir: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML'
     build_ver: '%build_ver%'
     org_ver: '%build_ver%'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/MSBuildRun
   Comment: Run the MSBuild script to generate the FileZilla MSI installer
   Arguments:
-    build_file: '%BUILD_DIR%\%pkg_dir%\wixproject\%NAME%.build'
-    build_folder: '%BUILD_DIR%\%pkg_dir%\wixproject'
-    build_property: BuildPlatform=%PLATFORM%;BuildName=%NAME%;BuildDir=%BUILD_DIR%\%pkg_dir%\wixproject;SourceDir=%BUILD_DIR%\%pkg_dir%\wixproject\%NAME%;version=%build_ver%
+    build_file: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\wixproject\%NAME%.build'
+    build_folder: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\wixproject'
+    build_property: BuildPlatform=%PLATFORM%;BuildName=%NAME%;BuildDir=%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\wixproject;SourceDir=%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\wixproject\%NAME%;version=%build_ver%
     build_target: WIX
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/MSIAddFileHash
   Comment: Add files to the MSIHash table in the MSI-file
   Arguments:
     File2Hash:
-    - fzputtygen.exe|||%BUILD_DIR%\%pkg_dir%\wixproject\%NAME%\fzputtygen.exe
-    - fzsftp.exe|||%BUILD_DIR%\%pkg_dir%\wixproject\%NAME%\fzsftp.exe
-    msi_path: '%BUILD_DIR%\%pkg_dir%\release\%NAME%%PF_STRING%_%build_ver%_ML.msi'
+    - fzputtygen.exe|||%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\wixproject\%NAME%\fzputtygen.exe
+    - fzsftp.exe|||%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\wixproject\%NAME%\fzsftp.exe
+    msi_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%_ML\release\%NAME%%PF_STRING%_%build_ver%_ML.msi'
     remove_version_field: true
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/DateTimeStamps

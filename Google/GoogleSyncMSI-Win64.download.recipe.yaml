@@ -24,8 +24,3 @@ Process:
   Arguments:
     SQL_command: SELECT `Value` FROM `Property` WHERE `Property`='ProductVersion'
     msi_path: '%pathname%'
-
-- Processor: com.github.sebtomasi.SharedProcessors/RenameVar
-  Arguments:
-    input_var: '%msi_value%'
-    rename_var: version

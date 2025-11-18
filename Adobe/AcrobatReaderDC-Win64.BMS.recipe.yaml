@@ -21,19 +21,19 @@ Process:
 - Processor: com.github.NickETH.recipes.SharedProcessors/MSIRunSQLget
   Arguments:
     SQL_command: SELECT `Value` FROM `Property` WHERE `Property`='ProductVersion'
-    msi_path: '%BUILD_DIR%\%pkg_dir%\release\AcroPro.msi'
+    msi_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\release\AcroPro.msi'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/MSIRunSQLget
   Arguments:
     BASEVERSION: '%msi_value%'
     SQL_command: SELECT `Value` FROM `Property` WHERE `Property`='ProductName'
-    msi_path: '%BUILD_DIR%\%pkg_dir%\release\AcroPro.msi'
+    msi_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\release\AcroPro.msi'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/MSIRunSQLget
   Arguments:
     PRODUCTNAME: '%msi_value%'
     SQL_command: SELECT `Value` FROM `Property` WHERE `Property`='ProductCode'
-    msi_path: '%BUILD_DIR%\%pkg_dir%\release\AcroPro.msi'
+    msi_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\release\AcroPro.msi'
 
 - Processor: com.github.sebtomasi.SharedProcessors/TextSubstituer
   Arguments:
@@ -54,7 +54,7 @@ Process:
   Comment: get the summary info from the MSI
   Arguments:
     cmnds_sinfo: ''
-    msi_path: '%BUILD_DIR%\%pkg_dir%\release\AcroPro.msi'
+    msi_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\release\AcroPro.msi'
 
 - Processor: com.github.jazzace.processors/TextSearcher
   Arguments:
@@ -124,10 +124,10 @@ Process:
     bms_serverport: '%BMS_SERVER_PORT%'
     bms_serverurl: '%BMS_SERVER1%'
     bms_username: '%BMS_USERNAME1%'
-    inst_file_src_dest: '%BUILD_DIR%\%pkg_dir%\release\*.*|%BMS_IMPORT_PATH_TST%\%DIP_NAME%\%BASEVER_US%\%DIP_SUBDIR%'
+    inst_file_src_dest: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\release\*.*|%BMS_IMPORT_PATH_TST%\%DIP_NAME%\%BASEVER_US%\%DIP_SUBDIR%'
     json_file_dest: '%BMS_IMPORT_PATH_TST%\%DIP_NAME%\bms_app_integration.json'
-    icon_file_src: '%BUILD_DIR%\%pkg_dir%\icons\*.*'
-    read_file_src_dest: '%BUILD_DIR%\%pkg_dir%\read\*-%NAME%%PF_STRING%_%BASEVERSION%%LANG_STRING%.txt|%BMS_IMPORT_PATH_TST%\%DIP_NAME%\%BASEVER_US%\DEV'
+    icon_file_src: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\icons\*.*'
+    read_file_src_dest: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\read\*-%NAME%%PF_STRING%_%BASEVERSION%%LANG_STRING%.txt|%BMS_IMPORT_PATH_TST%\%DIP_NAME%\%BASEVER_US%\DEV'
     
 - Processor: com.github.NickETH.recipes.SharedProcessors/BMSImporter
   Comment: Import the MSP application update into Baramundi (BMS) QSS
@@ -194,9 +194,9 @@ Process:
     bms_serverport: '%BMS_SERVER_PORT%'
     bms_serverurl: '%BMS_SERVER1%'
     bms_username: '%BMS_USERNAME1%'
-    inst_file_src_dest: '%BUILD_DIR%\%pkg_dir%\release\*.msp|%BMS_IMPORT_PATH_TST%\%DIP_NAME%\%parsed_string%\%DIP_SUBDIR%'
+    inst_file_src_dest: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\release\*.msp|%BMS_IMPORT_PATH_TST%\%DIP_NAME%\%parsed_string%\%DIP_SUBDIR%'
     json_file_dest: '%BMS_IMPORT_PATH_TST%\%DIP_NAME%\bms_app_integration.json'
-    icon_file_src: '%BUILD_DIR%\%pkg_dir%\icons\*.*'
-    read_file_src_dest: '%BUILD_DIR%\%pkg_dir%\read\*-%NAME%%PF_STRING%_%build_ver%%LANG_STRING%.txt|%BMS_IMPORT_PATH_TST%\%DIP_NAME%\%parsed_string%\DEV'
+    icon_file_src: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\icons\*.*'
+    read_file_src_dest: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\read\*-%NAME%%PF_STRING%_%build_ver%%LANG_STRING%.txt|%BMS_IMPORT_PATH_TST%\%DIP_NAME%\%parsed_string%\DEV'
 
 - Processor: EndOfCheckPhase

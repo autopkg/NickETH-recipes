@@ -35,41 +35,36 @@ Process:
     recipe_path: '%RECIPE_PATH%'
     ver_fields: '4'
 
-- Processor: com.github.sebtomasi.SharedProcessors/RenameVar
-  Arguments:
-    input_var: '%VENDOR%_%NAME%%PF_STRING%_%version%%LANG_STRING%'
-    rename_var: pkg_dir
-
 - Processor: com.github.NickETH.recipes.SharedProcessors/ExecuteFile
   Comment: extract the SQLServer setup
   Arguments:
     cmdline_args:
-    - /x:%BUILD_DIR%\%pkg_dir%\sourceunzipped\%NAME%
+    - /x:%BUILD_DIR%\%VENDOR%_%NAME%%PF_STRING%_%version%%LANG_STRING%\sourceunzipped\%NAME%
     - /q
     exe_file: '%pathname%'
-    exe_folder: '%BUILD_DIR%\%pkg_dir%\sourceunzipped'
+    exe_folder: '%BUILD_DIR%\%VENDOR%_%NAME%%PF_STRING%_%version%%LANG_STRING%\sourceunzipped'
     run_elevated: 'true'
 
 # - Processor: com.github.NickETH.recipes.SharedProcessors/MSIRunSQLget
   # Arguments:
     # SQL_command: SELECT `Value` FROM `Property` WHERE `Property`='ProductCode'
-    # msi_path: '%BUILD_DIR%\%pkg_dir%\release\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%.msi'
+    # msi_path: '%BUILD_DIR%\%VENDOR%_%NAME%%PF_STRING%_%version%%LANG_STRING%\release\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%.msi'
 
 - Processor: Copier
   Arguments:
-    destination_path: '%BUILD_DIR%\%pkg_dir%\release\%NAME%-LocalDB_%PF_STRING%_%version%%LANG_STRING%.MSI'
+    destination_path: '%BUILD_DIR%\%VENDOR%_%NAME%%PF_STRING%_%version%%LANG_STRING%\release\%NAME%-LocalDB_%PF_STRING%_%version%%LANG_STRING%.MSI'
     overwrite: 'true'
-    source_path: '%BUILD_DIR%\%pkg_dir%\sourceunzipped\%NAME%\1033_ENU_LP\x64\Setup\x64\SQLLOCALDB.MSI'
+    source_path: '%BUILD_DIR%\%VENDOR%_%NAME%%PF_STRING%_%version%%LANG_STRING%\sourceunzipped\%NAME%\1033_ENU_LP\x64\Setup\x64\SQLLOCALDB.MSI'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/FileDateVersionSubst
   Arguments:
-    file_path: '%BUILD_DIR%\%pkg_dir%\read\create-log-%NAME%%PF_STRING%_%version%%LANG_STRING%.txt'
+    file_path: '%BUILD_DIR%\%VENDOR%_%NAME%%PF_STRING%_%version%%LANG_STRING%\read\create-log-%NAME%%PF_STRING%_%version%%LANG_STRING%.txt'
     new_ver: '%version%'
     re_pattern: '[0-9]+\.[0-9]+\.[0-9]+'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/FileDateVersionSubst
   Arguments:
-    file_path: '%BUILD_DIR%\%pkg_dir%\read\readme-%NAME%%PF_STRING%_%version%%LANG_STRING%.txt'
+    file_path: '%BUILD_DIR%\%VENDOR%_%NAME%%PF_STRING%_%version%%LANG_STRING%\read\readme-%NAME%%PF_STRING%_%version%%LANG_STRING%.txt'
     new_ver: '%version%'
     re_pattern: '[0-9]+\.[0-9]+\.[0-9]+'
 

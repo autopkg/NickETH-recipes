@@ -17,39 +17,29 @@ Process:
     SQL_command: SELECT `Value` FROM `Property` WHERE `Property`='ProductVersion'
     msi_path: '%pathname%'
 
-- Processor: com.github.sebtomasi.SharedProcessors/RenameVar
-  Arguments:
-    input_var: '%msi_value%'
-    rename_var: version
-
 - Processor: com.github.NickETH.recipes.SharedProcessors/CreateNextBuild
   Comment: Create the build environment
   Arguments:
     BuildFiles: NextVerFiles.txt
     build_dir: '%BUILD_DIR%'
     folder_list: release:read
-    org_ver: '%version%'
+    org_ver: '%msi_value%'
     pkg_dir: '%NAME%%PF_STRING%_::VVeerrssiioonn::%LANG_STRING%'
     recipe_dir: '%RECIPE_DIR%'
     recipe_path: '%RECIPE_PATH%'
     ver_fields: '3'
 
-- Processor: com.github.sebtomasi.SharedProcessors/RenameVar
-  Arguments:
-    input_var: '%NAME%%PF_STRING%_%build_ver%%LANG_STRING%'
-    rename_var: pkg_dir
-
 - Processor: Copier
   Comment: Save a copy of the downloaded MSI to the release dir.
   Arguments:
-    destination_path: '%BUILD_DIR%\%pkg_dir%\release\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%.msi'
+    destination_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\release\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%.msi'
     overwrite: 'true'
     source_path: '%pathname%'
 
 - Processor: com.github.haircut.processors/AppIconExtractor
   Comment: Get the icon library from the MSI and generate the Kiosk-icons.
   Arguments:
-    ICON_PATH: '%BUILD_DIR%\%pkg_dir%\icons'
+    ICON_PATH: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\icons'
     icon_file_number: 0
     # composite_padding: 20
     # composite_position: ul
@@ -67,17 +57,17 @@ Process:
   Arguments:
     SQL_command:
     - UPDATE `Component` SET `Component`.`Condition`='DESKTOPSC=1' WHERE `Component`.`Component`='cshortcuted19f475eb9a3edfaffe9fd0a73bd4ff'
-    msi_path: '%BUILD_DIR%\%pkg_dir%\release\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%.msi'
+    msi_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\release\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%.msi'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/FileDateVersionSubst
   Arguments:
-    file_path: '%BUILD_DIR%\%pkg_dir%\read\create-log-%NAME%%PF_STRING%_%build_ver%%LANG_STRING%.txt'
+    file_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\read\create-log-%NAME%%PF_STRING%_%build_ver%%LANG_STRING%.txt'
     new_ver: '%build_ver%'
     re_pattern: '[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/FileDateVersionSubst
   Arguments:
-    file_path: '%BUILD_DIR%\%pkg_dir%\read\readme-%NAME%%PF_STRING%_%build_ver%%LANG_STRING%.txt'
+    file_path: '%BUILD_DIR%\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%\read\readme-%NAME%%PF_STRING%_%build_ver%%LANG_STRING%.txt'
     new_ver: '%build_ver%'
     re_pattern: '[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+'
 
