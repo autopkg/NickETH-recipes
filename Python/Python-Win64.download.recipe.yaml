@@ -20,6 +20,8 @@ Process:
     prefetch_filename: '%NAME%-x64.exe'
     url: '%match%'
 
+- Processor: EndOfCheckPhase
+
 - Processor: WindowsSignatureVerifier
   Arguments:
     expected_subject: CN=Python Software Foundation, O=Python Software Foundation, L=Beaverton, S=Oregon, C=US
