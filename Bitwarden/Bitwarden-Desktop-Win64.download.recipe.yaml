@@ -18,6 +18,8 @@ Process:
   Arguments:
     filename: '%NAME%-x64.7z'
 
+- Processor: EndOfCheckPhase
+
 - Processor: StopProcessingIf
   Arguments:
     predicate: download_changed == False

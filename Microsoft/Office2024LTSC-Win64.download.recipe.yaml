@@ -71,5 +71,3 @@ Process:
   Arguments:
     expected_subject: CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US
     input_path: '%pathname%'
-
-- Processor: EndOfCheckPhase
