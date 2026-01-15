@@ -19,6 +19,8 @@ Process:
   Arguments:
     filename: '%NAME%-x64.exe'
 
+- Processor: EndOfCheckPhase
+
 - Processor: WindowsSignatureVerifier
   Arguments:
     expected_subject: CN="OBS Project, LLC", O="OBS Project, LLC", L=Sheridan, S=Wyoming, C=US, SERIALNUMBER=2023-001272252, OID.2.5.4.15=Private Organization, OID.1.3.6.1.4.1.311.60.2.1.2=Wyoming, OID.1.3.6.1.4.1.311.60.2.1.3=US
