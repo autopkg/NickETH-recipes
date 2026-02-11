@@ -1,0 +1,9 @@
+
+200113	Packaging Miniconda3 x64 for Windows
+	We download and use the setup.exe unaltered.
+	Desktop shortcut will not be installed.
+	For the download links, see the recipe.
+	Miniconda3_64_1.1.1_ML.exe /S
+	Installation goes to C:\Apps
+
+200113	Version 1.0.0, by AutoPkg

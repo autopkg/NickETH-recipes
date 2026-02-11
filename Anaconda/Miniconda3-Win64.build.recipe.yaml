@@ -1,13 +1,13 @@
-Description: Alters latest GPG4Win Install-file for Windows.
-Identifier: com.github.NickETH.recipes.build.GPG4Win-Win
-ParentRecipe: com.github.NickETH.recipes.download.GPG4Win-Win
+Description: Package the current Miniconda3 x64 release.
+Identifier: com.github.NickETH.recipes.build.Miniconda3-Win64
+ParentRecipe: com.github.NickETH.recipes.download.Miniconda3-Win64
 MinimumVersion: 1.3.1
 
 Input:
-  NAME: GPG4Win
-  VENDOR: gpg4win.org
-  PLATFORM: x86
-  PF_STRING: ''
+  NAME: Miniconda3
+  VENDOR: 'Anaconda Inc.'
+  PLATFORM: x64
+  PF_STRING: _64
   LANG_STRING: _ML
 
 Process:
@@ -16,40 +16,29 @@ Process:
   Arguments:
     BuildFiles: NextVerFiles.txt
     build_dir: '%BUILD_DIR%'
-    folder_list: sourceunzipped:release:read
+    folder_list: release:read:sourceunzipped
     org_ver: '%version%'
     pkg_dir: '%NAME%%PF_STRING%_::VVeerrssiioonn::%LANG_STRING%'
     recipe_dir: '%RECIPE_DIR%'
     recipe_path: '%RECIPE_PATH%'
-    ver_fields: '3'
+    ver_fields: '4'
 
 - Processor: com.github.sebtomasi.SharedProcessors/RenameVar
   Arguments:
-    input_var: '%NAME%%PF_STRING%_%version%%LANG_STRING%'
+    input_var: '%NAME%%PF_STRING%_%build_ver%%LANG_STRING%'
     rename_var: pkg_dir
 
+- Processor: com.github.NickETH.recipes.SharedProcessors/DateTimeStamps
+
 - Processor: Copier
-  Comment: Copy the EXE-file to the release dir
+  Comment: Copy the Miniconda3 install exe file to the release dir
   Arguments:
-    destination_path: '%BUILD_DIR%\%pkg_dir%\release\%NAME%%PF_STRING%_%version%%LANG_STRING%.exe'
+    destination_path: '%BUILD_DIR%\%pkg_dir%\release\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%.exe'
     overwrite: 'true'
     source_path: '%pathname%'
 
-- Processor: com.github.NickETH.recipes.SharedProcessors/FileDateVersionSubst
-  Arguments:
-    file_path: '%BUILD_DIR%\%pkg_dir%\read\create-log-%NAME%%PF_STRING%_%version%%LANG_STRING%.txt'
-    new_ver: '%version%'
-    re_pattern: '[0-9]+\.[0-9]+\.[0-9]+'
-
-- Processor: com.github.NickETH.recipes.SharedProcessors/FileDateVersionSubst
-  Arguments:
-    file_path: '%BUILD_DIR%\%pkg_dir%\read\readme-%NAME%%PF_STRING%_%version%%LANG_STRING%.txt'
-    new_ver: '%version%'
-    re_pattern: '[0-9]+\.[0-9]+\.[0-9]+'
-
-- Processor: com.github.NickETH.recipes.SharedProcessors/DateTimeStamps
-    
 - Processor: com.github.haircut.processors/AppIconExtractor
+  Comment: Extract the Miniconda3 icons and generate BMS-Kiosk-Icons
   Arguments:
     ICON_PATH: '%BUILD_DIR%\%pkg_dir%\icons'
     icon_file_number: 0
@@ -58,11 +47,20 @@ Process:
     # composite_uninstall_path: '%RECIPE_CACHE_DIR%/Icon-Uninstall-%NAME%.png'
     # composite_uninstall_template: /Users/haircut/Documents/delete.png
     icon_output_path: '%ICON_PATH%\Icon-%NAME%.png'
-    # source_app: '%BUILD_DIR%\%pkg_dir%\helpers\qgis-icon-512x512.png'
     source_app: '%pathname%'
     #msi_icon_name: 'MainExecutableIcon.ico'
     composite_uninstall_path: '%ICON_PATH%\Icon-Uninstall-%NAME%.png'
     composite_update_path: '%ICON_PATH%\Icon-Update-%NAME%.png'
     composite_install_path: '%ICON_PATH%\Icon-Install-%NAME%.png'
 
-- Processor: EndOfCheckPhase
+- Processor: com.github.NickETH.recipes.SharedProcessors/FileDateVersionSubst
+  Arguments:
+    file_path: '%BUILD_DIR%\%pkg_dir%\read\create-log-%NAME%%PF_STRING%_%build_ver%%LANG_STRING%.txt'
+    new_ver: '%build_ver%'
+    re_pattern: '[0-9]+\.[0-9]+\.[0-9]+'
+
+- Processor: com.github.NickETH.recipes.SharedProcessors/FileDateVersionSubst
+  Arguments:
+    file_path: '%BUILD_DIR%\%pkg_dir%\read\readme-%NAME%%PF_STRING%_%build_ver%%LANG_STRING%.txt'
+    new_ver: '%build_ver%'
+    re_pattern: '[0-9]+\.[0-9]+\.[0-9]+'

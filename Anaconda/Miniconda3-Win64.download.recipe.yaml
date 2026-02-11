@@ -1,0 +1,52 @@
+Description: Downloads the latest Miniconda3 Python x64 installer package for Windows.
+Identifier: com.github.NickETH.recipes.download.Miniconda3-Win64
+MinimumVersion: 1.3.1
+
+Input:
+  NAME: Miniconda3
+  INSTALLER_TYPE: exe
+  PYTHON_VERSION: '313'
+  ARCH: x86_64
+  SEARCH_URL: https://repo.anaconda.com/miniconda/
+  #https://repo.anaconda.com/archive/Anaconda3-2025.06-0-Windows-x86_64.exe
+  #https://repo.anaconda.com/miniconda/Miniconda3-py313_25.11.1-1-Windows-x86_64.exe
+  #SEARCH_PATTERN: (?s)(?P<url>https\://repo\.(anaconda\.com|continuum\.io)/archive/Anaconda%PYTHON_MAJOR_VERSION%-(?P<rawversion>[0-9.|-]+)-Windows-%ARCH%\.%INSTALLER_TYPE%)(?!.*Anaconda%PYTHON_MAJOR_VERSION%-[0-9.|-]+-Windows-%ARCH%\.%INSTALLER_TYPE%)
+  SEARCH_PATTERN: (?P<url>Miniconda3-py%PYTHON_VERSION%_(?P<rawversion>([0-9]+[\.|-])*[0-9]+)-Windows-%ARCH%\.exe)
+  #SEARCH_PATTERN: (?P<url>Miniconda3-py%PYTHON_VERSION%_(?P<version>([0-9]+\.\-)*[0-9]+)-Windows-%ARCH%\.exe)
+  #url: 'https://repo.anaconda.com/miniconda/Miniconda3-latest-Windows-%ARCH%.exe'
+  
+
+Process:
+# - Processor: URLTextSearcher
+  # Arguments:
+    # re_pattern: Python (?P<PYTHON_VERSION>%PYTHON_MAJOR_VERSION%\.\d)
+    # url: '%SEARCH_URL%'
+
+- Processor: URLTextSearcher
+  Arguments:
+    re_pattern: '%SEARCH_PATTERN%'
+    url: '%SEARCH_URL%'
+
+- Processor: URLDownloader
+  Arguments:
+    filename: '%NAME%-%ARCH%.%INSTALLER_TYPE%'
+    url: '%SEARCH_URL%%url%'
+
+- Processor: StopProcessingIf
+  Arguments:
+    predicate: download_changed == False
+
+- Processor: com.github.sebtomasi.SharedProcessors/TextSubstituer
+  Arguments:
+    input_string: '%rawversion%'
+    pattern_replace:
+    - pattern: \-
+      repl: .
+
+- Processor: WindowsSignatureVerifier
+  Arguments:
+    version: '%parsed_string%'
+    expected_subject: CN="Anaconda, Inc.", O="Anaconda, Inc.", L=Austin, S=Texas, C=US, SERIALNUMBER=5073497, OID.2.5.4.15=Private Organization, OID.1.3.6.1.4.1.311.60.2.1.2=Delaware, OID.1.3.6.1.4.1.311.60.2.1.3=US
+    input_path: '%pathname%'
+
+- Processor: EndOfCheckPhase

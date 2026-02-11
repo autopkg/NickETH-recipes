@@ -8,7 +8,6 @@ Input:
   # URL: https://files.gpg4win.org/?C=M;O=D
   URL: https://files.gpg4win.org/
   CH_LST_DIR: '?C=M;O=D'
-  # gpg4win-4.4.1.exe
   SEARCH_URL: '(?s)(gpg4win-(?P<version>([0-9]+\.)*[0-9]+)\.exe)(?!.*(gpg4win-([0-9]+\.)*[0-9]+\.exe))'
   # SEARCH_URL: '(gpg4win-(?P<version>([0-9]+\.)*[0-9]+)\.exe)'
   USER_AGENT: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:134.0) like Gecko
@@ -20,38 +19,8 @@ Process:
     url: '%URL%'
     #url: '%URL%%CH_LST_DIR%'
 
-# - Processor: com.github.NickETH.recipes.SharedProcessors/ExecuteFile
-  # Comment: create a version.txt file, if it does not exist (like 'touch').
-  # Arguments:
-    # DL_FILE: '%match%'
-    # cmdline_args:
-    # - /C
-    # - type
-    # - nul
-    # - '>>'
-    # - version.txt
-    # exe_file: 'cmd.exe'
-    # exe_folder: '%RECIPE_CACHE_DIR%'
-
-# - Processor: URLTextSearcher
-  # Comment: read back the previous version from the version.txt file.
-  # Arguments:
-    # re_pattern: '^(.*)$'
-    # url: file://%RECIPE_CACHE_DIR%/version.txt
-
-# - Processor: StopProcessingIf
-  # Arguments:
-    # predicate: '%version% == %match%'
-
-# - Processor: FileCreator
-  # Comment: Generate the version.txt in the release dir.
-  # Arguments:
-    # file_content: '%version%'
-    # file_path: '%RECIPE_CACHE_DIR%\version.txt'
-
 - Processor: URLDownloader
   Arguments:
-    # url: '%URL%%DL_FILE%'
     url: '%URL%%match%'
     filename: '%NAME%.exe'
     request_headers:
@@ -62,8 +31,8 @@ Process:
     expected_subject: E=code@g10code.com, CN=g10 Code GmbH, O=g10 Code GmbH, L=Erkrath, S=Nordrhein-Westfalen, C=DE
     input_path: '%pathname%'
 
-# - Processor: StopProcessingIf
-  # Arguments:
-    # predicate: download_changed == False
+- Processor: StopProcessingIf
+  Arguments:
+    predicate: download_changed == False
 
 - Processor: EndOfCheckPhase
