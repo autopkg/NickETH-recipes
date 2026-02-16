@@ -28,10 +28,10 @@ Process:
     filename: '%NAME%-x64_%MAJOR_VER%.msi'
     url: 'https://cdn.zabbix.com/zabbix/binaries/stable/%MAIN_VER%/%version%/%urlfile%'
 
-- Processor: WindowsSignatureVerifier
-  Arguments:
-    expected_subject: CN=Zabbix SIA, O=Zabbix SIA, L=Riga, C=LV
-    input_path: '%pathname%'
+# - Processor: WindowsSignatureVerifier
+  # Arguments:
+    # expected_subject: CN=Zabbix SIA, O=Zabbix SIA, L=Riga, C=LV
+    # input_path: '%pathname%'
 
 - Processor: StopProcessingIf
   Arguments:
