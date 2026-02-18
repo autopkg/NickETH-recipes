@@ -1,0 +1,6 @@
+200113	Packaging BIMcollabZoom x64
+	We download the MSI as is.
+	
+	For the download links, see the recipe.
+
+200113	Version 1.0.0, by AutoPkg

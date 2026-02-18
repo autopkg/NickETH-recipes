@@ -1,0 +1,40 @@
+Description: Downloads the latest release of BIMcollabZoom from Github.
+Identifier: com.github.NickETH.recipes.download.BIMcollabZoom-Win64
+MinimumVersion: 1.3.1
+
+Input:
+  NAME: BIMcollabZoom
+  PLATFORM: x64
+  PF_STRING: _64
+  DOWNLOAD_URL: https://bimcollab.com/download/ZOOM/WIN/MSI
+  USER_AGENT: Mozilla/5.0 (Windows NT 10.0; Win64; x64)
+
+# https://bimcollab.com/download/ZOOM/WIN/MSI
+
+Process:
+- Processor: URLDownloader
+  Arguments:
+    filename: '%NAME%-%PLATFORM%.msi'
+    request_headers:
+      user-agent: '%USER_AGENT%'
+    url: '%DOWNLOAD_URL%'
+#    CHECK_FILESIZE_ONLY: False
+
+- Processor: StopProcessingIf
+  Arguments:
+    predicate: download_changed == False
+
+- Processor: com.github.NickETH.recipes.SharedProcessors/MSIRunSQLget
+  Comment: Get the version from the MSI file
+  Arguments:
+    SQL_command: SELECT `Value` FROM `Property` WHERE `Property`='ProductVersion'
+    msi_path: '%pathname%'
+
+- Processor: WindowsSignatureVerifier
+  Comment: Check the signature and set version variable
+  Arguments:
+    version: '%msi_value%'
+    expected_subject: CN=Kubus B.V, O=Kubus B.V, S=Noord-Brabant, C=NL, OID.2.5.4.15=Private Organization, OID.1.3.6.1.4.1.311.60.2.1.3=NL, SERIALNUMBER=17076900
+    input_path: '%pathname%'
+
+- Processor: EndOfCheckPhase
