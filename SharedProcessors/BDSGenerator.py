@@ -215,6 +215,8 @@ class BDSGenerator(Processor):
         # Replace the escape for "<>"
         newdata = filedata.replace("&lt;","<")
         newdata = newdata.replace("&gt;",">")
+        newdata = newdata.replace("&amp;","&")
+        newdata = newdata.replace("&#38;","&")
         
         # And create the final file (overwrite).
         with open(BDS_file, "w") as wfile:
