@@ -3,50 +3,36 @@ Identifier: com.github.NickETH.recipes.download.WhatsAppDesktop-Win64
 MinimumVersion: 1.3.1
 
 Input:
-  #NAME: TreeSize
-  #EXTERNAL_URL: https://apps.microsoft.com/detail/9nksqgp7f2nh?hl=en-US&gl=CH
-  EXTERNAL_URL: https://store.rg-adguard.net/api/GetFiles
-  #INTERNAL_URL: http://polybox.ethz.ch/public.php/webdav/
+  NAME: 'WhatsAppDesktop'
+  APP_URL: https://apps.microsoft.com/detail/9nksqgp7f2nh?hl=en-US&gl=CH
   APPNAME: '5319275A.WhatsAppDesktop'
   PRODUCTID: '9nksqgp7f2nh'
-  #Microsoft.Whiteboard_52.11010.438.0_neutral_~_8wekyb3d8bbwe.appxbundle
-  #<a href="http://tlu.dl.delivery.mp.microsoft.com/filestreamingservice/files/129c15e3-4b4c-41d5-b47c-3687766091a0?P1=1686965268&P2=404&P3=2&P4=aXfDyxN7ppBPWBt4f6wLqKzjvYf%2fDhP8BZWOFixej%2fnyYO20VUNdF2fG%2b%2fh%2fVpvTHjWAM4XyrCSKf3QcVwq7CA%3d%3d" rel="noreferrer">Microsoft.Whiteboard_53.10126.517.0_neutral_~_8wekyb3d8bbwe.appxbundle</a>
-  #<a href="http://tlu.dl.delivery.mp.microsoft.com/filestreamingservice/files/e3c78d9a-2c1a-4b78-9213-67b1e6af6aef?P1=1738935903&amp;P2=404&amp;P3=2&amp;P4=l11xyvTOyqMr3wP5%2beueud8uLKdoEkBl%2bZgsH2ig99jEx7r4zHMMZJdbK8tfdGlDGFTfdbJCbvRMaPO%2f9R1KSw%3d%3d" rel="noreferrer">5319275A.WhatsAppDesktop_2.2504.2.0_neutral_~_cv1g1gvanyjgm.msixbundle</a>
-  #(?!.*(v[0-9]r[0-9]/Windows/[autodeployx64]+/v[0-9]+/([0-9.]+)-TIV-TSMBAC-WinX64\.exp))
-  #SEARCH_STR: (?s)(?P<completefile>http://tlu.dl.delivery.mp.microsoft.com/filestreamingservice/files/.*) rel="noreferrer">(?P<appfilename>Microsoft.Whiteboard_(?P<version>([0-9]+\.)*[0-9]+)_neutral_.*\.appxbundle)(?!.*Microsoft.Whiteboard_[0-9]+\.*[0-9]+_neutral_.*\.appxbundle)
-  #SEARCH_STR: (?s)((?P<completefile>http://tlu.dl.delivery.mp.microsoft.com/filestreamingservice/files/.*) rel="noreferrer">(?P<appfilename>Microsoft.Whiteboard_(?P<version>([0-9]+\.)*[0-9]+)_neutral_.*\.appxbundle))(?!.*(Microsoft.Whiteboard_([0-9]+\.)*[0-9]+_neutral_.*\.appxbundle))
-  #SEARCH_STR: (?s)(?=.*(?P<completefile>http://tlu.dl.delivery.mp.microsoft.com/filestreamingservice/files/.*?) rel="noreferrer">(?P<appfilename>Microsoft.Whiteboard_(?P<version>(?:[0-9]+\.)*[0-9]+)_neutral_.*?\.appxbundle))
-  SEARCH_STR: (?s)(?=.*(?P<completefile>http://tlu.dl.delivery.mp.microsoft.com/filestreamingservice/files/.*?)" rel="noreferrer">(?P<appfilename>5319275A.WhatsAppDesktop_(?P<version>(?:[0-9]+\.)*[0-9]+)_neutral_.*?\.msixbundle))
-  # SEARCH_STR2: (?s)(?=.*(?P<completefile>http://tlu.dl.delivery.mp.microsoft.com/filestreamingservice/files/.*?) rel="noreferrer">(?P<appfilename>Microsoft.NET.Native.Runtime.*?(?P<version>(?:[0-9]+\.)*[0-9]+)_x64.*?\.appx))
   USER_AGENT: Mozilla/5.0 (Windows NT 6.3; Win64, x64; Trident/7.0; rv:11.0) like Gecko
-  INTERNAL_URL: http://polybox.ethz.ch/public.php/webdav/
+  # 5319275A.WhatsAppDesktop_2.2605.3.0_neutral_~_cv1g1gvanyjgm_397a9da3-5d22-4acd-a9da-c5ee56411123.msixbundle
+  #SEARCH_STR: 5319275A.WhatsAppDesktop_(?P<version>(?:[0-9]+\.)*[0-9]+)_neutral_.*?\.msixbundle
+  SEARCH_STR: 5319275A.WhatsAppDesktop_(([0-9]+\.)*[0-9]+)_neutral_.*?\.msixbundle
 
 Process:
 
-- Processor: URLTextSearcher
+- Processor: com.github.NickETH.recipes.SharedProcessors/MSStoreAppGet
   Arguments:
-    curl_opts:
-    - --data-raw 
-    - "type=ProductId&url=9nksqgp7f2nh?hl=en-US&gl=CH"
-    - --request
-    - POST
+    #app_url: 'https://apps.microsoft.com/detail/9nksqgp7f2nh'
+    app_url: '%APP_URL%'
+    dl_dir: 'none'
+    dl_file: "WhatsAppDesktop.msixbundle"
+    dl_arch: "x64"
     re_pattern: '%SEARCH_STR%'
-    request_headers:
-      user-agent: '%USER_AGENT%'
-    url: '%EXTERNAL_URL%'
+
+# - Processor: com.github.jazzace.processors/TextSearcher
+  # Arguments:
+    # re_pattern: '%SEARCH_STR%'
+    # text_in: '%main_file%'
+    # result_output_var_name: version
 
 - Processor: URLDownloader
   Arguments:
-    curl_opts:
-    # # - --user
-    # # - NHUEuQEL3nQpNIt:-:Estland:-
-    - --request
-    - GET
-    request_headers:
-      user-agent: '%USER_AGENT%'
-    filename: '%APPNAME%.msixbundle'
-    #url: '%INTERNAL_URL%%completefile%'
-    url: '%completefile%'
+    filename: '%NAME%.msixbundle'
+    url: '%file_list%'
 
 - Processor: EndOfCheckPhase
 
@@ -59,8 +45,11 @@ Process:
     expected_subject: CN=24803D75-212C-471A-BC57-9EF86AB91435
     input_path: '%pathname%'
     
-- Processor: com.github.NickETH.recipes.SharedProcessors/GetMSStoreApp
+- Processor: com.github.NickETH.recipes.SharedProcessors/MSStoreAppGet
   Arguments:
     app_url: 'https://apps.microsoft.com/detail/9nksqgp7f2nh'
-    dl_dir: '%RECIPE_CACHE_DIR%/downloads'
+    dl_dir: '%RECIPE_CACHE_DIR%/download_full'
+    dl_file: "none"
+    dl_deps: required
+    dl_arch: "x64"
 

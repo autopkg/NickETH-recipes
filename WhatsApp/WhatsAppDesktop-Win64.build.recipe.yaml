@@ -47,19 +47,24 @@ Process:
     preserve_paths: false
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/ExecuteFile
-  Comment: get the directories from ITShop-win
+  Comment: Move all files to the release dir
   Arguments:
     cmdline_args:
     - /C
     - move
     - /Y
-    - '%RECIPE_CACHE_DIR%\downloads\*.*x'
+    - '%RECIPE_CACHE_DIR%\download_full\*.*x'
     - '%BUILD_DIR%\%pkg_dir%\release\'
     exe_file: 'cmd.exe'
     exe_folder: '%RECIPE_CACHE_DIR%'
-    
+
+- Processor: PathDeleter
+  Comment: Remove the temporary download folder
+  Arguments:
+    path_list: '%RECIPE_CACHE_DIR%/download_full'
+
 - Processor: com.github.haircut.processors/AppIconExtractor
-  Comment: Generate Icon files for the Kiosk from Telegraf
+  Comment: Generate Icon files for the Kiosk from WhatsAppDesktop
   Arguments:
     ICON_PATH: '%BUILD_DIR%\%pkg_dir%\icons'
     icon_file_number: 0
