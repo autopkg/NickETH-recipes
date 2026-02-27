@@ -66,7 +66,7 @@ Process:
           $ScriptName = Split-Path -Path $ScriptPath -Leaf
           $InstallDir = Split-Path -Path $ScriptPath -Parent
 
-          & "{$var_Path2BMAcmd}" /Cmd:Log /Type:/1 /Text:"###  BEGIN bDS Script [$ScriptName]   ###"
+          & "{$var_Path2BMAcmd}" /Cmd:Log /Type:/1 /Text:"###  BEGIN bDS Script [$ScriptName]  ###"
 
           $Files2Install = Get-ChildItem $InstallDir -Name -Filter {InstallFilesFilter}
 
@@ -74,7 +74,7 @@ Process:
              Add-AppProvisionedPackage -online -packagepath (Join-Path -Path $InstallDir -ChildPath $f2i) -skiplicense
              & "{$var_Path2BMAcmd}" /Cmd:Log /Type:/1 /Text:"Installed [$f2i]"
           }
-          & "{$var_Path2BMAcmd}" /Cmd:Log /Type:/1 /Text:"###  END bDS Script [$ScriptName]   ###"
+          & "{$var_Path2BMAcmd}" /Cmd:Log /Type:/1 /Text:"###  END bDS Script [$ScriptName]  ###"
         HIDDENEXECUTION: "1"      
     - ACTION: 'type: Comment |||comment: 1'
       DATA:
@@ -96,14 +96,15 @@ Process:
         VARNAME: ""
         SCRIPT:  |
           [String]$ScriptPath = "{Script}"
+
           $ScriptName = Split-Path -Path $ScriptPath -Leaf
 
-          & "{$var_Path2BMAcmd}" /Cmd:Log /Type:/1 /Text:"###  BEGIN bDS Script [$ScriptName]   ###"
+          & "{$var_Path2BMAcmd}" /Cmd:Log /Type:/1 /Text:"###  BEGIN bDS Script [$ScriptName]  ###"
 
           get-appxpackage -allusers 5319275A.WhatsAppDesktop | Remove-AppPackage -AllUsers
           & "{$var_Path2BMAcmd}" /Cmd:Log /Type:/1 /Text:"WhatsAppDesktop Removed [WhatsAppDesktop]"
 
-          & "{$var_Path2BMAcmd}" /Cmd:Log /Type:/1 /Text:"###  END bDS Script [$ScriptName]   ###"
+          & "{$var_Path2BMAcmd}" /Cmd:Log /Type:/1 /Text:"###  END bDS Script [$ScriptName]  ###"
         HIDDENEXECUTION: "1" 
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/BMSImporter
