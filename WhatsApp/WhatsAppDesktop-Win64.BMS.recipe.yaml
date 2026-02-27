@@ -37,7 +37,7 @@ Process:
     - ACTION: 'type: SetVar ||| level: 0'
       DATA:
         VARNAME: InstallFilesFilter
-        VALUE: '*.???x'
+        VALUE: '*.???x*'
         OPTIONS: 0
     - ACTION: 'type: SetX64Mode'
       DATA:

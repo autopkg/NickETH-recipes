@@ -32,7 +32,7 @@ Process:
   Comment: Extract the WhatsApp msix package to the release dir
   Arguments:
     exe_path: '%pathname%'
-    extract_dir: '%BUILD_DIR%\%pkg_dir%\release\'
+    extract_dir: '%BUILD_DIR%\%pkg_dir%\sourceunzipped\'
     #extract_file: WhatsApp_%version%_x64.msix
     extract_file: automation_whatsapp_windows_uwp_store_hybrid_production_x64.msix
 
@@ -40,7 +40,7 @@ Process:
   Comment: Extract the WhatsApp msix package to the release dir
   Arguments:
     #exe_path: '%BUILD_DIR%\%pkg_dir%\release\WhatsApp_%version%_x64.msix'
-    exe_path: '%BUILD_DIR%\%pkg_dir%\release\automation_whatsapp_windows_uwp_store_hybrid_production_x64.msix'
+    exe_path: '%BUILD_DIR%\%pkg_dir%\sourceunzipped\automation_whatsapp_windows_uwp_store_hybrid_production_x64.msix'
     extract_dir: '%BUILD_DIR%\%pkg_dir%\sourceunzipped\'
     extract_file: 'AppList.targetsize-256.png'
     recursive: true
@@ -53,7 +53,7 @@ Process:
     - /C
     - move
     - /Y
-    - '%RECIPE_CACHE_DIR%\download_full\*.*x'
+    - '%RECIPE_CACHE_DIR%\download_full\*.*'
     - '%BUILD_DIR%\%pkg_dir%\release\'
     exe_file: 'cmd.exe'
     exe_folder: '%RECIPE_CACHE_DIR%'
