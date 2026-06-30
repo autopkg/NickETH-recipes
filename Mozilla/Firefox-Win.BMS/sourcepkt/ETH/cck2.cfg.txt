@@ -37,4 +37,3 @@ pref("loop.enabled", false);
 pref("privacy.webrtc.hideGlobalIndicator", true);
 pref("extensions.allowPrivateBrowsingByDefault", true);
 pref("privacy.trackingprotection.cryptomining.enabled", true);
-pref("network.automatic-ntlm-auth.trusted-uris", "azp.hr.ethz.ch");
