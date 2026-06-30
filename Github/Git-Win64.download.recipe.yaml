@@ -17,7 +17,7 @@ Process:
 
 - Processor: WindowsSignatureVerifier
   Arguments:
-    expected_subject: CN=Johannes Schindelin, O=Johannes Schindelin, S=Nordrhein-Westfalen, C=DE
+    expected_subject: CN=Johannes Schindelin, O=Johannes Schindelin, L=Bruehl, C=DE
     input_path: '%pathname%'
 
 - Processor: StopProcessingIf
