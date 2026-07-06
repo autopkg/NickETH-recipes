@@ -90,6 +90,15 @@ class DWGTrueviewDownloader(Processor):
             except:
                 pass  # No dialog found
 
+            # Close the cookie banner (find the dialog and click the button)
+            try:
+                # Get the "Decline" button
+                modal = page.locator("div[role='dialog']")
+                if await modal.locator("button:has-text('Decline')").count() > 0:
+                    await modal.locator("button:has-text('Decline')").first.click()
+            except:
+                pass  # No dialog found
+
             await page.wait_for_timeout(2000)
 
             await page.locator("button svg[data-testid='KeyboardArrowDownIcon']").click()
