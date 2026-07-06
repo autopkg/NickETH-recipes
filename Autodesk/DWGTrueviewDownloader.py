@@ -8,6 +8,7 @@
 #
 # Output needs work.
 # 20251210 Nick Heim: Initial release.
+# 20260706 Nick Heim: Update Cookie- and Download-button selector.
 
 import re
 import asyncio
@@ -93,9 +94,14 @@ class DWGTrueviewDownloader(Processor):
             # Close the cookie banner (find the dialog and click the button)
             try:
                 # Get the "Decline" button
-                modal = page.locator("div[role='dialog']")
-                if await modal.locator("button:has-text('Decline')").count() > 0:
-                    await modal.locator("button:has-text('Decline')").first.click()
+                # modal = page.locator("div[role='dialog']")
+                # if await modal.locator("button:has-text('Decline')").count() > 0:
+                    # await modal.locator("button:has-text('Decline')").first.click()
+                # Wait for the cookie banner to appear
+                await page.wait_for_selector('button[data-wat-val="decline all"]', timeout=10000)
+
+                # Click the Decline button
+                await page.click('button[data-wat-val="decline all"]')
             except:
                 pass  # No dialog found
 
