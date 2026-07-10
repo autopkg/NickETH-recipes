@@ -35,27 +35,28 @@ Process:
     source_path: '%pathname%'
     destination_path: '%BUILD_DIR%\%pkg_dir%\release\%NAME%%PF_STRING%_%version%%LANG_STRING%.exe'
 
+# - Processor: com.github.NickETH.recipes.SharedProcessors/SevenZipExtractor
+  # Arguments:
+    # exe_path: '%pathname%'
+    # extract_dir: '%BUILD_DIR%\%pkg_dir%\sourceunzipped'
+    # extract_file: '926f67db3271e3115caa9a5cdc9540120fa92566.tar.xz'
+    # recursive: true
+    # preserve_paths: false
+
+# - Processor: com.github.NickETH.recipes.SharedProcessors/SevenZipExtractor
+  # Arguments:
+    # exe_path: '%BUILD_DIR%\%pkg_dir%\sourceunzipped\926f67db3271e3115caa9a5cdc9540120fa92566.tar.xz'
+    # extract_dir: '%BUILD_DIR%\%pkg_dir%\sourceunzipped'
+    # extract_file: '926f67db3271e3115caa9a5cdc9540120fa92566.tar'
+    # recursive: true
+    # preserve_paths: false
+
 - Processor: com.github.NickETH.recipes.SharedProcessors/SevenZipExtractor
   Arguments:
+    # exe_path: '%BUILD_DIR%\%pkg_dir%\sourceunzipped\926f67db3271e3115caa9a5cdc9540120fa92566.tar'
     exe_path: '%pathname%'
-    extract_dir: '%BUILD_DIR%\%pkg_dir%\sourceunzipped'
-    extract_file: '926f67db3271e3115caa9a5cdc9540120fa92566.tar.xz'
-    recursive: true
-    preserve_paths: false
-
-- Processor: com.github.NickETH.recipes.SharedProcessors/SevenZipExtractor
-  Arguments:
-    exe_path: '%BUILD_DIR%\%pkg_dir%\sourceunzipped\926f67db3271e3115caa9a5cdc9540120fa92566.tar.xz'
-    extract_dir: '%BUILD_DIR%\%pkg_dir%\sourceunzipped'
-    extract_file: '926f67db3271e3115caa9a5cdc9540120fa92566.tar'
-    recursive: true
-    preserve_paths: false
-
-- Processor: com.github.NickETH.recipes.SharedProcessors/SevenZipExtractor
-  Arguments:
-    exe_path: '%BUILD_DIR%\%pkg_dir%\sourceunzipped\926f67db3271e3115caa9a5cdc9540120fa92566.tar'
     extract_dir: '%BUILD_DIR%\%pkg_dir%\sourceunzipped\'
-    extract_file: 'Fusion360.ico'
+    extract_file: 'Fusion.ico'
     recursive: true
     preserve_paths: false
 
@@ -67,7 +68,7 @@ Process:
     # composite_padding: 20
     # composite_position: ul
     icon_output_path: '%ICON_PATH%\Icon-%NAME%.png'
-    source_app: '%BUILD_DIR%\%pkg_dir%\sourceunzipped\Fusion360.ico'
+    source_app: '%BUILD_DIR%\%pkg_dir%\sourceunzipped\Fusion.ico'
     #msi_icon_name: 'MainExecutableIcon.ico'
     composite_uninstall_path: '%ICON_PATH%\Icon-Uninstall-%NAME%.png'
     composite_update_path: '%ICON_PATH%\Icon-Update-%NAME%.png'
