@@ -14,6 +14,8 @@ Input:
   LANG_VERSION: DE-EN
   DIP_NAME: Adobe_Reader_DC
   DIP_SUBDIR: ML
+  VER_STRING: '%build_ver% %LANG_VERSION%'
+  VALID_OS: '%BMS_OS4X86%,%BMS_OS4X64%,%BMS_OS4SRV%'
 
 Process:
 - Processor: com.github.NickETH.recipes.SharedProcessors/DateTimeStamps
@@ -58,7 +60,7 @@ Process:
       platform: (%PLATFORM%)
       subspec: ''
       vendor: '%VENDOR%'
-      version: '%build_ver% %LANG_VERSION%'
+      version: '%VER_STRING%'
     bms_app_sharepoint:
     - SW-List-Name: '%NAMELONG%'
       versionplatformtag: '%build_ver% DE-EN (x64/x86)'
@@ -77,9 +79,9 @@ Process:
     bms_app_seccont: LocalSystem
     bms_app_uninstcmd: msiexec.exe
     bms_app_uninstparm: /x %msi_value% /qn
-    bms_app_valid4os: '%BMS_OS4X86%,%BMS_OS4X64%,%BMS_OS4SRV%'
+    bms_app_valid4os: '%VALID_OS%'
     bms_app_vendor: '%VENDOR%'
-    bms_app_version: '%build_ver% %LANG_VERSION%'
+    bms_app_version: '%VER_STRING%'
     bms_serverport: '%BMS_SERVER_PORT%'
     bms_serverurl: '%BMS_SERVER1%'
     bms_username: '%BMS_USERNAME1%'
