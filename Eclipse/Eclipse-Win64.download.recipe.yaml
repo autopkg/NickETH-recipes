@@ -30,6 +30,7 @@ Process:
   Arguments:
     re_pattern: \/downloads\/download\.php\?file=([/\w-]+eclipse-%ECLIPSE_CODE%[\w-]+win32-%ARCHITECTURE%\.zip)
     # https://www.eclipse.org/downloads/download.php?file=/technology/epp/downloads/release/2022-12/R/eclipse-java-2022-12-R-win32-x86_64.zip&mirror_id=1190
+    # https://www.eclipse.org/downloads/download.php?file=/technology/epp/downloads/release/2026-06/R/eclipse-java-2026-06-R-win32-x86_64.zip&mirror_id=1208
     # We need to point the download to a specific mirror. Otherwise the check with ETAG will not work. 1190 points to University of Erlangen-Nuremberg
     request_headers:
       user-agent: '%USER_AGENT%'
@@ -38,7 +39,7 @@ Process:
 
 - Processor: URLDownloader
   Arguments:
-    url: https://eclipse.org/downloads/download.php?r=1&file=%match%&mirror_id=1190
+    url: "https://eclipse.org/downloads/download.php?r=1&file=%match%&mirror_id=1208"
     filename: '%NAME%.zip'
 
 - Processor: StopProcessingIf
