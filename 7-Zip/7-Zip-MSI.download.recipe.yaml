@@ -6,19 +6,33 @@ Input:
   NAME: 7-Zip
   VENDOR: Igor Pavlov
   PF_STR_DL: '-x64'
-  SEARCH_URL_MSI: (?P<msi_dl_link>https://sourceforge\.net/projects/sevenzip/files/7-Zip/(?P<version>[0-9]+\.[0-9]+)/7z[0-9]+%PF_STR_DL%\.msi/download)
   DOWNLOAD_FILE: 7-Zip
-
+  USER_AGENT: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:81.0) Gecko/20100101 Firefox/81.0
+  
 Process:
-- Processor: URLTextSearcher
+- Processor: GitHubReleasesInfoProvider
   Arguments:
-    re_pattern: '%SEARCH_URL_MSI%'
-    url: https://sourceforge.net/api/file/index/project-id/14481/rss
+    # https://github.com/ip7z/7zip/releases/download/26.02/7z2602-x64.msi
+    asset_regex: 7z([0-9]+)%PF_STR_DL%\.msi
+    github_repo: ip7z/7zip
+    include_prereleases: false
+
+# - Processor: com.github.sebtomasi.SharedProcessors/TextSubstituer
+  # Arguments:
+    # input_string: '%version%'
+    # pattern_replace:
+    # - pattern: ersion_
+      # repl: ''
 
 - Processor: URLDownloader
   Arguments:
-    CHECK_FILESIZE_ONLY: 'False'
     filename: '%NAME%.msi'
-    url: '%msi_dl_link%'
+    request_headers:
+      user-agent: '%USER_AGENT%'
+    url: '%url%'
+
+- Processor: StopProcessingIf
+  Arguments:
+    predicate: download_changed == False
 
 - Processor: EndOfCheckPhase
