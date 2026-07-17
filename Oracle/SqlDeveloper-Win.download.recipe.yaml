@@ -23,7 +23,8 @@ Process:
 - Processor: URLTextSearcher
   Arguments:
     #sqldeveloper-24.3.1.347.1826-x64.zip</p>
-    re_pattern: 'Windows.\(64-bit\).\(includes JDK 17\).*?sqldeveloper-(?P<versionlong>(?P<MAJOR_VERSION>[0-9]+)\.(?P<MINOR_VERSION>[0-9]+)\.([0-9]+)\.[0-9]+).*?-x64.zip.*?SHA256&nbsp;(?P<NEW_CHECKSUM>[a-z0-9]+)</p>'
+    #re_pattern: 'Windows.\(64-bit\).\(includes JDK 17\).*?sqldeveloper-(?P<versionlong>(?P<MAJOR_VERSION>[0-9]+)\.(?P<MINOR_VERSION>[0-9]+)\.([0-9]+)\.[0-9]+).*?-x64.zip.*?SHA256&nbsp;(?P<NEW_CHECKSUM>[a-z0-9]+)</p>'
+    re_pattern: 'sqldeveloper-(?P<versionlong>(?P<MAJOR_VERSION>[0-9]+)\.(?P<MINOR_VERSION>[0-9]+)\.([0-9]+)\.[0-9]+).*?-x64.zip.*?SHA1:.(?P<NEW_CHECKSUM>[a-z0-9]+)</li>.*?JDK 17.</p>'
     re_flags:
     - DOTALL
     url: '%SEARCH_FIRSTURL%'
@@ -36,18 +37,18 @@ Process:
     - DOTALL
     url: '%SEARCH_FIRSTURL%'
 
-- Processor: com.github.NickETH.recipes.SharedProcessors/ExecuteFile
-  Comment: get the filename from internal source
-  Arguments:
-    cmdline_args:
-    - /C
-    - dir
-    - /b
-    - '%INTERNAL_URL%'
-    - '>'
-    - SQL_Developer_win.txt
-    exe_file: 'cmd.exe'
-    exe_folder: '%RECIPE_CACHE_DIR%'
+# - Processor: com.github.NickETH.recipes.SharedProcessors/ExecuteFile
+  # Comment: get the filename from internal source
+  # Arguments:
+    # cmdline_args:
+    # - /C
+    # - dir
+    # - /b
+    # - '%INTERNAL_URL%'
+    # - '>'
+    # - SQL_Developer_win.txt
+    # exe_file: 'cmd.exe'
+    # exe_folder: '%RECIPE_CACHE_DIR%'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/ExecuteFile
   Comment: create a version.txt file, if it does not exist
@@ -61,10 +62,10 @@ Process:
     exe_file: 'cmd.exe'
     exe_folder: '%RECIPE_CACHE_DIR%'
 
-- Processor: URLTextSearcher
-  Arguments:
-    re_pattern: '%SEARCH_STR%'
-    url: file://%RECIPE_CACHE_DIR%/SQL_Developer_win.txt
+# - Processor: URLTextSearcher
+  # Arguments:
+    # re_pattern: '%SEARCH_STR%'
+    # url: file://%RECIPE_CACHE_DIR%/SQL_Developer_win.txt
 
 - Processor: URLTextSearcher
   Arguments:
@@ -77,9 +78,10 @@ Process:
   Arguments:
     predicate: '%version% == %match%'
 
-- Processor: com.github.n8felton.shared/SHA256Checksum
-  Arguments:
-    pathname: '%INTERNAL_URL%\%NEW_FILENAME%'
+#- Processor: com.github.n8felton.shared/SHA256Checksum
+# - Processor: com.github.n8felton.shared/SHA1Checksum
+  # Arguments:
+    # pathname: '%INTERNAL_URL%\%NEW_FILENAME%'
 
 # - Processor: StopProcessingIf
   # Arguments:
