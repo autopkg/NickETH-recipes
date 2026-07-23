@@ -1,0 +1,32 @@
+Description: Downloads the latest version of SnapGene.
+Identifier: com.github.NickETH.recipes.download.SnapGene-Win64
+MinimumVersion: 1.3.1
+
+Input:
+  NAME: SnapGene
+  VENDOR: 'Dotmatics'
+  PLATFORM: x64
+  PF_STRING: _64
+ 
+Process:
+- Processor: URLTextSearcher
+  Arguments:
+    re_pattern: (https://cdn\.snapgene\.com/downloads/SnapGene/([A-Za-z0-9]+(\.[A-Za-z0-9]+)+)/([0-9]+(\.[0-9]+)+)/([0-9]+(\.[0-9]+)+)/snapgene_(?P<version>([0-9]+\.)*[0-9]+)_win\.exe)
+    result_output_var_name: DOWNLOAD_URL
+    url: https://www.snapgene.com/updates
+
+- Processor: URLDownloader
+  Arguments:
+    filename: '%NAME%-%PLATFORM%.exe'
+    url: '%DOWNLOAD_URL%'
+
+- Processor: StopProcessingIf
+  Arguments:
+    predicate: download_changed == False
+
+- Processor: EndOfCheckPhase
+
+- Processor: WindowsSignatureVerifier
+  Arguments:
+    expected_subject: CN=GSL Biotech LLC, O=GSL Biotech LLC, S=Massachusetts, C=US, OID.2.5.4.15=Private Organization, OID.1.3.6.1.4.1.311.60.2.1.2=Delaware, OID.1.3.6.1.4.1.311.60.2.1.3=US, SERIALNUMBER=3835601
+    input_path: '%pathname%'

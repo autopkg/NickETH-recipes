@@ -1,0 +1,75 @@
+Description: Alters latest SnapGene installer x64 for Windows.
+Identifier: com.github.NickETH.recipes.build.SnapGene-Win64
+ParentRecipe: com.github.NickETH.recipes.download.SnapGene-Win64
+MinimumVersion: 1.3.1
+
+Input:
+  NAME: SnapGene
+  VENDOR: 'Dotmatics'
+  PLATFORM: x64
+  PF_STRING: _64
+  LANG_STRING: _ML
+
+Process:
+- Processor: com.github.NickETH.recipes.SharedProcessors/CreateNextBuild
+  Arguments:
+    BuildFiles: NextVerFiles.txt
+    build_dir: '%BUILD_DIR%'
+    folder_list: release:read:helpers:sourceunzipped
+    org_ver: '%version%'
+    pkg_dir: '%NAME%%PF_STRING%_::VVeerrssiioonn::%LANG_STRING%'
+    recipe_dir: '%RECIPE_DIR%'
+    recipe_path: '%RECIPE_PATH%'
+    ver_fields: '3'
+
+- Processor: com.github.sebtomasi.SharedProcessors/RenameVar
+  Arguments:
+    input_var: '%NAME%%PF_STRING%_%build_ver%%LANG_STRING%'
+    rename_var: pkg_dir
+
+- Processor: com.github.NickETH.recipes.SharedProcessors/SevenZipExtractor
+  Comment: Extract the SnapGene logo
+  Arguments:
+    #exe_path: '%BUILD_DIR%\%pkg_dir%\sourcepkt\%filename%'
+    exe_path: '%pathname%'
+    extract_dir: '%BUILD_DIR%\%pkg_dir%\sourceunzipped'
+    extract_file: 'logo256.png'
+    ignore_pattern: ''
+    preserve_paths: 'False'
+    recursive: True
+
+- Processor: Copier
+  Arguments:
+    overwrite: 'true'
+    source_path: '%pathname%'
+    destination_path: '%BUILD_DIR%\%pkg_dir%\release\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%.exe'
+    
+- Processor: com.github.haircut.processors/AppIconExtractor
+  Comment: Generate Icon files for the Kiosk from SnapGene
+  Arguments:
+    ICON_PATH: '%BUILD_DIR%\%pkg_dir%\icons'
+    icon_file_number: 0
+    # composite_padding: 20
+    # composite_position: ul
+    icon_output_path: '%ICON_PATH%\Icon-%NAME%.png'
+    source_app: '%BUILD_DIR%\%pkg_dir%\sourceunzipped\logo256.png'
+    #msi_icon_name: 'MainExecutableIcon.ico'
+    composite_uninstall_path: '%ICON_PATH%\Icon-Uninstall-%NAME%.png'
+    composite_update_path: '%ICON_PATH%\Icon-Update-%NAME%.png'
+    composite_install_path: '%ICON_PATH%\Icon-Install-%NAME%.png'
+
+- Processor: com.github.NickETH.recipes.SharedProcessors/DateTimeStamps
+
+- Processor: com.github.NickETH.recipes.SharedProcessors/FileDateVersionSubst
+  Arguments:
+    file_path: '%BUILD_DIR%\%pkg_dir%\read\Create-log-%NAME%%PF_STRING%_%build_ver%%LANG_STRING%.txt'
+    new_ver: '%build_ver%'
+    re_pattern: '[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+'
+
+- Processor: com.github.NickETH.recipes.SharedProcessors/FileDateVersionSubst
+  Arguments:
+    file_path: '%BUILD_DIR%\%pkg_dir%\read\readme-%NAME%%PF_STRING%_%build_ver%%LANG_STRING%.txt'
+    new_ver: '%build_ver%'
+    re_pattern: '[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+'
+
+- Processor: EndOfCheckPhase
