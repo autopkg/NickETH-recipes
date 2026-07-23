@@ -20,4 +20,8 @@ Process:
     url: '%match%'
     filename: '%NAME%.%FILE_TYPE%'
 
+- Processor: StopProcessingIf
+  Arguments:
+    predicate: download_changed == False
+
 - Processor: EndOfCheckPhase
