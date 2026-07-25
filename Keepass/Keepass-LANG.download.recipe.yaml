@@ -20,7 +20,7 @@ Process:
 
 - Processor: URLDownloader
   Arguments:
-    CHECK_FILESIZE_ONLY: 'False'
+    CHECK_FILESIZE_ONLY: false
     filename: '%NAME%-ger.zip'
     url: '%trans_dl_link_ger%'
 
@@ -31,7 +31,7 @@ Process:
 
 - Processor: URLDownloader
   Arguments:
-    CHECK_FILESIZE_ONLY: 'False'
+    CHECK_FILESIZE_ONLY: false
     filename: '%NAME%-fra.zip'
     url: '%trans_dl_link_fra%'
 
@@ -42,7 +42,7 @@ Process:
 
 - Processor: URLDownloader
   Arguments:
-    CHECK_FILESIZE_ONLY: 'False'
+    CHECK_FILESIZE_ONLY: false
     filename: '%NAME%-ita.zip'
     url: '%trans_dl_link_ita%'
 
@@ -53,7 +53,7 @@ Process:
 
 - Processor: URLDownloader
   Arguments:
-    CHECK_FILESIZE_ONLY: 'False'
+    CHECK_FILESIZE_ONLY: false
     filename: '%NAME%-spa.zip'
     url: '%trans_dl_link_spa%'
 

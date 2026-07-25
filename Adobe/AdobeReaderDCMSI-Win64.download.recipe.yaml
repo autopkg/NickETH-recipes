@@ -40,7 +40,7 @@ Process:
 
 - Processor: URLDownloader
   Arguments:
-    CHECK_FILESIZE_ONLY: 'False'
+    CHECK_FILESIZE_ONLY: false
     filename: '%NAME%-x64.exe'
     url: https://ardownload2.adobe.com/pub/adobe/acrobat/win/AcrobatDC/%version_string%/AcroRdrDCx64%version_string%_de_DE.exe
 

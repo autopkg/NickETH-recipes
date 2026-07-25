@@ -39,7 +39,7 @@ Process:
 
 - Processor: URLDownloader
   Arguments:
-    CHECK_FILESIZE_ONLY: 'False'
+    CHECK_FILESIZE_ONLY: false
     filename: '%DOWNLOAD_FILE%'
     url: https://ardownload2.adobe.com/pub/adobe/reader/win/AcrobatDC/%version_string%/AcroRdrDCUpd%version_string%.msp
 
