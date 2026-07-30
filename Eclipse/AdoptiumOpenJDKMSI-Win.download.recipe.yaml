@@ -63,7 +63,7 @@ Process:
 
 - Processor: WindowsSignatureVerifier
   Arguments:
-    expected_subject: CN="Eclipse.org Foundation, Inc.", O="Eclipse.org Foundation, Inc.", L=Ottawa, S=Ontario, C=CA
+    expected_subject: CN=Eclipse Foundation, O=Eclipse Foundation, L=Bruxelles, C=BE
     input_path: '%pathname%'
 
 - Processor: com.github.sebtomasi.SharedProcessors/RenameVar
