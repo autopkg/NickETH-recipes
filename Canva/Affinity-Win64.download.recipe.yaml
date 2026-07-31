@@ -7,17 +7,6 @@ Input:
   PLATFORM: x64
 
 Process:
-# - Processor: URLTextSearcher
-  # Arguments:
-    # re_pattern: '%SEARCH_PATTERN_DMG%'
-    # url: '%SEARCH_URL%'
-
-# - Processor: URLDownloader
-  # Arguments:
-    # url: '%DL_URL%/%match%'
-    # filename: '%NAME%_%PLATFORM%.exe'
-    # CHECK_FILESIZE_ONLY: True
-
 - Processor: URLDownloader
   Arguments:
     filename: '%NAME%_%PLATFORM%.exe'
