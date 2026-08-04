@@ -15,7 +15,8 @@ Process:
   Arguments:
     # curl_opts:
     # - -I
-    re_pattern: (https://dl.influxdata.com/telegraf/releases/telegraf.(?P<version>([0-9]+\.)*[0-9]+).windows.amd64.zip)
+    #           https://dl.influxdata.com/telegraf/releases/telegraf-1.39.2_windows_amd64.zip
+    re_pattern: (https://dl.influxdata.com/telegraf/releases/telegraf-(?P<version>([0-9]+\.)*[0-9]+)_windows_amd64.zip)
     #re_pattern: https://dl.influxdata.com/telegraf/releases/telegraf.1.28.2.windows.amd64.zip
     url: '%SEARCH_URL%'
 

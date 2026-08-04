@@ -5,8 +5,7 @@ MinimumVersion: 1.3.1
 Input:
   NAME: SpectrumProtect
   VENDOR: IBM
-  DOWNLOAD_URL: https://sp-repo.ethz.ch/win/
-  SEARCH_FIRSTURL: https://nxlog.co/downloads/nxlog-ce#nxlog-community-edition
+  DOWNLOAD_URL: 'put your internal URL here'
   SEARCH_REG: '(SP_CLIENT_(?P<version>([0-9.]+))_WIN_ML.exe)'
 
   PLATFORM: x64

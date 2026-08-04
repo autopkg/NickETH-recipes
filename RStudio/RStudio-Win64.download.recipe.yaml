@@ -5,8 +5,11 @@ MinimumVersion: 1.3.1
 Input:
   NAME: RStudio
   # SEARCH_URL: https://www.rstudio.com/products/rstudio/download/#download
-  SEARCH_URL: https://live-rstudio.pantheonsite.io/download/rstudio-desktop/
+  # https://docs.posit.co/ide/user/#rstudio-ide-oss-downloads
+  SEARCH_URL: https://docs.posit.co/ide/user/#rstudio-ide-oss-downloads
+  #SEARCH_URL: https://live-rstudio.pantheonsite.io/download/rstudio-desktop/
   SEARCH_PATTERN: (?P<exe>RStudio-20(?P<versionraw>[0-9.]+)-(?P<buildraw>[0-9]+)\.exe)
+  # https://download1.rstudio.org/electron/windows/RStudio-2026.07.1-147.exe
   DOWNLOAD_MIRROR: https://download1.rstudio.org/electron/windows
 
 Process:
