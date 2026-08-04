@@ -11,11 +11,12 @@ Input:
   #SEARCH_URL_PLUG: 'https://www.heise.de/download/product/irfanview-plugins-73737/download'
   SEARCH_URL_PLUG: 'https://www.techspot.com/downloads/472-irfanview-plugins.html'
   # <a href="https://www.irfanview.info/files/iview466g_x64.zip" class="alt-download">Download von IrfanView-64</a> iview466_x64_setup.exe
-  VERSION_URL: (https://www.irfanview.info/files/iview(?P<versionraw>[0-9]+)g_x64_setup\.exe)
-  #Mozilla/5.0 (Windows NT x.y; Win64; x64; rv:10.0) Gecko/20100101 Firefox/10.0
+  VERSION_URL: (https://www.irfanview.info/files/(?P<mainfile>iview(?P<versionraw>[0-9]+)g_x64_setup\.exe))
   # aktuell von FF: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:134.0) Gecko/20100101 Firefox/134.0
-  #USER_AGENT: Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:11.0) like Gecko
   USER_AGENT: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:134.0) like Gecko
+  
+  # A new processor (IrfanViewDownloader) based on Playwright was needed to download the files.
+  # There are no places anymore to download without loading a webpage and clicking.
 
 Process:
 - Processor: URLTextSearcher
@@ -26,67 +27,78 @@ Process:
       user-agent: '%USER_AGENT%'
     url: '%SEARCH_URL%'
 
-- Processor: URLDownloader
+- Processor: com.github.NickETH.recipes.SharedProcessors/ExecuteFile
+  Comment: create a version.txt file, if it does not exist
   Arguments:
-    filename: '%NAME%_%PLATFORM%.exe'
-    #curl_opts:
-    #- -H 'Referer: %match%'
-    request_headers:
-      user-agent: '%USER_AGENT%'
-      referer: '%match%'
-    url: '%match%'
+    cmdline_args:
+    - /C
+    - type
+    - nul
+    - '>>'
+    - version.txt
+    exe_file: 'cmd.exe'
+    exe_folder: '%RECIPE_CACHE_DIR%'
 
-- Processor: WindowsSignatureVerifier
-  Comment: Check the signature on the downloaded file
+- Processor: URLTextSearcher
+  Comment: Get the version from version.txt. Preserve the output of match to NEW_URL.
   Arguments:
-    MAIN_PATH: '%pathname%'
-    expected_subject: CN=Irfan Skiljan, O=Irfan Skiljan, S=Lower Austria, C=AT
-    input_path: '%pathname%'
+    re_pattern: '^(.*)$'
+    url: file://%RECIPE_CACHE_DIR%/version.txt
+    NEW_URL: '%match%'
 
 - Processor: StopProcessingIf
   Arguments:
-    predicate: download_changed == False
+    predicate: '%versionraw% == %match%'
+
+- Processor: IrfanViewDownloader
+  Comment: Download the main installer.
+  Arguments:
+    file_path: '%RECIPE_CACHE_DIR%\downloads\IrfanView_%PLATFORM%.exe'
+    url: '%NEW_URL%'
+    main_file: '%mainfile%'
+
+- Processor: com.github.sebtomasi.SharedProcessors/TextSubstituer
+  Comment: Generate the url for the plugins download.
+  Arguments:
+    input_string: '%NEW_URL%'
+    pattern_replace:
+    - pattern: g_x64_setup
+      repl: _plugins_x64_setup
+
+- Processor: com.github.sebtomasi.SharedProcessors/TextSubstituer
+  Comment: Generate the name for the plugins file. Save the output of parsed_string to url.
+  Arguments:
+    url: '%parsed_string%'
+    input_string: '%mainfile%'
+    pattern_replace:
+    - pattern: g_x64_setup
+      repl: _plugins_x64_setup
+
+- Processor: IrfanViewDownloader
+  Comment: Download the plugins installer.
+  Arguments:
+    file_path: '%RECIPE_CACHE_DIR%\downloads\IrfanView_plugins_%PLATFORM%.exe'
+    url: '%url%'
+    main_file: '%parsed_string%'
+    
+- Processor: WindowsSignatureVerifier
+  Comment: Check the signature on the downloaded file
+  Arguments:
+    input_path: '%RECIPE_CACHE_DIR%\downloads\IrfanView_%PLATFORM%.exe'
+    expected_subject: CN=Irfan Skiljan, O=Irfan Skiljan, S=Lower Austria, C=AT
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/WinPEVersionExtractor
   Arguments:
-    exe_file: '%filename%'
-    exe_path: '%pathname%'
+    exe_file: '%NAME%_%PLATFORM%.exe'
+    filename: '%NAME%_Plugins_%PLATFORM%.exe'
+    #exe_path: '%pathname%'
+    exe_path: '%RECIPE_CACHE_DIR%\downloads\IrfanView_%PLATFORM%.exe'
     product_version: 'True'
 
-- Processor: URLTextSearcher
-  Comment: Get the download page for the plugins.
+- Processor: FileCreator
+  Comment: Generate the version.txt in the release dir.
   Arguments:
-    #re_pattern: href="(?P<dlpart>/download/product/irfanview-plugins-73737/download/danke\?id=[-0-9a-f]*)" title="IrfanView PlugIns (?P<versionplug>[\.0-9]*) 64-Bit herunterladen
-    re_pattern: <a href="(?P<dlpart>/downloads/downloadnow/472/\?evp=[0-9a-f]+&file=[0-9]*).*?\s.+?Installer.64.+?</a>
-    url: '%SEARCH_URL_PLUG%'
-    curl_opts:
-    - -L
-    #re_flags: DOTALL
-    request_headers:
-      user-agent: '%USER_AGENT%'
-
-- Processor: URLTextSearcher
-  Comment: Get the final download link for the plugins.
-  Arguments:
-    # url=https://download.heise.de/files/cwMkiNvLOEc_K2Brms0k7w/311233/iview467_plugins_x64_setup.exe?expires=1712789317">
-    #re_pattern: url=(?P<dlfile>https://download.heise.de/files/[a-zA-Z0-9_]+?/[0-9]+?/iview[0-9]+?_plugins_x64_setup.exe\?expires=[0-9]+?)">
-    re_pattern: '<a href="(?P<dlfile>/downloads/downloadnowfile/472/\?evp=[-0-9a-f]*?&file=[0-9]*?)".*?Click here.*?</a>'
-    curl_opts:
-    - -L
-    #url: 'https://www.heise.de/%dlpart%'
-    url: 'https://www.techspot.com%dlpart%'
-    request_headers:
-      user-agent: '%USER_AGENT%'
-
-- Processor: URLDownloader
-  Arguments:
-    # version: '%versionbuild%'
-    filename: '%NAME%_Plugins_%PLATFORM%.exe'
-    #url: '%dlfile%'
-    url: 'https://www.techspot.com%dlfile%'
-    curl_opts:
-    - -L
-    request_headers:
-      user-agent: '%USER_AGENT%'
+    file_content: '%versionraw%'
+    file_path: '%RECIPE_CACHE_DIR%\version.txt'
 
 - Processor: EndOfCheckPhase

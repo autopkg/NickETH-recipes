@@ -11,10 +11,10 @@ Input:
   EXE_NAME: 'i_view64.exe'
 
 Process:
-- Processor: com.github.NickETH.recipes.SharedProcessors/WinPEVersionExtractor
-  Arguments:
-    exe_path: '%pathname%'
-    product_version: 'True'
+# - Processor: com.github.NickETH.recipes.SharedProcessors/WinPEVersionExtractor
+  # Arguments:
+    # exe_path: '%pathname%'
+    # product_version: 'True'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/CreateNextBuild
   Comment: Create a build enviroment to build the MSI with Wix
