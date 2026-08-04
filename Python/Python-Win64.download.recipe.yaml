@@ -17,7 +17,6 @@ Process:
 
 - Processor: URLDownloader
   Arguments:
-    prefetch_filename: '%NAME%-x64.exe'
     url: '%match%'
 
 - Processor: EndOfCheckPhase
