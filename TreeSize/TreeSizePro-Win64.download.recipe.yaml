@@ -1,0 +1,74 @@
+Description: Download recipe for TreeSize Pro.
+Identifier: com.github.NickETH.recipes.download.TreesizePro-Win64
+MinimumVersion: 1.3.1
+
+Input:
+  NAME: TreeSize
+  NAMELONG: 'TreeSize Pro'
+  PLATFORM: x64
+  VENDOR: JAM Software
+  SEARCH_FIRSTURL: 'https://customers.jam-software.de/directDownload.php'
+  SEARCH_PATTERN: '<input type="hidden" name="token" value="(?P<token>[0-9a-f]*?)">.*?<input type="hidden" name="tan" value="(?P<tan>[0-9]*?)">'
+  SEARCH_PAT2: '<input type="hidden" name="token" value="(?P<token>[0-9a-f]*?)">.*?<input type="hidden" name="tan" value="(?P<tan>[0-9]*?)">.*?name="DirectDownload_Order_Item_Id".*?value="(?P<orderid>[0-9]*?)"/>'
+  DOWNLOAD_URL: 'https://customers.jam-software.de/includes/getDownload.php'
+  USER_AGENT: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36
+  CUSTOMER_NR: 'Put your cutomer nr. here'
+  LICENSE_KEY: 'Put your license key here'
+  DOWNLOAD_ID: '383'
+
+Process:
+- Processor: URLTextSearcher
+  Arguments:
+    re_pattern: '%SEARCH_PATTERN%'
+    url: '%SEARCH_FIRSTURL%'
+    re_flags:
+    - DOTALL
+    curl_opts:
+    - --request
+    - GET
+    - -c 
+    - '%RECIPE_CACHE_DIR%\TreesizeCookie.txt'
+
+- Processor: com.github.NickETH.recipes.SharedProcessors/TextFileSearcher
+  Arguments:
+    re_pattern: 'PHPSESSID.+?(?P<SessionID>[0-9a-z]*?)$'
+    result_output_var_name: previous_version
+    file_to_open: '%RECIPE_CACHE_DIR%\TreesizeCookie.txt'
+
+- Processor: URLTextSearcher
+  Arguments:
+    re_pattern: '%SEARCH_PAT2%'
+    url: '%SEARCH_FIRSTURL%'
+    re_flags:
+    - DOTALL
+    curl_opts:
+    - --request
+    - POST
+    - -b
+    - 'PHPSESSID=%SessionID%'
+    - --data-raw
+    - 'token=%token%&tan=%tan%&directDownloadUsername=%CUSTOMER_NR%&directDownloadKey=%LICENSE_KEY%&validateKey_x=Zum+Download'
+
+- Processor: URLDownloader
+  Arguments:
+    curl_opts:
+    - --request
+    - POST
+    - -b
+    - 'PHPSESSID=%SessionID%'
+    - --data-raw
+    - 'token=%token%&tan=%tan%&art_no=101&Download_Id=%DOWNLOAD_ID%&DirectDownload_Client_Id=%CUSTOMER_NR%&DirectDownload_Order_Item_Id=%orderid%&download_x=Download'
+    filename: '%NAME%.msi'
+    url: '%DOWNLOAD_URL%'
+
+- Processor: StopProcessingIf
+  Arguments:
+    predicate: download_changed == False
+
+- Processor: WindowsSignatureVerifier
+  Comment: Check the signature on the MSI file
+  Arguments:
+    expected_subject: CN=JAM Software GmbH, O=JAM Software GmbH, STREET=Am Wissenschaftspark 26, L=Trier, S=Rheinland-Pfalz, C=DE, OID.1.3.6.1.4.1.311.60.2.1.1=Wittlich, OID.1.3.6.1.4.1.311.60.2.1.2=Rheinland-Pfalz, OID.1.3.6.1.4.1.311.60.2.1.3=DE, SERIALNUMBER=HRB 4920, OID.2.5.4.15=Private Organization
+    input_path: '%pathname%'
+
+- Processor: EndOfCheckPhase

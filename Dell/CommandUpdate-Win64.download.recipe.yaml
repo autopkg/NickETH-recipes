@@ -8,7 +8,8 @@ Input:
   VENDOR: DELL
   DOWNLOAD_URL: https://nxlog.co/products/nxlog-community-edition/download
   SEARCH_FIRSTURL: https://www.dell.com/support/kbdoc/en-us/000177325/dell-command-update?lwp=rt
-  SEARCH_SECONDURL: href="(https://www.dell.com/support/home/en-us/drivers/driversdetails.driverid=[0-9A-Z]*)" target=._blank..Dell Command | Update Application (Classic)
+  # <a href="https://www.dell.com/support/home/en-us/drivers/driversdetails?driverid=61R17" target="_blank" rel="noopener noreferrer">Dell Command | Update Application (Classic)</a>
+  SEARCH_SECONDURL: href="(https://www.dell.com/support/home/en-us/drivers/driversdetails.driverid=[0-9A-Z]*?)" target=.*?blank.*?Dell Command | Update Application (Classic)
   SEARCH_THIRDURL: (https://dl.dell.com/[0-9A-Z]*/[0-9]/Dell-Command-Update-Windows-Universal-Application_[0-9A-Z]*_WIN64_(?P<version>([0-9]+\.)*[0-9]+)_A[0-9_]*.EXE)
 
   USER_AGENT: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:81.0) Gecko/20100101 Firefox/81.0

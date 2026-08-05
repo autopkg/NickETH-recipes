@@ -5,7 +5,8 @@ MinimumVersion: 1.3.1
 Input:
   NAME: BambuStudio
   # Bambu_Studio_win_public-v02.05.00.66-20260128215914.exe
-  ASSET_REGEX: 'Bambu_Studio_win_public.*?\.exe'
+  #https://github.com/bambulab/BambuStudio/releases/download/v02.07.01.62/Bambu_Studio_win-v02.07.01.62-20260616174358.exe
+  ASSET_REGEX: 'Bambu_Studio_win.*?\.exe'
   PLATFORM: x64
   PF_STRING: _64
 
@@ -13,8 +14,6 @@ Process:
 - Processor: GitHubReleasesInfoProvider
   Arguments:
     asset_regex: '%ASSET_REGEX%'
-    # https://github.com/greenshot/greenshot/releases/download/v1.3.277/Greenshot-INSTALLER-1.3.277-UNSTABLE.exe
-    # https://github.com/bambulab/BambuStudio/releases/download/v02.05.00.67/Bambu_Studio_win_public-v02.05.00.66-20260128215914.exe
     github_repo: bambulab/BambuStudio
     include_prereleases: false
 
