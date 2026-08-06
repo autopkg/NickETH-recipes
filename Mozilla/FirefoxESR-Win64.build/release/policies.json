@@ -1,23 +1,61 @@
 {
   "policies": {
+    "AIControls": {
+      "Default": {
+        "Locked": true,
+        "Value": "blocked"
+      },
+      "LinkPreviewKeyPoints": {
+        "Locked": true
+      },
+      "PDFAltText": {
+        "Locked": true,
+        "Value": "blocked"
+      },
+      "SidebarChatbot": {
+        "Locked": true,
+        "Value": "blocked"
+      },
+      "SmartTabGroups": {
+        "Locked": true,
+        "Value": "blocked"
+      },
+      "SmartWindow": {
+        "Locked": true,
+        "Value": "blocked"
+      },
+      "Translations": {
+        "Locked": true,
+        "Value": "blocked"
+      }
+    },
+    "DNSOverHTTPS": {
+      "Enabled": false
+    },
     "DisableAppUpdate": true,
     "DisableFirefoxStudies": true,
     "DisableTelemetry": true,
     "DontCheckDefaultBrowser": true,
-    "RequestedLocales": "",
-   "EnableTrackingProtection": {
+    "EnableTrackingProtection": {
       "Cryptomining": true,
       "Fingerprinting": true,
+      "SuspectedFingerprinting": true,
       "Value": true
     },
     "ExtensionUpdate": true,
+    "FirefoxHome": {
+      "Pocket": false,
+      "SponsoredPocket": false,
+      "SponsoredTopSites": false,
+      "Weather": false
+    },
     "Homepage": {
       "StartPage": "homepage",
       "URL": "https://isg.phys.ethz.ch/"
     },
+    "IPProtectionAvailable": false,
     "OverrideFirstRunPage": "",
     "OverridePostUpdatePage": "",
-    "SkipTermsOfUse": true,
     "Preferences": {
       "browser.search.update": true
     },
@@ -28,8 +66,14 @@
       "UseHTTPProxyForAllProtocols": true,
       "UseProxyForDNS": false
     },
-    "DNSOverHTTPS": {
-      "Enabled": false
+    "RequestedLocales": "",
+    "SkipTermsOfUse": true,
+    "UserMessaging": {
+      "ExtensionRecommendations": false,
+      "FeatureRecommendations": false,
+      "FirefoxLabs": false,
+      "MoreFromMozilla": false,
+      "SkipOnboarding": true
     }
   }
 }

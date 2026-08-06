@@ -9,7 +9,7 @@ Input:
   ARCH: x86_64
   SEARCH_URL: https://www.anaconda.com/download/success
   #https://repo.anaconda.com/archive/Anaconda3-2025.06-0-Windows-x86_64.exe
-  SEARCH_PATTERN: (?s)(?P<url>https\://repo\.(anaconda\.com|continuum\.io)/archive/Anaconda%PYTHON_MAJOR_VERSION%-(?P<rawversion>[0-9.|-]+)-Windows-%ARCH%\.%INSTALLER_TYPE%)(?!.*Anaconda%PYTHON_MAJOR_VERSION%-[0-9.|-]+-Windows-%ARCH%\.%INSTALLER_TYPE%)
+  SEARCH_PATTERN: (?s)(?P<url>(https|http)\://repo\.(anaconda\.com|continuum\.io)/archive/Anaconda%PYTHON_MAJOR_VERSION%-(?P<rawversion>[0-9.|-]+)-Windows-%ARCH%\.%INSTALLER_TYPE%)(?!.*Anaconda%PYTHON_MAJOR_VERSION%-[0-9.|-]+-Windows-%ARCH%\.%INSTALLER_TYPE%)
   
 
 Process:
