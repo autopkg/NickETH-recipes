@@ -61,6 +61,21 @@ Process:
     overwrite: 'true'
     source_path: '%BUILD_DIR%\%pkg_dir%\sourceunzipped\DellCommandUpdateApp.msi'
 
+- Processor: com.github.haircut.processors/AppIconExtractor
+  Arguments:
+    ICON_PATH: '%BUILD_DIR%\%pkg_dir%\icons'
+    icon_file_number: 0
+    # composite_padding: 20
+    # composite_position: ul
+    # composite_uninstall_path: '%RECIPE_CACHE_DIR%/Icon-Uninstall-%NAME%.png'
+    # composite_uninstall_template: /Users/haircut/Documents/delete.png
+    icon_output_path: '%ICON_PATH%\Icon-%NAME%.png'
+    source_app: '%BUILD_DIR%\%pkg_dir%\sourceunzipped\DellCommandUpdateApp.msi'
+    msi_icon_name: 'App.ico'
+    composite_uninstall_path: '%ICON_PATH%/Icon-Uninstall-%NAME%.png'
+    composite_update_path: '%ICON_PATH%/Icon-Update-%NAME%.png'
+    composite_install_path: '%ICON_PATH%/Icon-Install-%NAME%.png'
+
 - Processor: com.github.NickETH.recipes.SharedProcessors/DateTimeStamps
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/FileDateVersionSubst

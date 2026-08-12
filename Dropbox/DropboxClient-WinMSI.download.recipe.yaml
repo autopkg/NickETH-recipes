@@ -7,10 +7,18 @@ Input:
   PLATFORM: win
   ARCH: x86
   DOWNLOAD_URL: https://client.dropbox.com/desktop/desktop-dropbox/requestdownload?install_type=enterprise_install&amp;platform=%PLATFORM%&amp;arch=%ARCH%
-
+  #             https://client.dropbox.com/desktop/desktop-dropbox/requestdownload?install_type=enterprise_install&platform=win&arch=x86_64
+  #             https://client.dropbox.com/desktop/desktop-dropbox/requestdownload?install_type=enterprise_install&platform=win&arch=x86
+  #USER_AGENT: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:81.0) Gecko/20100101 Firefox/81.0
+  USER_AGENT: Mozilla/5.0 (Windows NT 10.0; Win; x86; rv:81.0) Gecko/20100101 Firefox/81.0
+  
+  # Caution: The webserver looks at the bitness of the user agent! We need to provide a UA with Win64 for x64 and Win for x86...
+  
 Process:
 - Processor: URLDownloader
   Arguments:
+    request_headers:
+      user-agent: '%USER_AGENT%'
     filename: '%NAME%.msi'
     url: '%DOWNLOAD_URL%'
 

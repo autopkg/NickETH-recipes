@@ -7,7 +7,8 @@ Input:
   NAME: RTX-Studio-Drivers
   VENDOR: 'Nvidia'
   PLATFORM: x64
-  PF_STRING: _64    
+  PF_STRING: _64
+  LANG_STRING: _ML
 
 Process:
 - Processor: com.github.NickETH.recipes.SharedProcessors/CreateNextBuild
@@ -15,26 +16,93 @@ Process:
   Arguments:
     BuildFiles: NextVerFiles.txt
     build_dir: '%BUILD_DIR%'
-    folder_list: release:read:helpers
+    folder_list: release:read:helpers:sourceunzipped:sourcepkt
     org_ver: '%version%'
-    pkg_dir: '%NAME%%PF_STRING%_%version%_ML'
+    pkg_dir: '%NAME%%PF_STRING%_%version%%LANG_STRING%'
     recipe_dir: '%RECIPE_DIR%'
     recipe_path: '%RECIPE_PATH%'
     ver_fields: '2'
 
 - Processor: com.github.sebtomasi.SharedProcessors/RenameVar
   Arguments:    
-    input_var: '%NAME%%PF_STRING%_%build_ver%_ML'
+    input_var: '%NAME%%PF_STRING%_%build_ver%%LANG_STRING%'
     rename_var: pkg_dir
+
+- Processor: com.github.NickETH.recipes.SharedProcessors/SevenZipExtractor
+  Arguments:
+    #exe_path: '%BUILD_DIR%\%pkg_dir%\sourcepkt\%zuludlfile%'
+    exe_path: '%pathname%'
+    extract_dir: '%BUILD_DIR%\%pkg_dir%\sourceunzipped'
+
+# - Processor: com.github.NickETH.recipes.SharedProcessors/SevenZipExtractor
+  # Comment: Extract only the driver files
+  # Arguments:
+    # #exe_path: '%BUILD_DIR%\%pkg_dir%\sourcepkt\%filename%'
+    # exe_path: '%pathname%'
+    # extract_dir: '%BUILD_DIR%\%pkg_dir%\sourceunzipped'
+    # extract_file: 'logo256.png'
+    # ignore_pattern: ''
+    # preserve_paths: 'False'
+    # recursive: True
+
+- Processor: com.github.NickETH.recipes.SharedProcessors/FileMoverFromList
+  Arguments:
+    file_list: '%BUILD_DIR%\%pkg_dir%\helpers\Driver-minimal.txt'
+    source_dir: '%BUILD_DIR%\%pkg_dir%\sourceunzipped'
+    target_dir: '%BUILD_DIR%\%pkg_dir%\sourcepkt'
+
+# - Processor: com.github.NickETH.recipes.SharedProcessors/ExecuteFile
+  # Comment: create a version.txt file, if it does not exist
+  # #findstr /V /L "EulaHtmlFile FunctionalConsentFile PrivacyPolicyFile" setup.cfg
+  # #    - '"{EulaHtmlFile} {FunctionalConsentFile} {PrivacyPolicyFile}"'
+  # Arguments:
+    # cmdline_args:
+    # - '/V'
+    # - '/L'
+    # - '{{EulaHtmlFile}}'
+    # - '%BUILD_DIR%\%pkg_dir%\sourceunzipped\setup.cfg'
+    # - '>'
+    # - '%BUILD_DIR%\%pkg_dir%\sourcepkt\setup.cfg'
+    # exe_file: 'findstr.exe'
+    # exe_folder: '%BUILD_DIR%\%pkg_dir%\sourceunzipped'
+
+- Processor: com.github.NickETH.recipes.SharedProcessors/ExecuteFile
+  Comment: delete strings from setup.cfg
+  Arguments:
+    cmdline_args:
+    - /C
+    - findstr
+    - /v
+    - /L
+    - '/G:%BUILD_DIR%\%pkg_dir%\helpers\Strings2Delete.txt'
+    - '%BUILD_DIR%\%pkg_dir%\sourceunzipped\setup.cfg'
+    - '>'
+    - '%BUILD_DIR%\%pkg_dir%\sourcepkt\setup.cfg'
+    exe_file: 'cmd.exe'
+
+- Processor: com.github.NickETH.recipes.SharedProcessors/ExecuteFile
+  Comment: Compress the RTX drivers folder with 7zip to a self extracting archive
+  Arguments:
+    cmdline_args:
+    - a
+    - -r
+    - -sfx
+    - -t7z
+    #- -v1900m
+    - -mx9
+    - '%BUILD_DIR%\%pkg_dir%\release\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%.exe'
+    - '%BUILD_DIR%\%pkg_dir%\sourcepkt\*.*'
+    exe_file: '%SZIP_PATH%'
+    exe_folder: '%BUILD_DIR%\%pkg_dir%'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/DateTimeStamps
 
-- Processor: Copier
-  Comment: Copy the install exe file to the release dir
-  Arguments:
-    destination_path: '%BUILD_DIR%\%pkg_dir%\release\%NAME%%PF_STRING%_%build_ver%_ML.exe'
-    overwrite: 'true'
-    source_path: '%pathname%'
+# - Processor: Copier
+  # Comment: Copy the install exe file to the release dir
+  # Arguments:
+    # destination_path: '%BUILD_DIR%\%pkg_dir%\release\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%.exe'
+    # overwrite: 'true'
+    # source_path: '%pathname%'
 
 - Processor: com.github.haircut.processors/AppIconExtractor
   Comment: Extract the icon and create custom icons for the deployment.
@@ -54,12 +122,12 @@ Process:
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/FileDateVersionSubst
   Arguments:
-    file_path: '%BUILD_DIR%\%pkg_dir%\read\create-log-%NAME%%PF_STRING%_%build_ver%_ML.txt'
+    file_path: '%BUILD_DIR%\%pkg_dir%\read\create-log-%NAME%%PF_STRING%_%build_ver%%LANG_STRING%.txt'
     new_ver: '%build_ver%'
     re_pattern: '[0-9]+\.[0-9]+\.[0-9]+'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/FileDateVersionSubst
   Arguments:
-    file_path: '%BUILD_DIR%\%pkg_dir%\read\readme-%NAME%%PF_STRING%_%build_ver%_ML.txt'
+    file_path: '%BUILD_DIR%\%pkg_dir%\read\readme-%NAME%%PF_STRING%_%build_ver%%LANG_STRING%.txt'
     new_ver: '%build_ver%'
     re_pattern: '[0-9]+\.[0-9]+\.[0-9]+'
