@@ -1,4 +1,4 @@
-#!/usr/local/autopkg/python
+#!/usr/bin/python
 #
 # Copyright 2019 Swiss federal institute of technology (ETHZ).
 #
@@ -10,6 +10,7 @@
 #
 # Output needs work. Goal would be to return the exitcode/errorlevel.
 # 20210517 Nick Heim: Python v3 changes
+# 20260812 Hm: Extended to work with directories.
 
 """See docstring for FileMoverFromList class"""
 
@@ -62,8 +63,12 @@ class FileMoverFromList(Processor):
                     shutil.move(src_name, trg_name)
                     self.output(
                         'File %s moved to %s' % (src_name, trg_name))
+                elif os.path.isdir(src_name):
+                    shutil.move(src_name, trg_name)
+                    self.output(
+                        'Folder %s moved to %s' % (src_name, trg_name))
                 else :
-                    self.output( "file does not exist %s" % src_name)
+                    self.output( "File or folder does not exist %s" % src_name)
 
 if __name__ == '__main__':
     PROCESSOR = FileMoverFromList()
