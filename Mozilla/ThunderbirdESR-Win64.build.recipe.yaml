@@ -12,9 +12,10 @@ Input:
   PLATFORM_STR: x64
   PLATFORM_STR: '64'
   MAJOR_REL: '115'
-  RELEASE: esr
+  #RELEASE: esr-next
+  RELEASE: esr-latest
   ESR_STRING: 'esr'
-  base_url: https://download.mozilla.org/?product={product_release}-latest&os={platform}&lang={locale}
+  base_url: https://download.mozilla.org/?product={product_release}&os={platform}&lang={locale}
   SEARCH_URL: https://www.thunderbird.net/en-US/thunderbird/releases/
   DOWNLOAD_URL: https://download.mozilla.org/?product=thunderbird-91.13.0-SSL&os=win64&lang=en-US
   INTERNAL_EXT_URL: 'file://your-internal-url'

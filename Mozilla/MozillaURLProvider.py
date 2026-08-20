@@ -43,11 +43,14 @@ MOZ_PRODUCT_VERSIONS_URL: str = (
 #  firefox            version   (i.e., 79.0)
 #  firefox-beta       latest
 #  firefox-esr        latest
+#  firefox-esr-next   latest
 #  firefox-nightly    latest
 #
 #  thunderbird        latest
 #  thunderbird        version (i.e., 78.0)
 #  thunderbird-beta   latest
+#  thunderbird-esr    latest
+#  thunderbird-esr-next latest
 # Additionally for win and win64 there are additional releases for MSI installers:
 #  msi-latest
 #  <version>-msi (i.e., 79.0-msi)
@@ -81,7 +84,7 @@ class MozillaURLProvider(URLGetter):
             "description": (
                 "Product to fetch URL for. One of: "
                 "'firefox', 'firefox-esr', 'firefox-beta', 'firefox-nightly', "
-                "'thunderbird', 'thunderbird-beta'."
+                "'thunderbird', 'thunderbird-esr', 'thunderbird-beta'."
             ),
         },
         "release": {
@@ -137,9 +140,15 @@ class MozillaURLProvider(URLGetter):
 
     def fixup_product_release(self, product: str, release: str) -> str:
         # Fix product and release into correct format for legacy inputs.
-        if release in ("latest-esr", "esr-latest"):
-            product += "-esr"
-            release = "latest"
+        # if release in ("latest-esr", "esr-latest"):
+            # product += "-esr"
+            # release = "latest"
+        if release in ("next-esr", "esr-next"):
+            #product = "-esr-next"
+            release += "-latest"
+        # if release in ("latest-esr", "esr-latest"):
+            # product += "-esr"
+            # release = "latest"
         elif release in ("latest-beta", "beta-latest"):
             product += "-beta"
             release = "latest"
@@ -172,7 +181,9 @@ class MozillaURLProvider(URLGetter):
         product_release = self.fixup_product_release(product, release)
         release_key = ""
         # Some of these keys are not supported for Thunderbird as of July/2020.
-        if "esr" in product_release:
+        if "esr-next" in product_release:
+            release_key = f"{simple_product.upper()}_ESR_NEXT"
+        elif "esr" in product_release:
             release_key = f"{simple_product.upper()}_ESR"
         elif "beta" in product_release:
             release_key = f"LATEST_{simple_product.upper()}_DEVEL_VERSION"

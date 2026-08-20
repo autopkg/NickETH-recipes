@@ -8,6 +8,10 @@ Input:
   MAJOR_REL: '115'
   ESR_STRING: ''
   RELEASE: latest
+  #RELEASE: 153.1.0esr
+  #RELEASE: esr-next
+  #RELEASE: esr-next-latest
+  #RELEASE: esr-latest
   LOCALE: en_US
   SEARCH_URL: https://www.thunderbird.net/en-US/thunderbird/releases/
   DOWNLOAD_URL: https://releases.mozilla.org/pub/thunderbird/releases/%version%/win%PLATFORM_STR%/en-US/Thunderbird%20Setup%20%version%.exe
