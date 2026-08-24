@@ -152,7 +152,7 @@ class MozillaURLProvider(URLGetter):
         elif release in ("latest-beta", "beta-latest"):
             product += "-beta"
             release = "latest"
-
+        self.output(f"product-release: {product}-{release}")
         return f"{product}-{release}"
 
     def normalize_version(self, orig_version: str) -> str:
@@ -183,7 +183,8 @@ class MozillaURLProvider(URLGetter):
         # Some of these keys are not supported for Thunderbird as of July/2020.
         if "esr-next" in product_release:
             release_key = f"{simple_product.upper()}_ESR_NEXT"
-        elif "esr" in product_release:
+        #elif "esr" in product_release:
+        elif "esr" in product_release and not re.search(r'\d+', product_release):
             release_key = f"{simple_product.upper()}_ESR"
         elif "beta" in product_release:
             release_key = f"LATEST_{simple_product.upper()}_DEVEL_VERSION"
