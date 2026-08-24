@@ -58,8 +58,8 @@
       </Component>
 	  <Component Id="filezilla.exe" Guid="{77F3609A-8CC4-4F20-9320-5DEE9E5F1C36}">
                 <File Id="filezilla.exe" Name="filezilla.exe" KeyPath="yes" Vital="no" Checksum="yes" DiskId="1" Source="!(wix.APSourceDir)\filezilla.exe" />
-                <File Id="fzsftp.exe" Name="fzsftp.exe" Vital="no" Checksum="yes" DiskId="1" Source="!(wix.APSourceDir)\fzsftp.exe" />
-                <File Id="fzputtygen.exe" Name="fzputtygen.exe" Vital="no" Checksum="yes" DiskId="1" Source="!(wix.APSourceDir)\fzputtygen.exe" />
+                <!-- <File Id="fzsftp.exe" Name="fzsftp.exe" Vital="no" Checksum="yes" DiskId="1" Source="!(wix.APSourceDir)\fzsftp.exe" /> -->
+                <!-- <File Id="fzputtygen.exe" Name="fzputtygen.exe" Vital="no" Checksum="yes" DiskId="1" Source="!(wix.APSourceDir)\fzputtygen.exe" /> -->
       </Component>   
     </DirectoryRef>
     <DirectoryRef Id="ProgramMenuFolder">

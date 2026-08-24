@@ -109,13 +109,13 @@ Process:
     build_property: BuildPlatform=%PLATFORM%;BuildName=%NAME%;BuildDir=%BUILD_DIR%\%pkg_dir%\wixproject;SourceDir=%BUILD_DIR%\%pkg_dir%\wixproject\%NAME%;version=%build_ver%
     build_target: WIX
 
-- Processor: com.github.NickETH.recipes.SharedProcessors/MSIAddFileHash
-  Comment: Add files to the MSIHash table in the MSI-file
-  Arguments:
-    File2Hash:
-    - fzputtygen.exe|||%BUILD_DIR%\%pkg_dir%\wixproject\%NAME%\fzputtygen.exe
-    - fzsftp.exe|||%BUILD_DIR%\%pkg_dir%\wixproject\%NAME%\fzsftp.exe
-    msi_path: '%BUILD_DIR%\%pkg_dir%\release\%NAME%%PF_STRING%_%build_ver%_ML.msi'
-    remove_version_field: true
+# - Processor: com.github.NickETH.recipes.SharedProcessors/MSIAddFileHash
+  # Comment: Add files to the MSIHash table in the MSI-file
+  # Arguments:
+    # File2Hash:
+    # - fzputtygen.exe|||%BUILD_DIR%\%pkg_dir%\wixproject\%NAME%\fzputtygen.exe
+    # - fzsftp.exe|||%BUILD_DIR%\%pkg_dir%\wixproject\%NAME%\fzsftp.exe
+    # msi_path: '%BUILD_DIR%\%pkg_dir%\release\%NAME%%PF_STRING%_%build_ver%_ML.msi'
+    # remove_version_field: true
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/DateTimeStamps
