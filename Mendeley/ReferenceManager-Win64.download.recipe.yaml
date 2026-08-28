@@ -35,7 +35,7 @@ Process:
 - Processor: WindowsSignatureVerifier
   Comment: Check the signature on the downloaded file
   Arguments:
-    expected_subject: CN=Elsevier Ltd, O=Elsevier Ltd, L=Kidlington, C=GB
+    expected_subject: CN=Elsevier Inc., O=Elsevier Inc., L=New York, S=New York, C=US
     input_path: '%pathname%'
 
 - Processor: EndOfCheckPhase
