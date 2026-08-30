@@ -23,10 +23,10 @@ import os
 import sys
 import re
 import collections
-from distutils.version import LooseVersion
 from xml.etree import ElementTree
 from xml.parsers.expat import ExpatError
 
+from autopkglib import APLooseVersion as LooseVersion
 from autopkglib import ProcessorError, URLGetter
 
 try:
