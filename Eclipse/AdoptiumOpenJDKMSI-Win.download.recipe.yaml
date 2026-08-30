@@ -57,7 +57,7 @@ Process:
 
 - Processor: URLDownloader
   Arguments:
-    CHECK_FILESIZE_ONLY: 'False'
+    CHECK_FILESIZE_ONLY: false
     filename: '%DOWNLOAD_FILE%_hotspot_%PLATFORM%.msi'
     url: '%msi_dl_link%'
 
@@ -73,7 +73,7 @@ Process:
 
 - Processor: URLDownloader
   Arguments:
-    CHECK_FILESIZE_ONLY: 'False'
+    CHECK_FILESIZE_ONLY: false
     filename: '%DOWNLOAD_FILE%_zulu_%PLATFORM%.zip'
     url: '%zululink%'
 

@@ -16,7 +16,7 @@ Process:
 
 - Processor: URLDownloader
   Arguments:
-    CHECK_FILESIZE_ONLY: 'False'
+    CHECK_FILESIZE_ONLY: false
     filename: '%NAME%.msi'
     url: '%msi_dl_link%'
 
