@@ -1,0 +1,229 @@
+Description: Imports Claude Desktop x64 to BMS
+Identifier: com.github.NickETH.recipes.BMS.Claude-Desktop-Win64
+ParentRecipe: com.github.NickETH.recipes.build.Claude-Desktop-Win64
+MinimumVersion: 1.3.1
+
+Input:
+  NAME: Claude-Desktop
+  NAMESHORT: Claude
+  NAMELONG: 'Claude Desktop'
+  VENDOR: 'Anthropic, PBC'
+  PLATFORM: x64
+  PF_STRING: _64
+  LANG_STRING: _ML
+  DIP_NAME: Claude
+  DIP_SUBDIR: ML
+
+Process:
+- Processor: com.github.sebtomasi.SharedProcessors/TextSubstituer
+  Arguments:
+    input_string: '%build_ver%'
+    pattern_replace:
+    - pattern: \.
+      repl: _
+
+- Processor: com.github.NickETH.recipes.SharedProcessors/BDSGenerator
+  Comment: Create a new baramundi deploy script (BDS) file.
+  Arguments:
+    BDS_file: '%BUILD_DIR%\%pkg_dir%\release\%NAME%%PF_STRING%_%build_ver%.bds'
+    new_actions:
+    - ACTION: 'type: Comment |||comment: 1'
+      DATA:
+        VALUE: 'Define path to BMAcmd.exe'
+    - ACTION: 'type: SetVar ||| level: 0'
+      DATA:
+        VARNAME: $var_Path2BMAcmd
+        VALUE: '{BMAPath}\BMACmd.exe'
+        OPTIONS: 0
+    - ACTION: 'type: SetVar ||| level: 0'
+      DATA:
+        VARNAME: InstallFilesFilter
+        VALUE: '*.???x*'
+        OPTIONS: 0
+    - ACTION: 'type: SetX64Mode'
+      DATA:
+        MODE: 1      
+    - ACTION: 'type: Comment'
+      DATA:
+        VALUE: '###   INSTALL   ###'
+    - ACTION: 'type: Conditional'
+      DATA: ''
+      CONDITION:
+        op1: "{Mode}"
+        op: "MATCHES"
+        op2: "Install"
+        options: "0"
+    - ACTION: 'type: Comment ||| level: 1 ||| comment: 1'
+      DATA:
+        VALUE: 'Install the Appx/Msix Files'      
+    - ACTION: 'type: RunEmbeddedScript ||| level: 1'
+      DATA:
+        SCRIPTLANGUAGE: PowerShell
+        RETURNCODES: "0"
+        VARNAME: ""
+        SCRIPT:  |
+          [String]$ScriptPath = "{Script}"
+
+          $ScriptName = Split-Path -Path $ScriptPath -Leaf
+          $InstallDir = Split-Path -Path $ScriptPath -Parent
+
+          & "{$var_Path2BMAcmd}" /Cmd:Log /Type:/1 /Text:"###  BEGIN bDS Script [$ScriptName]  ###"
+
+          $Files2Install = Get-ChildItem $InstallDir -Name -Filter {InstallFilesFilter}
+
+          foreach ($f2i in $Files2Install) {
+             Add-AppProvisionedPackage -online -packagepath (Join-Path -Path $InstallDir -ChildPath $f2i) -skiplicense
+             & "{$var_Path2BMAcmd}" /Cmd:Log /Type:/1 /Text:"Installed [$f2i]"
+          }
+          & "{$var_Path2BMAcmd}" /Cmd:Log /Type:/1 /Text:"###  END bDS Script [$ScriptName]  ###"
+        HIDDENEXECUTION: "1"      
+    - ACTION: 'type: SetRegValue ||| level: 1'
+      DATA:
+        REGISTRY: '2147483650'
+        REGKEY: 'SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{C7E817B5-42B3-421A-B0E8-5C426E028980}'
+        REGVALUENAME: "ClaudeUpdate"
+        VALUE: 'MSIX'
+        REGVALUETYPE: "1"
+        OPTIONS: "1"
+
+    - ACTION: 'type: Comment |||comment: 1'
+      DATA:
+        VALUE: '###   UNINSTALL   ###'
+    - ACTION: 'type: Conditional'
+      DATA: ''
+      CONDITION:
+        op1: "{Mode}"
+        op: "MATCHES"
+        op2: "Deinstall"
+        options: "0"
+    - ACTION: 'type: Comment ||| level: 1 |||comment: 1'
+      DATA:
+        VALUE: 'Remove the Appx/Msix Files'
+    - ACTION: 'type: SetVar ||| level: 1'
+      DATA:
+        VARNAME: ClaudeUpdate
+        VALUE: 0
+        OPTIONS: 0
+    - ACTION: 'type: EvalVar ||| level: 1'
+      DATA:
+        VARNAME: ClaudeUpdate
+        SOURCE: Registry
+        VALUE: 0
+        OPTIONS: 0      
+        Properties: |
+            <PropertyEntry><Param>Key</Param><Value>SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{C7E817B5-42B3-421A-B0E8-5C426E028980}</Value></PropertyEntry>
+            <PropertyEntry><Param>Registry</Param><Value>HKEY_LOCAL_MACHINE</Value></PropertyEntry>
+            <PropertyEntry><Param>Value</Param><Value>ClaudeUpdate</Value></PropertyEntry>
+
+    - ACTION: 'type: RunEmbeddedScript ||| level: 1'
+      DATA:
+        SCRIPTLANGUAGE: PowerShell
+        RETURNCODES: "0"
+        VARNAME: ""
+        SCRIPT:  |
+          [String]$ScriptPath = "{Script}"
+
+          $ScriptName = Split-Path -Path $ScriptPath -Leaf
+
+          & "{$var_Path2BMAcmd}" /Cmd:Log /Type:/1 /Text:"###  BEGIN bDS Script [$ScriptName]  ###"
+
+          get-appxpackage -allusers Claude | Remove-AppPackage -AllUsers
+          & "{$var_Path2BMAcmd}" /Cmd:Log /Type:/1 /Text:"Claude Desktop Removed"
+
+          & "{$var_Path2BMAcmd}" /Cmd:Log /Type:/1 /Text:"###  END bDS Script [$ScriptName]  ###"
+        HIDDENEXECUTION: "1" 
+      CONDITION:
+        op1: "{ClaudeUpdate}"
+        op: "DOESNOTMATCH"
+        op2: "MSIX"
+        options: "0"
+    - ACTION: 'type: Conditional ||| level: 1'
+      DATA: ''
+      CONDITION:
+        op1: "{ClaudeUpdate}"
+        op: "MATCHES"
+        op2: "MSIX"
+        options: "0"
+    - ACTION: 'type: LaunchProcess ||| level: 2'
+      DATA:
+        COMMAND: "{%SystemRoot%}&#92;system32&#92;rundll32.exe"
+        PARAM: "AppxDeploymentClient.dll,AppxCleanupOrphanPackages"
+        RETURNCODES: "0"
+        VARNAME: ""
+        PIDVARNAME: ""
+        OPTIONS: "3"
+    - ACTION: 'type: DeleteRegValue ||| level: 2'
+      DATA:
+        REGISTRY: '2147483650'
+        REGKEY: 'SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{C7E817B5-42B3-421A-B0E8-5C426E028980}'
+        REGVALUENAME: "ClaudeUpdate"
+
+- Processor: com.github.NickETH.recipes.SharedProcessors/BMSImporter
+  Comment: Import the Application into Baramundi (BMS)
+  Arguments:
+    bms_CM_entry: AutoPKG-BMSImporter
+    bms_app_category: baramundi Application
+    bms_app_comment: 'Imported by: AutoPkg, %us_date% %time%'
+    bms_app_conschecks: "CheckAppRC=0,3010\r\nDeinstall.CheckAppRC=0,1605,3010"
+    bms_app_installbds: '{DIP}\Apl\%DIP_NAME%\%parsed_string%\%DIP_SUBDIR%\%NAME%%PF_STRING%_%build_ver%.bds'
+    bms_app_localfilecopy:
+    - '{DIP}\Apl\%DIP_NAME%\%parsed_string%\%DIP_SUBDIR%\~~~FolderWithSubFolders'
+    bms_app_integration:
+    - appname: '%NAMELONG%'
+      bundles:
+      - action: exchange
+        name: nV_%NAME%
+      - action: add
+        name: aV_%NAME% Uninstall
+        version: new
+      - action: add
+        name: oV_%NAME% Uninstall
+        version: previous
+      copyfolders: 1
+      currentversion:
+        bundle: nV_%NAME%
+        search: '[d]+\.[d]+\.[d]+\.[d]+ ML (%PLATFORM%)'
+        type: bundles
+      platform: (%PLATFORM%)
+      subspec: ''
+      vendor: '%VENDOR%'
+      version: '%build_ver% ML'
+      SWDetectionRules:
+      - Name: 'MSIX: %NAMESHORT%'
+        Vendor: '%VENDOR%'
+        Version: '%build_ver%'
+        Language: ''
+        PathType: "4"
+        RegKey: 'Claude_pzs8sxrjxfjjc'
+        ApplyMode: "0"
+        Category: "baramundi Application"
+        Comments: ''
+    bms_app_sharepoint:
+    - SW-List-Name: '%NAMELONG%'
+      versionplatformtag: '%build_ver% ML (%PLATFORM%)'
+    bms_job_kiosk:
+    - jobname: '%NAME%'
+      substring: 'Taskkill'
+      jobdescription: 'Claude Desktop gives you a GUI, so you can ask Claude to work on the code in a folder on your computer and review its changes without using a terminal.'
+      autoenableapp: '%NAME% - Enable AutoUpdate'
+      autoreleasejob: '@_AU-Rel_%NAME%'
+    bms_app_iopt_copylocal: 'true'
+    bms_app_iopt_rebootbhv: NoReboot
+    bms_app_iopt_reinstall: 'false'
+    bms_app_iopt_usebbt: true
+    bms_app_name: '%NAMELONG%'
+    bms_app_parentid: '%BMS_IMPORT_OU_GUID%'
+    bms_app_seccont: LocalSystem
+    bms_app_uninstbds: '{DIP}\Apl\%DIP_NAME%\%parsed_string%\%DIP_SUBDIR%\%NAME%%PF_STRING%_%build_ver%.bds'
+    bms_app_valid4os: '%BMS_OS4X64%,%BMS_OS4SRV%'
+    bms_app_vendor: '%VENDOR%'
+    bms_app_version: '%build_ver% ML (%PLATFORM%)'
+    bms_serverport: '%BMS_SERVER_PORT%'
+    bms_serverurl: '%BMS_SERVER1%'
+    bms_username: '%BMS_USERNAME1%'
+    inst_file_src_dest: '%BUILD_DIR%\%pkg_dir%\release\*.*|%BMS_IMPORT_PATH_TST%\%DIP_NAME%\%parsed_string%\%DIP_SUBDIR%'
+    json_file_dest: '%BMS_IMPORT_PATH_TST%\%DIP_NAME%\bms_app_integration.json'
+    icon_file_src: '%BUILD_DIR%\%pkg_dir%\icons\*.*'
+    read_file_src_dest: '%BUILD_DIR%\%pkg_dir%\read\*-%NAME%%PF_STRING%_%build_ver%%LANG_STRING%.txt|%BMS_IMPORT_PATH_TST%\%DIP_NAME%\%parsed_string%\DEV'
+
+- Processor: EndOfCheckPhase

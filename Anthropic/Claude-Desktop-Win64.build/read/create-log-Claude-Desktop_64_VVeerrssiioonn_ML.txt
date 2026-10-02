@@ -1,0 +1,7 @@
+190813	Claude-Desktop x64 per machine install
+	No alterations at all.
+	We use the MSIX out of the box here.
+	Desktop shortcut will not be installed.
+
+200113	Version 1.0.0, by AutoPkg
+

@@ -1,0 +1,41 @@
+Description: Downloads latest Claude Desktop MSIX-file for Windows.
+Identifier: com.github.NickETH.recipes.download.Claude-Desktop-MSIX-Win64
+MinimumVersion: 1.3.1
+
+Input:
+  NAME: Claude-Desktop
+  NAME: Claude-Desktop
+  PLATFORM: x64
+  USER_AGENT: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:134.0) like Gecko
+  #SEARCH_URL_MSIX: https://downloads.claude.ai/releases/win32/x64/(?P<ver3digit>[0-9]+\.[0-9]+\.[0-9]+)/Claude-.*\.msix
+  SEARCH_URL_MSIX: 'location: (?P<msi_dl_link>https://downloads.claude.ai/releases/win32/x64/(?P<ver3digit>[0-9]+\.[0-9]+\.[0-9]+)/Claude-.*\.msix)'
+
+Process:
+- Processor: URLTextSearcher
+  Arguments:
+    curl_opts:
+    - -I
+    - --request
+    - GET
+    re_pattern: '%SEARCH_URL_MSIX%'
+    url: https://claude.ai/api/desktop/win32/x64/msix/latest/redirect
+
+- Processor: URLDownloader
+  Arguments:
+    version: '%ver3digit%.0'
+    curl_opts:
+    - -L
+    CHECK_FILESIZE_ONLY: false
+    filename: '%NAME%_%PLATFORM%.msix'
+    url: '%msi_dl_link%'    
+
+- Processor: StopProcessingIf
+  Arguments:
+    predicate: download_changed == False
+
+- Processor: WindowsSignatureVerifier
+  Arguments:
+    expected_subject: CN="Anthropic, PBC", O="Anthropic, PBC", L=San Francisco, S=California, C=US, SERIALNUMBER=4860621, OID.2.5.4.15=Private Organization, OID.1.3.6.1.4.1.311.60.2.1.2=Delaware, OID.1.3.6.1.4.1.311.60.2.1.3=US
+    input_path: '%pathname%'
+
+- Processor: EndOfCheckPhase
