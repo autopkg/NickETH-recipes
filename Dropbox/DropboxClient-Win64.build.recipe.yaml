@@ -37,6 +37,13 @@ Process:
     source_path: '%pathname%'
     destination_path: '%BUILD_DIR%\%pkg_dir%\release\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%.msi'
     
+- Processor: com.github.NickETH.recipes.SharedProcessors/MSITransformer
+  Comment: Applies the Settings-Transform to the Dropbox.msi in the release folder
+  Arguments:
+    mode: -a
+    msi_path: '%BUILD_DIR%\%pkg_dir%\release\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%.msi'
+    mst_paths: '%BUILD_DIR%\%pkg_dir%\helpers\AutoPkg_Dropbox_DisAU.mst'
+
 - Processor: com.github.haircut.processors/AppIconExtractor
   Comment: Generate Icon files for the Kiosk from Dropbox
   Arguments:

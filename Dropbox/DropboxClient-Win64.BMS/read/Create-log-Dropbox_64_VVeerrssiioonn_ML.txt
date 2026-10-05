@@ -1,0 +1,14 @@
+
+190319	Download from:
+	https://help.dropbox.com/installs/enterprise-installer#use-dropbox-enterprise-installer-windows-10-11
+
+	We use the enterprise MSI-installer.
+	It looks like, it is more or less a 1:1 copy of the Chromium based Omaha-project.
+	This is also used on Google Chrome and Microsoft Edge browsers.
+	Not the best thing in the world, but at least it can be configured by GPO.
+
+	So, we disable the automatic updater by GPO registry entries.
+	We distribute those with additional keys, set by MSI-Transform.
+	See the transform for exact infos.
+
+200113	Version 1.0.0.0, by AutoPkg
