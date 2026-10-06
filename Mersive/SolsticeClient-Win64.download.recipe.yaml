@@ -5,38 +5,42 @@ MinimumVersion: 1.3.1
 Input:
   NAME: SolsticeClient
   USER_AGENT: Mozilla/5.0 (Windows NT 6.3; Win64, x64; Trident/7.0; rv:11.0) like Gecko
-  SEARCH_URL: https://www.mersive.com/download-admin/
-  SEARCH_PATTERN: href="(/files/[0-9]+/)".*Windows MSI
+  #SEARCH_URL: https://www.mersive.com/download-admin/
+  SEARCH_URL: https://www.mersive.com/downloads
+  #SEARCH_PATTERN: href="(/files/[0-9]+/)".*Windows MSI
+  #https://mersive.com/downloads/SolsticeClient-6.3.4.msi
+  SEARCH_PATTERN: '(https://mersive.com/downloads/SolsticeClient-(?P<version>[0-9]+\.[0-9]+\.[0-9]+).msi)'
 
 Process:
-# - Processor: URLTextSearcher
-  # Arguments:
-    # request_headers:
-    # user-agent: '%USER_AGENT%'
-    # re_pattern: '%SEARCH_PATTERN%'
-    # re_flags:
-    # - DOTALL
-    # result_output_var_name: match
-    # url: '%SEARCH_URL%'
-
-- Processor: com.github.NickETH.recipes.SharedProcessors/RenderedURLTextSearcher
+- Processor: URLTextSearcher
   Arguments:
-    re_pattern: '%SEARCH_PATTERN%'
     request_headers:
-      user-agent: '%USER_AGENT%'
+    user-agent: '%USER_AGENT%'
+    re_pattern: '%SEARCH_PATTERN%'
     re_flags:
     - DOTALL
+    result_output_var_name: match
     url: '%SEARCH_URL%'
-    time2load: 10000
-    wait_until: domcontentloaded
-    #headless: False
+
+# - Processor: com.github.NickETH.recipes.SharedProcessors/RenderedURLTextSearcher
+  # Arguments:
+    # re_pattern: '%SEARCH_PATTERN%'
+    # request_headers:
+      # user-agent: '%USER_AGENT%'
+    # re_flags:
+    # - DOTALL
+    # url: '%SEARCH_URL%'
+    # time2load: 10000
+    # wait_until: domcontentloaded
+    # #headless: False
 
 - Processor: URLDownloader
   Arguments:
     filename: '%NAME%.msi'
     request_headers:
       user-agent: '%USER_AGENT%'
-    url: https://www.mersive.com%match%
+    #url: https://www.mersive.com%match%
+    url: '%match%'
 
 - Processor: WindowsSignatureVerifier
   Arguments:
