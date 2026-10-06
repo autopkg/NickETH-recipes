@@ -15,7 +15,7 @@ Process:
 - Processor: URLTextSearcher
   Arguments:
     request_headers:
-    user-agent: '%USER_AGENT%'
+      user-agent: '%USER_AGENT%'
     re_pattern: '%SEARCH_PATTERN%'
     re_flags:
     - DOTALL
