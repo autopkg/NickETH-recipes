@@ -104,7 +104,7 @@ Process:
     url: '%match%'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/SevenZipExtractor
-  Comment: Extract the Notepad++ installer
+  Comment: Extract the Compare Plugin
   Arguments:
     exe_path: '%pathname%'
     extract_dir: '%BUILD_DIR%\%pkg_dir%\wixproject\%NAME%\plugins\ComparePlugin'
@@ -123,10 +123,67 @@ Process:
     url: '%match%'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/SevenZipExtractor
-  Comment: Extract the Notepad++ installer
+  Comment: Extract the JSMin Plugin
   Arguments:
     exe_path: '%pathname%'
     extract_dir: '%BUILD_DIR%\%pkg_dir%\wixproject\%NAME%\plugins\JSMinNPP'
+    extract_file: '*'
+    ignore_pattern: ''
+    preserve_paths: 'False'
+
+- Processor: com.github.NickETH.recipes.SharedProcessors/TextFileSearcher
+  Arguments:
+    file_to_open: '%BUILD_DIR%\%pkg_dir%\sourceunzipped\pl.x64.json'
+    re_pattern: https://github.com/BdR76/CSVLint/releases/download/[0-9.]+/CSVLint_x64.zip
+
+- Processor: URLDownloader
+  Arguments:
+    filename: CSVLintplugin.zip
+    url: '%match%'
+
+- Processor: com.github.NickETH.recipes.SharedProcessors/SevenZipExtractor
+  Comment: Extract the CSV Lint Plugin
+  Arguments:
+    exe_path: '%pathname%'
+    extract_dir: '%BUILD_DIR%\%pkg_dir%\wixproject\%NAME%\plugins\CSVLint'
+    extract_file: '*'
+    ignore_pattern: ''
+    preserve_paths: 'False'
+
+- Processor: com.github.NickETH.recipes.SharedProcessors/TextFileSearcher
+  Arguments:
+    file_to_open: '%BUILD_DIR%\%pkg_dir%\sourceunzipped\pl.x64.json'
+    re_pattern: https://github.com/Predelnik/DSpellCheck/releases/download/[vV0-9.]+/DSpellCheck_x64.zip
+
+- Processor: URLDownloader
+  Arguments:
+    filename: DSpellCheckplugin.zip
+    url: '%match%'
+
+- Processor: com.github.NickETH.recipes.SharedProcessors/SevenZipExtractor
+  Comment: Extract the DSpellCheck Plugin
+  Arguments:
+    exe_path: '%pathname%'
+    extract_dir: '%BUILD_DIR%\%pkg_dir%\wixproject\%NAME%\plugins\DSpellCheck'
+    extract_file: '*'
+    ignore_pattern: ''
+    preserve_paths: 'False'
+    
+- Processor: com.github.NickETH.recipes.SharedProcessors/TextFileSearcher
+  Arguments:
+    file_to_open: '%BUILD_DIR%\%pkg_dir%\sourceunzipped\pl.x64.json'
+    re_pattern: https://github.com/mohzy83/NppMarkdownPanel/releases/download/[0-9.]+/NppMarkdownPanel-[0-9.]+-x64.zip
+
+- Processor: URLDownloader
+  Arguments:
+    filename: NppMarkdownPanelplugin.zip
+    url: '%match%'
+
+- Processor: com.github.NickETH.recipes.SharedProcessors/SevenZipExtractor
+  Comment: Extract the NppMarkdownPanel Plugin
+  Arguments:
+    exe_path: '%pathname%'
+    extract_dir: '%BUILD_DIR%\%pkg_dir%\wixproject\%NAME%\plugins\NppMarkdownPanel'
     extract_file: '*'
     ignore_pattern: ''
     preserve_paths: 'False'

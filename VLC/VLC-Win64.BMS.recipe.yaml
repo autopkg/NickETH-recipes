@@ -17,8 +17,15 @@ Input:
 
 Process:
 - Processor: com.github.NickETH.recipes.SharedProcessors/MSIRunSQLget
+  Arguments:
+    SQL_command: SELECT `Value` FROM `Property` WHERE `Property`='ProductLanguage'
+    msi_path: '%BUILD_DIR%\%pkg_dir%\release\%NAME%%PF_STRING%_%build_ver%_ML.msi'
+
+- Processor: com.github.NickETH.recipes.SharedProcessors/MSIRunSQLget
   Comment: Get the ProductCode into the  msi_value variable for the BMS uninstall string
   Arguments:
+    MSILANG: '%msi_value%'
+    DISPLAYNAME: '%NAME_LONG% %version% (64-bit)'
     SQL_command: SELECT `Value` FROM `Property` WHERE `Property`='ProductCode'
     msi_path: '%BUILD_DIR%\%pkg_dir%\release\%NAME%%PF_STRING%_%build_ver%_ML.msi'
 
@@ -74,6 +81,16 @@ Process:
       vendor: '%VENDOR%'
       version: '%build_ver% ML'
       copyfolders: 1
+      SWDetectionRules:
+      - Name: '%DISPLAYNAME%'
+        Vendor: '%VENDOR%'
+        Version: '%version%'
+        Language: '%MSILANG%'
+        PathType: "2"
+        RegKey: '%msi_value%'
+        ApplyMode: "0"
+        Category: "baramundi Application"
+        Comments: ''
     bms_app_sharepoint:
     - SW-List-Name: '%NAME_LONG%'
       versionplatformtag: '%build_ver% ML (%PLATFORM%)'
