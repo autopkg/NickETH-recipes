@@ -47,6 +47,6 @@ Process:
 
 - Processor: WindowsSignatureVerifier
   Arguments:
-    expected_subject: E=info@documentfoundation.org, CN=The Document Foundation, O=The Document Foundation, OU=LibreOffice Build Team, L=Berlin, S=Berlin, C=DE
+    expected_subject: CN=The Document Foundation, O=The Document Foundation, L=Berlin, S=Berlin, C=DE
 
     input_path: '%pathname%'
