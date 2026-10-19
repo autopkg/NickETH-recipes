@@ -1,0 +1,3 @@
+read\create-log-ZoomOutlookPlugin_VVeerrssiioonn_ML.txt
+read\readme-ZoomOutlookPlugin_VVeerrssiioonn_ML.txt
+helpers\*.*

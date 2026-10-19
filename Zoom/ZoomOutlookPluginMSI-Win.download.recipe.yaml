@@ -1,0 +1,21 @@
+Description: Downloads the latest version of the Zoom Outlook Plugin MSI.
+Identifier: com.github.NickETH.recipes.download.ZoomOutlookPluginMSI-Win
+MinimumVersion: 1.3.1
+
+Input:
+  NAME: ZoomOutlookPlugin
+  PLATFORM: x86
+  #https://zoom.us/client/latest/ZoomOutlookPluginSetup.msi
+  DOWNLOAD_URL: https://zoom.us/client/latest/ZoomOutlookPluginSetup.msi
+  USER_AGENT: Mozilla/5.0 (Windows NT 10.0; Win64; x64)
+
+Process:
+- Processor: URLDownloader
+  Arguments:
+    filename: '%NAME%-%PLATFORM%.msi'
+    request_headers:
+      user-agent: '%USER_AGENT%'
+    url: '%DOWNLOAD_URL%'
+    CHECK_FILESIZE_ONLY: True
+
+- Processor: EndOfCheckPhase
