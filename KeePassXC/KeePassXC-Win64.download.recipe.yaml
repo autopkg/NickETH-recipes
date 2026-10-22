@@ -4,7 +4,7 @@ MinimumVersion: 1.3.1
 
 Input:
   NAME: KeePassXC
-  ASSET_REGEX: KeePassXC-.*-Win64\.msi
+  ASSET_REGEX: KeePassXC-.*?-x64\.msi
   PLATFORM: x64
   PF_STRING: _64
 
