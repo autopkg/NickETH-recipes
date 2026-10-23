@@ -15,6 +15,27 @@ Input:
 Process:
 - Processor: com.github.NickETH.recipes.SharedProcessors/MSIRunSQLget
   Arguments:
+    SQL_command: SELECT `Value` FROM `Property` WHERE `Property`='ProductName'
+    msi_path: '%BUILD_DIR%\%pkg_dir%\release\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%.msi'
+
+- Processor: com.github.NickETH.recipes.SharedProcessors/MSIRunSQLget
+  Arguments:
+    # First 1 variables are extra settings for the software detection rule, not belonging to this processor
+    NAMEMSI: '%msi_value%'
+    SQL_command: SELECT `Value` FROM `Property` WHERE `Property`='ProductLanguage'
+    msi_path: '%BUILD_DIR%\%pkg_dir%\release\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%.msi'
+
+- Processor: com.github.NickETH.recipes.SharedProcessors/MSIRunSQLget
+  Arguments:
+    # First 1 variables are extra settings for the software detection rule, not belonging to this processor
+    MSILANG: '%msi_value%'
+    SQL_command: SELECT `Value` FROM `Property` WHERE `Property`='ProductVersion'
+    msi_path: '%BUILD_DIR%\%pkg_dir%\release\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%.msi'
+
+- Processor: com.github.NickETH.recipes.SharedProcessors/MSIRunSQLget
+  Arguments:
+    # First 1 variables are extra settings for the software detection rule, not belonging to this processor
+    MSIVERSION: '%msi_value%'
     SQL_command: SELECT `Value` FROM `Property` WHERE `Property`='ProductCode'
     msi_path: '%BUILD_DIR%\%pkg_dir%\release\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%.msi'
 
@@ -53,6 +74,25 @@ Process:
       subspec: ''
       vendor: '%VENDOR%'
       version: '%build_ver% ML' 
+      SWDetectionRules:
+      - Name: '%NAMEMSI%'
+        Vendor: '%VENDOR%'
+        Version: '%MSIVERSION%'
+        Language: '%MSILANG%'
+        PathType: "1"
+        RegKey: '%msi_value%'
+        ApplyMode: "0"
+        Category: "baramundi Application"
+        Comments: ''
+    bms_app_sharepoint:
+    - SW-List-Name: '%NAME%'
+      versionplatformtag: '%build_ver% ML (%PLATFORM%)'
+    bms_job_kiosk:
+    - jobname: '%NAME%'
+      substring: 'Taskkill'
+      jobdescription: '7-Zip ist ein Datenkompressionsprogramm mit einer hohen Kompressionsrate für eine grosse Anzahl von Formaten.'
+      autoenableapp: '7-Zip - Enable AutoUpdate'
+      autoreleasejob: '@_AU-Rel_7-Zip'
     bms_app_iopt_copylocal: 'true'
     bms_app_iopt_rebootbhv: NoReboot
     bms_app_iopt_reinstall: 'false'

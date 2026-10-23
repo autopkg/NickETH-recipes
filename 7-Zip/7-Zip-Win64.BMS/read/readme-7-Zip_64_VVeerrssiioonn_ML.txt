@@ -1,4 +1,6 @@
-7-Zip x64 8.00 ML (Multi-Language)
 
-Release 1.0, Build 1
-20190101, Nick Heim
+	7-Zip x64 1.0.0.0 ML (Multi-Language)
+
+	Release 1.0.0.0, Build 1
+
+20190923, by ETHZ ID-CD AutoPkg

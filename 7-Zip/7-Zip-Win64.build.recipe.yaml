@@ -9,6 +9,7 @@ Input:
   PLATFORM: x64
   PF_STR_DL: '-x64'
   PF_STRING: _64
+  LANG_STRING: _ML
 
 Process:
 - Processor: StopProcessingIf
@@ -22,38 +23,38 @@ Process:
     build_dir: '%BUILD_DIR%'
     folder_list: release:read:sourceunzipped:helpers
     org_ver: '%version%'
-    pkg_dir: '%NAME%_::VVeerrssiioonn::_ML'
+    pkg_dir: '%NAME%%PF_STRING%_::VVeerrssiioonn::%LANG_STRING%'
     recipe_dir: '%RECIPE_DIR%'
     recipe_path: '%RECIPE_PATH%'
     ver_fields: '2'
 
 - Processor: com.github.sebtomasi.SharedProcessors/RenameVar
   Arguments:
-    input_var: '%NAME%_%build_ver%_ML'
+    input_var: '%NAME%%PF_STRING%_%build_ver%%LANG_STRING%'
     rename_var: pkg_dir
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/FileDateVersionSubst
   Arguments:
-    file_path: '%BUILD_DIR%\%pkg_dir%\read\create-log-%NAME%%PF_STRING%_%build_ver%_ML.txt'
+    file_path: '%BUILD_DIR%\%pkg_dir%\read\create-log-%NAME%%PF_STRING%_%build_ver%%LANG_STRING%.txt'
     new_ver: '%build_ver%'
     re_pattern: '[0-9]+\.[0-9]+'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/FileDateVersionSubst
   Arguments:
-    file_path: '%BUILD_DIR%\%pkg_dir%\read\create-log-%NAME%%PF_STRING%_%build_ver%_ML.txt'
+    file_path: '%BUILD_DIR%\%pkg_dir%\read\readme-%NAME%%PF_STRING%_%build_ver%%LANG_STRING%.txt'
     new_ver: '%build_ver%'
     re_pattern: '[0-9]+\.[0-9]+'
 
 - Processor: Copier
   Arguments:
-    destination_path: '%BUILD_DIR%\%pkg_dir%\release\%NAME%%PF_STRING%_%build_ver%_ML.msi'
+    destination_path: '%BUILD_DIR%\%pkg_dir%\release\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%.msi'
     overwrite: 'true'
     source_path: '%RECIPE_CACHE_DIR%\downloads\%NAME%.msi'
 
 # - Processor: com.github.NickETH.recipes.SharedProcessors/SevenZipExtractor
   # Comment: Extract the InstantClient odbc zip archive
   # Arguments:
-    # exe_path: '%BUILD_DIR%\%pkg_dir%\release\%NAME%%PF_STRING%_%build_ver%_ML.msi'
+    # exe_path: '%BUILD_DIR%\%pkg_dir%\release\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%.msi'
     # extract_dir: '%BUILD_DIR%\%pkg_dir%\sourceunzipped\'
     # extract_file: '_7zG.exe'
     # ignore_pattern: ''
@@ -83,6 +84,6 @@ Process:
       /j: '%NAME% %version% ML'
       /o: 'Altered version for enterprise. %us_date% by AutoPkg'
       /t: '%NAME% %version% ML'
-    msi_path: '%BUILD_DIR%\%pkg_dir%\release\%NAME%%PF_STRING%_%build_ver%_ML.msi'
+    msi_path: '%BUILD_DIR%\%pkg_dir%\release\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%.msi'
 
 - Processor: EndOfCheckPhase

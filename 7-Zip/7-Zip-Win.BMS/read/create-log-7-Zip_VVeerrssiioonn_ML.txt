@@ -1,4 +1,7 @@
+
 190813	7-Zip x86
 	No alterations at all.
 	We use the MSI out of the box here.
+	Desktop shortcut will not be installed.
 
+200113	Version 1.0.0.0, by AutoPkg

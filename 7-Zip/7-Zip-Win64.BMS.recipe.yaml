@@ -23,7 +23,7 @@ Process:
     # First 1 variables are extra settings for the software detection rule, not belonging to this processor
     NAMEMSI: '%msi_value%'
     SQL_command: SELECT `Value` FROM `Property` WHERE `Property`='ProductLanguage'
-    msi_path: '%BUILD_DIR%\%pkg_dir%\release\%NAME%%PF_STRING%_%build_ver%_ML.msi'
+    msi_path: '%BUILD_DIR%\%pkg_dir%\release\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%.msi'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/MSIRunSQLget
   Arguments:
