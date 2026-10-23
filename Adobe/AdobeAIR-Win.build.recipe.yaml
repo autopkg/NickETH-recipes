@@ -12,7 +12,8 @@ Input:
   PF_STRING: ''
   LANG_STRING: _ENU
 
-  DOWNLOAD_URL: https://airsdk.harman.com/
+  #DOWNLOAD_URL: https://airsdk.harman.com/
+  DOWNLOAD_URL: https://airsdk.wxlift.com/
 
 Process:
 - Processor: com.github.NickETH.recipes.SharedProcessors/WinPEVersionExtractor

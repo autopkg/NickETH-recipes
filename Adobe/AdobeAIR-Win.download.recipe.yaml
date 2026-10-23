@@ -4,9 +4,10 @@ MinimumVersion: 1.3.1
 
 Input:
   NAME: AdobeAIR
-  DOWNLOAD_URL: https://airsdk.harman.com/
+  DOWNLOAD_URL: https://airsdk.wxlift.com/
   USER_AGENT: Mozilla/5.0 (Windows NT 6.3; Win64, x64; Trident/7.0; rv:11.0) like Gecko
-  SEARCH_URL: https://airsdk.harman.com/runtime
+  # SEARCH_URL: https://airsdk.harman.com/runtime
+  SEARCH_URL: https://airsdk.wxlift.com/runtime
   SEARCH_PATTERN1: main\.[a-f0-9]+?\.js
   SEARCH_PATTERN2: (assets/downloads/(?P<version>([0-9]+\.)*[0-9]+)/AdobeAIR.exe)
 
