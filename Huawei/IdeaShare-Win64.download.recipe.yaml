@@ -8,9 +8,8 @@ Input:
   PLATFORM: x64
   PF_STRING: _64
   SEARCH_URL: https://www.huaweicloud.com/intl/en-us/product/ideashare.html
-  #"href":"https://downloads.bsn.cloud/BA+connected+Setup+1.85.0.exe"
-  REGEX: 'versionDict.*?windowVersion.*?V(?P<version>([0-9]+\.)*[0-9]+).*?const windowsUrl.*?(?P<URLPART1>https://res-static.hc-cdn.cn/cloudbu-site/china/zh-cn/prudout/ec/share).*?(?P<URLPART2>IdeaShare_Setup\.exe)`;'
-  # From FF: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:134.0) Gecko/20100101 Firefox/134.0
+  # https://res-static.hc-cdn.cn/cloudbu-site/china/zh-cn/prudout/ec/share/V7.06.1.83/IdeaShare_Setup.exe
+  REGEX: 'versionDict.*?windowVersion.*?(?P<version>([0-9]+\.)*[0-9]+).*?const.windowsUrl.*?(?P<URLPART1>https://res-static.hc-cdn.cn/cloudbu-site/china/zh-cn/prudout/ec/share).*?(?P<URLPART2>IdeaShare_Setup\.exe)`;'
   USER_AGENT: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:134.0) like Gecko
 
 Process:
@@ -45,7 +44,7 @@ Process:
   Comment: Check the signature on the downloaded file
   Arguments:
     MAIN_PATH: '%pathname%'
-    expected_subject: CN="Huawei Technologies Co., Ltd.", OU=IT, O="Huawei Technologies Co., Ltd.", L=Shenzhen, S=Guangdong, C=CN
+    expected_subject: CN="Huawei Technologies Co., Ltd.", O="Huawei Technologies Co., Ltd.", L=Shenzhen, S=Guangdong, C=CN
     input_path: '%pathname%'
 
 - Processor: EndOfCheckPhase
