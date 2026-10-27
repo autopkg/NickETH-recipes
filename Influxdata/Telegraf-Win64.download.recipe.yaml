@@ -13,16 +13,17 @@ Input:
 Process:
 - Processor: URLTextSearcher
   Arguments:
-    # curl_opts:
-    # - -I
-    #           https://dl.influxdata.com/telegraf/releases/telegraf-1.39.2_windows_amd64.zip
-    re_pattern: (https://dl.influxdata.com/telegraf/releases/telegraf-(?P<version>([0-9]+\.)*[0-9]+)_windows_amd64.zip)
-    #re_pattern: https://dl.influxdata.com/telegraf/releases/telegraf.1.28.2.windows.amd64.zip
+    re_pattern: '/influxdata/telegraf/releases(/tag/v(?P<version>([0-9]+\.)*[0-9]+))'
     url: '%SEARCH_URL%'
+
+- Processor: URLTextSearcher
+  Arguments:
+    #           https://dl.influxdata.com/telegraf/releases/telegraf-1.40.2_windows_amd64.zip
+    re_pattern: (https://dl.influxdata.com/telegraf/releases/telegraf-(?P<version>([0-9]+\.)*[0-9]+)_windows_amd64.zip)
+    url: '%SEARCH_URL%%match%'
 
 - Processor: URLDownloader
   Arguments:
-    #version: '%parsed_string%'
     filename: '%NAME%%PLATFORM%.zip'
     request_headers:
       user-agent: '%USER_AGENT%'
