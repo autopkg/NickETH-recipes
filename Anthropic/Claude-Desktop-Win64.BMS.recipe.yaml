@@ -205,7 +205,7 @@ Process:
     - jobname: '%NAME%'
       substring: 'Taskkill'
       jobdescription: 'Claude Desktop gives you a GUI, so you can ask Claude to work on the code in a folder on your computer and review its changes without using a terminal.'
-      autoenableapp: '%NAME% - Enable AutoUpdate'
+      autoenableapp: '%NAMELONG% - Enable AutoUpdate'
       autoreleasejob: '@_AU-Rel_%NAME%'
     bms_app_iopt_copylocal: 'true'
     bms_app_iopt_rebootbhv: NoReboot
