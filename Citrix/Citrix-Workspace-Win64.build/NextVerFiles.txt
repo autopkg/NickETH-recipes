@@ -1,0 +1,2 @@
+read\create-log-CitrixWorkspace_64_VVeerrssiioonn_ML.txt
+read\readme-CitrixWorkspace_64_VVeerrssiioonn_ML.txt

@@ -1,0 +1,47 @@
+Description: Downloads the latest version of Citrix Workspace x64 for Windows.
+Identifier: com.github.NickETH.recipes.download.Citrix-Workspace-Win64
+MinimumVersion: 1.3.1
+
+Input:
+  NAME: CitrixWorkspace
+  DOWNLOAD_URL: https://downloadplugins.citrix.com/ReceiverUpdates/Prod
+  SEARCH_URL: https://downloadplugins.citrix.com/ReceiverUpdates/Prod/catalog_win.xml
+  SEARCH_VER: (<Version>(?P<version>\d+\.\d+\.\d+\.\d+)</Version>)
+  SEARCH_EXE: (<DownloadURL>(?P<winexepath>.*?)</DownloadURL>)
+
+Process:
+- Processor: URLTextSearcher
+  Arguments:
+    re_pattern: (?P<DYNAMIC_URL>//downloads.citrix.com/[\d]+/CitrixWorkspaceApp_x64\.exe\?__gda__\=[\w]+\=[\w]+\~[\w]+\=/\*\~[\w]+\=[\w]+)
+    # https://www.citrix.com/downloads/workspace-app/windows/workspace-app-for-windows-latest1.html
+    url: https://www.citrix.com/downloads/workspace-app/windows/workspace-app-for-windows-latest.html
+
+- Processor: URLDownloader
+  Arguments:
+    filename: '%NAME%.exe'
+    url: https:%DYNAMIC_URL%
+    #url: '%DOWNLOAD_URL%%winexepath%'
+    
+# - Processor: URLTextSearcher
+  # Arguments:
+    # re_pattern: '%SEARCH_VER%'
+    # url: '%SEARCH_URL%'
+
+# - Processor: URLTextSearcher
+  # Arguments:
+    # re_pattern: '%SEARCH_EXE%'
+    # url: '%SEARCH_URL%'
+
+# - Processor: URLDownloader
+  # Arguments:
+    # filename: '%NAME%.exe'
+    # #url: https:%DYNAMIC_URL%
+    # url: '%DOWNLOAD_URL%%winexepath%'
+
+- Processor: EndOfCheckPhase
+
+- Processor: WindowsSignatureVerifier
+  Comment: Check the signature on the downloaded file
+  Arguments:
+    expected_subject: CN="Citrix Systems, Inc.", OU=Citrix, O="Citrix Systems, Inc.", L=Fort Lauderdale, S=Florida, C=US
+    input_path: '%pathname%'
