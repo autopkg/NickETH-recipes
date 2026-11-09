@@ -110,7 +110,7 @@ Process:
     extract_dir: '%BUILD_DIR%\%pkg_dir%\wixproject\%NAME%\plugins\ComparePlugin'
     extract_file: '*'
     ignore_pattern: ''
-    preserve_paths: 'False'
+    preserve_paths: 'True'
 
 - Processor: com.github.NickETH.recipes.SharedProcessors/TextFileSearcher
   Arguments:
@@ -186,7 +186,7 @@ Process:
     extract_dir: '%BUILD_DIR%\%pkg_dir%\wixproject\%NAME%\plugins\NppMarkdownPanel'
     extract_file: '*'
     ignore_pattern: ''
-    preserve_paths: 'False'
+    preserve_paths: 'True'
 
 - Processor: GitHubReleasesInfoProvider
   Arguments:
