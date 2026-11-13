@@ -40,7 +40,7 @@ Process:
     - GET
     - --header
     - 'accept: application/json'
-    re_pattern: '"download_url.*?(https://cdn.azul.com/zulu/bin/(?P<zuludlfile>(?P<zuludldir>zulu([\d.]+)+-ca-fx-%PRODUCT%%ver_major%.%ver_majorminor%.%ver_minor%-win_%ZULUPLATFORM%).zip))'
+    re_pattern: '"download_url.*?(https://cdn.azul.com/zulu/bin/(?P<zuludlfile>(?P<zuludldir>zulu([\d.]+)+-ca-fx-%PRODUCT%%ver_major%.%ver_majorminor%.%ver_minor%[\d.]*?-win_%ZULUPLATFORM%).zip))'
     url: https://api.azul.com/metadata/v1/zulu/packages/?java_version=%FEATUREVER%&os=windows&arch=x86&java_package_type=%PRODUCT%&javafx_bundled=true&release_status=ga&availability_types=CA
     #re_pattern: '"(?P<zuludlfile>(?P<zuludldir>zulu.+-ca-fx-%PRODUCT%%ver_major%.%ver_majorminor%.%ver_minor%-win_%ZULUPLATFORM%).zip)"'
     #url: https://cdn.azul.com/zulu/bin
