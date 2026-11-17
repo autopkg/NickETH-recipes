@@ -8,7 +8,8 @@ Input:
   VENDOR: 'Corey Butler'
   PLATFORM: x64
   PF_STRING: _64
-  ASSET_REGEX: 'nvm-setup.exe'
+  #nvm-2.0.1-x64-setup.exe
+  ASSET_REGEX: 'nvm-.*?x64-setup.exe'
 
 
 Process:

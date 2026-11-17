@@ -10,7 +10,7 @@ Input:
   PLATFORM: x64
   PF_STRING: _64
   LANG_STRING: _ML
-  ASSET_REGEX: 'nvm-setup.exe'
+  ASSET_REGEX: 'nvm-.*?x64-setup.exe'
 
 Process:
 - Processor: com.github.NickETH.recipes.SharedProcessors/CreateNextBuild
@@ -34,14 +34,14 @@ Process:
 - Processor: com.github.NickETH.recipes.SharedProcessors/DateTimeStamps
 
 - Processor: Copier
-  Comment: Copy the GIMP install exe file to the release dir
+  Comment: Copy the NVM install exe file to the release dir
   Arguments:
     destination_path: '%BUILD_DIR%\%pkg_dir%\release\%NAME%%PF_STRING%_%build_ver%%LANG_STRING%.exe'
     overwrite: 'true'
     source_path: '%pathname%'
 
 # - Processor: com.github.NickETH.recipes.SharedProcessors/InnoEditor
-  # Comment: Extract the GIMP installer
+  # Comment: Extract the NVM installer
   # Arguments:
     # inno_path: '%pathname%'
     # workfolder: '%BUILD_DIR%\%pkg_dir%\sourceunzipped\'
@@ -49,9 +49,9 @@ Process:
     # ignore_errors: False
 
 # - Processor: FileFinder
-  # Comment: Get the GIMP exe file to extract the icons from
+  # Comment: Get the NVM exe file to extract the icons from
   # Arguments:
-    # pattern: '%BUILD_DIR%\%pkg_dir%\sourceunzipped\{app}\bin\gimp-console-*.exe'
+    # pattern: '%BUILD_DIR%\%pkg_dir%\sourceunzipped\{app}\bin\NVM-console-*.exe'
 
 - Processor: com.github.haircut.processors/AppIconExtractor
   Comment: Extract the NVM icons and generate BMS-Kiosk-Icons
