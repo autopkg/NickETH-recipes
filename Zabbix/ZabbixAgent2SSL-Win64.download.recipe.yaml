@@ -18,7 +18,8 @@ Process:
     #https://cdn.zabbix.com/zabbix/binaries/stable/7.0/7.0.9/zabbix_agent-7.0.9-windows-amd64-openssl.msi
     #re_pattern: (?P<urlpart>%MAIN_VER%\\/[0-9\.]+\\/(?P<urlfile>zabbix_agent2-(?P<version>%MAIN_VER%.[0-9]+?)-windows-amd64-openssl\.msi))(?!.*(%MAIN_VER%\\/[0-9\.]+\\/zabbix_agent2-%MAIN_VER%.[0-9]+?-windows-amd64-openssl\.msi))
     #re_pattern: (?P<urlfile>zabbix_agent2-(?P<version>%MAIN_VER%.\d{1,2}?)-windows-amd64-openssl\.msi)(?!.*zabbix_agent2-%MAIN_VER%.\d{1,2}?-windows-amd64-openssl\.msi)
-    re_pattern: (?P<urlfile>zabbix_agent2-(?P<version>%MAIN_VER%.\d{%BUILD_WIDTH%}?)-windows-amd64-openssl\.msi)(?!.*zabbix_agent2-%MAIN_VER%.\d{%BUILD_WIDTH%}?-windows-amd64-openssl\.msi)
+    # https://cdn.zabbix.com/zabbix/binaries/stable/8.0/8.0.0/zabbix_agent2-8.0.0-windows-amd64-openssl.msi
+    re_pattern: (?P<urlfile>zabbix_agent2-(?P<version>%MAIN_VER%.\d{1,%BUILD_WIDTH%}?)-windows-amd64-openssl\.msi)(?!.*zabbix_agent2-%MAIN_VER%.\d{1,%BUILD_WIDTH%}?-windows-amd64-openssl\.msi)
     
     url: https://www.zabbix.com/download_agents
     re_flags: findall
